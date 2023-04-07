@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(0, './loader') # TODO: orginize import the proper way
+import loader
+import os
 import pygame
 
 pygame.init()
@@ -13,6 +17,13 @@ while True:
 
     # Do logical updates here.
     # ...
+
+    ### REMOVABLE TEST CODE ###
+    lvl_example_json_path = os.path.join('lvl', 'example.json')
+    lvl_example_name, lvl_example_number, lvl_example_layout = loader.read_lvl_from_json(lvl_example_json_path) 
+    lvl_example = loader.Level(lvl_example_name, lvl_example_number, lvl_example_layout)
+    print(lvl_example_layout)
+    ### REMOVABLE TEST CODE ###
 
     screen.fill("purple")
 
