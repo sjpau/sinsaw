@@ -12,3 +12,7 @@ class Camera(pygame.sprite.Group):
     def attach_to(self, target):
         self.offset.x = target.rect.centerx - self.half_width
         self.offset.y = target.rect.centery - self.half_height
+
+    def custom_draw(self, screen):
+        for sprite in self.sprites():
+            screen.blit(sprite.image, sprite.rect)

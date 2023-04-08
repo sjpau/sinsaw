@@ -17,9 +17,10 @@ clock = pygame.time.Clock()
 ### REMOVABLE TEST CODE ###
 camera_group = camera.Camera()
 lvl_example = level.init(os.path.join("lvl", "example.json"))
-margin = level.margin(lvl_example.layout, tile_size)
+#margin = level.margin(lvl_example.layout, mapper.tile_size)
 player_spawn_pos = lvl_example.get_player_spawn()
 player_object = player.Player(player_spawn_pos, camera_group)
+mapper.init(lvl_example.layout, camera_group)
 
 while True:
 
@@ -36,8 +37,9 @@ while True:
 
     # Render the graphics here.
     # ...
-    camera_group.update()
-    level.custom_draw(screen, lvl_example.layout, tile_size, margin, camera_group, player_object)
+    camera_group.custom_draw(screen)
+    screen.blit(player_object.image, player_object.rect)
+    player_object.update()
 
     pygame.display.flip()
     clock.tick(60)

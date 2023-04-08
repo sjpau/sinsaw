@@ -29,13 +29,13 @@ def init(json_path):
     lvl_name, lvl_number, lvl_layout, lvl_player_spawn = loader.read_lvl_from_json(json_path) 
     return Level(lvl_name, lvl_number, lvl_layout, lvl_player_spawn)
 
-def margin(layout, tile_size):
-    width = len(layout[0]) * (tile_size)
-    height = len(layout) * (tile_size)
-    margin_x = (s.width - width) // 2
-    margin_y = (s.height - height) // 2
+#def margin(layout, tile_size):
+#    width = len(layout[0]) * (tile_size)
+#    height = len(layout) * (tile_size)
+#    margin_x = (s.width - width) // 2
+#    margin_y = (s.height - height) // 2
     
-    return (margin_x, margin_y)
+#    return (margin_x, margin_y)
 
 def custom_draw(screen, layout, tile_size, margin, camera_group, player): # TODO rewrite custom draw method to camera class
     for row in range(len(layout)):
