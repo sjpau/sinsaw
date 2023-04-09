@@ -27,6 +27,7 @@ player_spawn_xy = (tiles[player_spawn_tile_index].rect.x, tiles[player_spawn_til
 player_object = player.Player(player_spawn_xy, camera_group)
 
 
+
 #mapper.tileset_upd_pos(screen, tiles, tileset_pixel_size[0], tileset_pixel_size[1])
 
 while True:
@@ -41,9 +42,10 @@ while True:
 
     player_object.update()
     # Do logical updates here.
+    camera_group.attach_to(player_object)
     camera_group.update()
     # Render the graphics here.
-    camera_group.custom_draw(screen)
+    camera_group.custom_draw()
    # player_object.image = pygame.transform.scale(player_object.image, (32, 32))
    # screen.blit(player_object.image, player_object.rect)
 
