@@ -26,10 +26,6 @@ player_spawn_tile_index = mapper.get_tile_index_from_layout(lvl_example.layout, 
 player_spawn_xy = (tiles[player_spawn_tile_index].rect.x, tiles[player_spawn_tile_index].rect.y)
 player_object = player.Player(player_spawn_xy, camera_group)
 
-
-
-#mapper.tileset_upd_pos(screen, tiles, tileset_pixel_size[0], tileset_pixel_size[1])
-
 while True:
 
     for event in pygame.event.get():
@@ -37,17 +33,14 @@ while True:
             pygame.quit()
             raise SystemExit
         #if event.type == pygame.VIDEORESIZE:
-            #mapper.tileset_upd_pos(screen, tiles, tileset_pixel_size[0], tileset_pixel_size[1])
 
 
-    player_object.update()
     # Do logical updates here.
     camera_group.attach_to(player_object)
     camera_group.update()
     # Render the graphics here.
+    screen.fill('black')
     camera_group.custom_draw()
-   # player_object.image = pygame.transform.scale(player_object.image, (32, 32))
-   # screen.blit(player_object.image, player_object.rect)
 
     pygame.display.flip()
     clock.tick(60)

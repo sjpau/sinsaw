@@ -1,7 +1,7 @@
 import pygame
 import camera
 
-tile_size = 32
+tile_size = 64
 
 tileset = {
     "0": "floor_1.png",
@@ -44,17 +44,3 @@ def tileset_pixel_size(layout, tile_size):
     width = len(layout[0]) * tile_size
     height = len(layout) * tile_size
     return (width, height)
-
-def tileset_upd_pos(screen, tiles, width, height):
-   
-    screen_center_x = screen.get_width() // 2
-    screen_center_y = screen.get_height() // 2
-    
-    map_top_left_x = screen_center_x - width // 2
-    map_top_left_y = screen_center_y - height // 2
-
-    for tile in tiles:
-        tile.rect.x += map_top_left_x # TODO fix this
-        tile.rect.y += map_top_left_y
-       
-        print(map_top_left_x, map_top_left_y)
