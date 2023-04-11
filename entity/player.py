@@ -18,12 +18,10 @@ class Player(pygame.sprite.Sprite):
             self.direction.y = -1
             self.direction.x = 0
             self.pos[0] -= 1
-            movement_cd = 0
         elif keys[pygame.K_s]:
             self.direction.y = 1
             self.direction.x = 0
             self.pos[0] += 1
-            movement_cd = 0
         else:
             self.direction.y = 0
 
@@ -31,7 +29,6 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = -1
             self.direction.y = 0
             self.pos[1] -= 1
-            movement_cd = 0
         elif keys[pygame.K_d]:
             self.direction.x = 1
             self.direction.y = 0
