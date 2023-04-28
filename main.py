@@ -9,6 +9,7 @@ import player
 import screen as s
 import camera 
 import mapper 
+import debug 
 
 pygame.init()
 screen = pygame.display.set_mode((s.width,s.height))
@@ -48,6 +49,11 @@ while True:
     # Render the graphics here.
     screen.fill('black')
     camera_group.custom_draw()
+
+    # Allow debug in debug.py
+    if debug.status:
+        debug.display(pygame.mouse.get_pos())
+        debug.display(player_object.pos, 40)
 
     pygame.display.flip()
 
