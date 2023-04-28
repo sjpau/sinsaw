@@ -10,34 +10,29 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(1, 0)
         self.speed = 1
         self.pos = pos
+    
+    def move_down(self):
+        self.direction.y = 1
+        self.direction.x = 0
+        self.pos[0] += 1
 
-    def input(self):
-        keys = pygame.key.get_pressed()
+    def move_up(self):
+        self.direction.y = -1
+        self.direction.x = 0
+        self.pos[0] -= 1
 
-        if keys[pygame.K_w]:
-            self.direction.y = -1
-            self.direction.x = 0
-            self.pos[0] -= 1
-        elif keys[pygame.K_s]:
-            self.direction.y = 1
-            self.direction.x = 0
-            self.pos[0] += 1
-        else:
-            self.direction.y = 0
+    def move_left(self):
+        self.direction.x = -1
+        self.direction.y = 0
+        self.pos[1] -= 1
 
-        if keys[pygame.K_a]:
-            self.direction.x = -1
-            self.direction.y = 0
-            self.pos[1] -= 1
-        elif keys[pygame.K_d]:
-            self.direction.x = 1
-            self.direction.y = 0
-            self.pos[1] += 1
-        else:
-            self.direction.x = 0
+    def move_right(self):
+        self.direction.x = 1
+        self.direction.y = 0
+        self.pos[1] += 1
 
+  
     def update(self, layout, tiles):
-        self.input()
 
         MAX = len(layout)
         MIN = 0
@@ -48,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         if self.pos[1] < 0:
             self.pos[1] = 0
         elif self.pos[1] >= MAX:
-            self.pos[1] = MAX - 1
+            self.pos[1] = MAX - 1 
 
         xy = mapper.pos_to_xy(self.pos, layout, tiles)
         self.rect.x = xy[0]

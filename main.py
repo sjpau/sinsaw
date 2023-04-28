@@ -31,6 +31,15 @@ while True:
             pygame.quit()
             raise SystemExit
         #if event.type == pygame.VIDEORESIZE:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                player_object.move_left()
+            if event.key == pygame.K_d:
+                player_object.move_right()
+            if event.key == pygame.K_w:
+                player_object.move_up()
+            if event.key == pygame.K_s:
+                player_object.move_down()
 
 
     # Do logical updates here.
