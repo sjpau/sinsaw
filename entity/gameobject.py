@@ -1,5 +1,4 @@
 import pygame
-import debug
 import mapper
 
 class GameObject:
@@ -13,3 +12,9 @@ class GameObject:
         if self.on_tile_index(layout, tiles) == mapper.get_tile_index_from_layout(layout, tiles, collider_pos):
             return True
         return False
+    
+def pos_in_layout_borders(pos, layout):
+    MAX = len(layout)
+    MIN = 0
+    if pos[0] >= MIN and pos[0] < MAX and pos[1] >= 0 and pos[1] < MAX:
+        return True

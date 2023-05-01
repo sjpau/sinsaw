@@ -1,7 +1,6 @@
 import pygame
 import mapper
 import gameobject
-import debug
 
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group):
@@ -13,39 +12,44 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         self.direction = pygame.math.Vector2(1, 0)
         self.speed = 1
     
-    def move_down(self):
+    def move_down(self, layout, tiles):
         self.direction.y = 1
         self.direction.x = 0
-        self.pos[0] += 1
+        if gameobject.pos_in_layout_borders([self.pos[0] + 1, self.pos[1]], layout):
+            next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, [self.pos[0] + 1, self.pos[1]])]
+            for status in next_tile.status:
+                if status == mapper.status_walkable:
+                    self.pos[0] += 1
 
-    def move_up(self):
+    def move_up(self, layout, tiles):
         self.direction.y = -1
         self.direction.x = 0
-        self.pos[0] -= 1
+        if gameobject.pos_in_layout_borders([self.pos[0] - 1, self.pos[1]], layout):
+            next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, [self.pos[0] - 1, self.pos[1]])]
+            for status in next_tile.status:
+                if status == mapper.status_walkable:
+                    self.pos[0] -= 1
 
-    def move_left(self):
+    def move_left(self, layout, tiles):
         self.direction.x = -1
         self.direction.y = 0
-        self.pos[1] -= 1
+        if gameobject.pos_in_layout_borders([self.pos[0], self.pos[1] - 1], layout):
+            next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, [self.pos[0], self.pos[1] - 1])]
+            for status in next_tile.status:
+                if status == mapper.status_walkable:
+                    self.pos[1] -= 1
 
-    def move_right(self):
+    def move_right(self, layout, tiles):
         self.direction.x = 1
         self.direction.y = 0
-        self.pos[1] += 1
+        if gameobject.pos_in_layout_borders([self.pos[0], self.pos[1] + 1], layout):
+            next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, [self.pos[0], self.pos[1] + 1])]
+            for status in next_tile.status:
+                if status == mapper.status_walkable:
+                    self.pos[1] += 1
 
   
     def update(self, layout, tiles):
-
-        MAX = len(layout)
-        MIN = 0
-        if self.pos[0] < MIN: 
-            self.pos[0] = MIN
-        elif self.pos[0] >= MAX:
-            self.pos[0] = MAX - 1
-        if self.pos[1] < 0:
-            self.pos[1] = 0
-        elif self.pos[1] >= MAX:
-            self.pos[1] = MAX - 1 
 
         xy = mapper.pos_to_xy(self.pos, layout, tiles)
         self.rect.x = xy[0]

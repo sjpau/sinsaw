@@ -34,13 +34,13 @@ while True:
         #if event.type == pygame.VIDEORESIZE:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                player_object.move_left()
+                player_object.move_left(lvl_example.layout, tiles)
             if event.key == pygame.K_d:
-                player_object.move_right()
+                player_object.move_right(lvl_example.layout, tiles)
             if event.key == pygame.K_w:
-                player_object.move_up()
+                player_object.move_up(lvl_example.layout, tiles)
             if event.key == pygame.K_s:
-                player_object.move_down()
+                player_object.move_down(lvl_example.layout, tiles)
 
 
     # Do logical updates here.
@@ -57,6 +57,8 @@ while True:
         debug.display(pygame.mouse.get_pos())
         debug.display(player_object.pos, 40)
         debug.display("tile index: " + str(player_object.on_tile_index(lvl_example.layout, tiles)), 70)
+        debug.display("direction: " + str(player_object.direction), 100)
+        debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_example.layout, tiles)].status), 130)
 
     pygame.display.flip()
 
