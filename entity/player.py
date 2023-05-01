@@ -1,15 +1,16 @@
 import pygame
 import mapper
+import gameobject
 
-class Player(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group):
         super().__init__(group)
+        gameobject.GameObject.__init__(self, pos)
         image = pygame.image.load("asset/player.jpg").convert_alpha()
         self.image = pygame.transform.scale(image, (mapper.tile_size, mapper.tile_size))
         self.rect = self.image.get_rect(topleft = xy)
         self.direction = pygame.math.Vector2(1, 0)
         self.speed = 1
-        self.pos = pos
     
     def move_down(self):
         self.direction.y = 1
