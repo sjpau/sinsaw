@@ -1,6 +1,7 @@
 import pygame
 import mapper
 import gameobject
+import debug
 
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group):
@@ -49,3 +50,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         xy = mapper.pos_to_xy(self.pos, layout, tiles)
         self.rect.x = xy[0]
         self.rect.y = xy[1]
+
+        if self.on_tile_collides_with([15,15], layout, tiles):
+            print('collision!')
+       

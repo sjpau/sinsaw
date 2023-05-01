@@ -46,6 +46,8 @@ while True:
     # Do logical updates here.
     camera_group.attach_to(player_object)
     camera_group.update(lvl_example.layout, tiles)
+    
+
     # Render the graphics here.
     screen.fill('black')
     camera_group.custom_draw()
@@ -54,6 +56,7 @@ while True:
     if debug.status:
         debug.display(pygame.mouse.get_pos())
         debug.display(player_object.pos, 40)
+        debug.display("tile index: " + str(player_object.on_tile_index(lvl_example.layout, tiles)), 70)
 
     pygame.display.flip()
 
