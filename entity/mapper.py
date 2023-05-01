@@ -1,5 +1,6 @@
 import pygame
 import camera
+import debug
 
 tile_size = 64
 
@@ -14,6 +15,9 @@ class Tile(pygame.sprite.Sprite):
         super().__init__(group)
         self.image = image
         self.rect = self.image.get_rect()
+        self.number = -1
+        self.pos = [0,0]
+    
 
 def init_tileset(layout, camera_group):
     tiles = []
@@ -27,6 +31,10 @@ def init_tileset(layout, camera_group):
 
             tile.rect.x = x * tile.rect.width
             tile.rect.y = y * tile.rect.height
+            
+            tile.number = layout
+            tile.pos[0] = x
+            tile.pos[1] = y
 
             tiles.append(tile)
     
