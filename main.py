@@ -27,6 +27,9 @@ player_spawn_pos = lvl_example.get_player_spawn()
 player_object = player.Player(player_spawn_pos, mapper.pos_to_xy(player_spawn_pos, lvl_example.layout, tiles), camera_group)
 enemies = enemy.init_enemies(lvl_example.enemy_spawns, lvl_example.layout, tiles, camera_group)
 
+turn = 0
+turn_ptr = turn
+
 while True:
 
     for event in pygame.event.get():
@@ -35,6 +38,7 @@ while True:
             raise SystemExit
         #if event.type == pygame.VIDEORESIZE:
         if event.type == pygame.KEYDOWN:
+            turn += 1
             if event.key == pygame.K_a:
                 player_object.move_left(lvl_example.layout, tiles)
             if event.key == pygame.K_d:
@@ -46,8 +50,11 @@ while True:
 
 
     # Do logical updates here.
+    if turn != turn_ptr:
+        camera_group.update(lvl_example.layout, tiles)
+        
+        turn_ptr = turn
     camera_group.attach_to(player_object)
-    camera_group.update(lvl_example.layout, tiles)
     
 
     # Render the graphics here.
@@ -61,7 +68,8 @@ while True:
         debug.display("tile index: " + str(player_object.on_tile_index(lvl_example.layout, tiles)), 70)
         debug.display("direction: " + str(player_object.direction), 100)
         debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_example.layout, tiles)].status), 130)
-        debug.display(lvl_example.get_enemy_spawns(), 160)
+        debug.display("turn: " + str(turn), 160)
+        #debug.display(lvl_example.get_enemy_spawns(), 160)
 
     pygame.display.flip()
 
