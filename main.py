@@ -8,7 +8,8 @@ import loader
 import player
 import screen as s
 import camera 
-import mapper 
+import mapper
+import enemy
 import debug 
 
 pygame.init()
@@ -24,6 +25,7 @@ tileset_pixel_size = mapper.tileset_pixel_size(lvl_example.layout, mapper.tile_s
 # Initialize player
 player_spawn_pos = lvl_example.get_player_spawn()
 player_object = player.Player(player_spawn_pos, mapper.pos_to_xy(player_spawn_pos, lvl_example.layout, tiles), camera_group)
+enemies = enemy.init_enemies(lvl_example.enemy_spawns, lvl_example.layout, tiles, camera_group)
 
 while True:
 
@@ -59,6 +61,7 @@ while True:
         debug.display("tile index: " + str(player_object.on_tile_index(lvl_example.layout, tiles)), 70)
         debug.display("direction: " + str(player_object.direction), 100)
         debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_example.layout, tiles)].status), 130)
+        debug.display(lvl_example.get_enemy_spawns(), 160)
 
     pygame.display.flip()
 

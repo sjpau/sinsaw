@@ -10,8 +10,9 @@ def read_lvl_from_json(json_path):
         name = config['name']
         number = config['number']
         spawn_player = config['spawn_player']
+        spawn_enemies = config['spawn_enemies']
 
     except Exception as e:
         print('Error when opening {json_path}: {e}')
 
-    return name, number, layout, spawn_player
+    return name, number, layout, spawn_player, spawn_enemies
