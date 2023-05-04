@@ -11,6 +11,17 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         self.rect = self.image.get_rect(topleft = xy)
         self.direction = pygame.math.Vector2(1, 0)
         self.category = 0
+    
+    def move_on_path(self, path):
+        if len(path) > 1:
+            self.pos[0] = path[1][0]
+            self.pos[1] = path[1][1]
+
+    def update(self, layout, tiles):
+
+        xy = mapper.pos_to_xy(self.pos, layout, tiles)
+        self.rect.x = xy[0]
+        self.rect.y = xy[1]
 
 def init_enemies(enemy_spawns, layout, tiles, group):
 
@@ -23,3 +34,4 @@ def init_enemies(enemy_spawns, layout, tiles, group):
         enemies.append(enemy)
     
     return enemies
+

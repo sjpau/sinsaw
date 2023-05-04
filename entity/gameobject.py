@@ -8,8 +8,8 @@ class GameObject:
     def on_tile_index(self, layout, tiles):
         return mapper.get_tile_index_from_layout(layout, tiles, self.pos)
     
-    def on_tile_collides_with(self, collider_pos, layout, tiles): # TODO: change to object
-        if self.on_tile_index(layout, tiles) == mapper.get_tile_index_from_layout(layout, tiles, collider_pos):
+    def on_tile_collides_with(self, collider, layout, tiles):
+        if self.on_tile_index(layout, tiles) == collider.on_tile_index(layout, tiles):
             return True
         return False
     
