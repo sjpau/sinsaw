@@ -1,13 +1,9 @@
 import pygame
 import camera
+import asset
+import gameobject
 
 tile_size = 64
-
-tileset = { # TODO replace with var names
-    "0": "floor_1.png",
-    "1": "wall_1.png",
-    "2": "door_1.png"
-}
 
 status_destructable = 0
 status_indestructable = 1
@@ -15,18 +11,17 @@ status_walkable = 2
 status_unwalkable = 3
 status_transparent = 4
 
-class Tile(pygame.sprite.Sprite):
+class Tile(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, group, image):
         super().__init__(group)
-        self.image = image
-        self.rect = self.image.get_rect()
+        pos = [0,0]
+        gameobject.GameObject.__init__(self, pos, pos, image, True)
         self.code = -1
-        self.pos = [0,0]
         self.status = []
     
     def init_status(self):
         if self.code == 0:
-            self.status = [status_walkable]
+            self.status = [status_walkable, status_transparent]
         elif self.code == 1:
             self.status = [status_indestructable]
         elif self.code == 2:
@@ -38,7 +33,7 @@ def init_tileset(layout, camera_group):
     for y, row in enumerate(layout):
         for x, layout in enumerate(row):
 
-            filename = "asset/static/" + tileset[str(layout)] 
+            filename =  asset.static_path + asset.tileset[str(layout)] 
             image = pygame.image.load(filename).convert_alpha()
             image = pygame.transform.scale(image, (tile_size, tile_size))
             tile = Tile(camera_group, image)

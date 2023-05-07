@@ -11,12 +11,10 @@ import camera
 import mapper
 import enemy
 import debug 
-import pathfind
 
 pygame.init()
 screen = pygame.display.set_mode((s.width,s.height))
 main_clock = pygame.time.Clock()
-
 codes_walkable = [0, 2]
 
 camera_group = camera.Camera()
@@ -30,7 +28,6 @@ layout_walkable = level.layout_to_binary(lvl_example.layout, codes_walkable)
 player_spawn_pos = lvl_example.get_player_spawn()
 player_object = player.Player(player_spawn_pos, mapper.pos_to_xy(player_spawn_pos, lvl_example.layout, tiles), camera_group)
 enemies = enemy.init_enemies(lvl_example.enemy_spawns, lvl_example.layout, tiles, camera_group)
-pathfinder = pathfind.Pathfinder(layout_walkable)
 turn = 0
 turn_ptr = turn
 
@@ -59,8 +56,10 @@ while True:
     # Do logical updates here.
     if turn != turn_ptr:
         camera_group.update(lvl_example.layout, tiles)
-        enemies[0].move_on_path(pathfinder.path)
-        pathfinder.create_path(enemies[0].pos, player_object.pos)
+        for e in enemies:
+            if not camera_group.in_view(e, player_object, tiles):
+                e.to_point_path(layout_walkable, e.pos, player_object.pos)
+            e.move_on_path()
         turn_ptr = turn
     camera_group.attach_to(player_object)
     
@@ -68,7 +67,6 @@ while True:
     # Render the graphics here.
     screen.fill('black')
     camera_group.custom_draw()
-
     # Allow debug in debug.py
     if debug.status:
         debug.display(pygame.mouse.get_pos())
@@ -77,11 +75,7 @@ while True:
         debug.display("direction: " + str(player_object.direction), 100)
         debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_example.layout, tiles)].status), 130)
         debug.display("turn: " + str(turn), 160)
-        debug.display("ptp: " + str(pathfinder.path), 190)
-        debug.display("ppos: " + str(player_object.pos), 220)
-        debug.display("walkable pos: " + str(layout_walkable[player_object.pos[0]][player_object.pos[1]] ), 220)
-        debug.display("epos: " + str(enemies[0].pos), 250)
-        #debug.display(lvl_example.get_enemy_spawns(), 160)
+        debug.display("e path: " + str(enemies[0].path), 190)
 
     pygame.display.flip()
 
