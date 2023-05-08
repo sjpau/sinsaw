@@ -1,5 +1,4 @@
 import pygame
-import debug
 import mapper
 
 class Camera(pygame.sprite.Group):
@@ -29,6 +28,3 @@ class Camera(pygame.sprite.Group):
             if mapper.status_transparent not in tile.status:
                 if line.colliderect(tile.rect):
                     return True
-            
-
-        

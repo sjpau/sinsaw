@@ -14,14 +14,30 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         self.direction = pygame.math.Vector2(1, 0)
         self.category = 0
         self.path = []
+        self.player_in_view = False
 
     def move_on_path(self):
+        if not self.player_in_view:
+            self.path = self.path[1:]
         if len(self.path) > 1:
             self.pos[0] = self.path[1][0]
             self.pos[1] = self.path[1][1]
 
-    def to_axis_path(self):
-        pass
+    def to_axis_path(self, layout_binary, start_pos, end_pos):
+        marginx = abs(start_pos[0] - end_pos[0])
+        marginy = abs(start_pos[1] - end_pos[1])
+        if marginx < marginy:
+            # Move to x-axis
+            to_axis = (end_pos[0], start_pos[1])
+        else:
+            # Move to y-axis
+            to_axis = (start_pos[0], end_pos[1])
+        grid = Grid(matrix = list(zip(*layout_binary)))
+        start = grid.node(start_pos[0], start_pos[1])
+        end = grid.node(to_axis[0], to_axis[1])
+        finder = AStarFinder(diagonal_movement = DiagonalMovement.always)
+        path, _ = finder.find_path(start, end, grid)
+        self.path = path
 
     def to_point_path(self, layout_binary, start_pos, end_pos):
         grid = Grid(matrix = list(zip(*layout_binary)))
@@ -29,8 +45,6 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         end = grid.node(end_pos[0], end_pos[1])
         finder = AStarFinder(diagonal_movement = DiagonalMovement.always)
         path, _ = finder.find_path(start, end, grid)
-        if self.path == path:
-            pass
         self.path = path
 
     def update(self, layout, tiles):
@@ -47,6 +61,7 @@ def init_enemies(enemy_spawns, layout, tiles, group):
         category = row[2]
         xy = mapper.pos_to_xy(pos, layout, tiles)
         enemy = Enemy(pos, xy, group)
+        enemy.category = category
         enemies.append(enemy)
     
     return enemies

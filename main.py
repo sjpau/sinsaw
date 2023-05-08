@@ -58,7 +58,13 @@ while True:
         camera_group.update(lvl_example.layout, tiles)
         for e in enemies:
             if not camera_group.in_view(e, player_object, tiles):
-                e.to_point_path(layout_walkable, e.pos, player_object.pos)
+                e.player_in_view = True
+                if e.category == 1:
+                    e.to_point_path(layout_walkable, e.pos, player_object.pos)
+                elif e.category == 2:
+                    e.to_axis_path(layout_walkable, e.pos, player_object.pos)
+            else:
+                e.player_in_view = False
             e.move_on_path()
         turn_ptr = turn
     camera_group.attach_to(player_object)
@@ -76,7 +82,7 @@ while True:
         debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_example.layout, tiles)].status), 130)
         debug.display("turn: " + str(turn), 160)
         debug.display("e path: " + str(enemies[0].path), 190)
+        debug.display("e finish: " + str(enemies[0].player_in_view), 220)
 
     pygame.display.flip()
-
     main_clock.tick(60)
