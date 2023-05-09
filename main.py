@@ -13,7 +13,7 @@ import enemy
 import debug 
 
 pygame.init()
-screen = pygame.display.set_mode((s.width,s.height))
+screen = pygame.display.set_mode((s.width,s.height),pygame.RESIZABLE)
 main_clock = pygame.time.Clock()
 codes_walkable = [0, 2]
 
@@ -53,7 +53,6 @@ while True:
                 turn += 1
                 player_object.move_down(lvl_current.layout, tiles)
 
-
     # Do logical updates here.
     if turn != turn_ptr:
         camera_group.update(lvl_current.layout, tiles)
@@ -80,10 +79,8 @@ while True:
         debug.display(player_object.pos, 40)
         debug.display("tile index: " + str(player_object.on_tile_index(lvl_current.layout, tiles)), 70)
         debug.display("direction: " + str(player_object.direction), 100)
-        debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_current.layout, tiles)].status), 130)
-        debug.display("turn: " + str(turn), 160)
-        debug.display("e path: " + str(enemies[0].path), 190)
-        debug.display("e finish: " + str(enemies[0].player_in_view), 220)
+        debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_current.layout, tiles)].status), 160)
+        debug.display("turn: " + str(turn), 190)
 
     pygame.display.flip()
     main_clock.tick(60)

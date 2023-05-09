@@ -53,8 +53,8 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         self.rect.x = xy[0]
         self.rect.y = xy[1]
 
-def init_enemies(enemy_spawns, layout, tiles, group):
 
+def init_enemies(enemy_spawns, layout, tiles, group):
     enemies = []
     for row in enemy_spawns:
         pos = [row[0], row[1]]
