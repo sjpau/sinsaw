@@ -66,6 +66,7 @@ while True:
             else:
                 e.player_in_view = False
             e.move_on_path()
+            #e.step(lvl_current.layout, tiles)
         turn_ptr = turn
     camera_group.attach_to(player_object)
     
@@ -80,7 +81,13 @@ while True:
         debug.display("tile index: " + str(player_object.on_tile_index(lvl_current.layout, tiles)), 70)
         debug.display("direction: " + str(player_object.direction), 100)
         debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_current.layout, tiles)].status), 160)
-        debug.display("turn: " + str(turn), 190)
+        for tile in tiles:
+            if tile.rect.collidepoint(pygame.mouse.get_pos()):
+                debug.display(tile.status, 190)
+        debug.display("turn: " + str(turn), 220)
+        debug.display("path: " + str(enemies[0].path), 250)
+        debug.display("pos: " + str(enemies[0].pos), 280)
+        debug.display("dir: " + str(enemies[0].direction), 310)
 
     pygame.display.flip()
     main_clock.tick(60)

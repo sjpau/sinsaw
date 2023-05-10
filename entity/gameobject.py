@@ -30,7 +30,7 @@ def pos_in_layout_borders(pos, layout):
 
 def update(self):
     if self.direction != self.direction_ptr:
-        angle = degrees(atan2(self.direction.y, self.direction.x)) % 360
+        angle = degrees(atan2(self.direction[1], self.direction[0])) % 360
         self.image = pygame.transform.scale(pygame.transform.rotate(self.default_image, angle), (mapper.tile_size, mapper.tile_size))
 
 class Weapon(pygame.sprite.Sprite, GameObject):
