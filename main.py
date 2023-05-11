@@ -15,7 +15,7 @@ import debug
 pygame.init()
 screen = pygame.display.set_mode((s.width,s.height),pygame.RESIZABLE)
 main_clock = pygame.time.Clock()
-codes_walkable = [0, 2]
+codes_walkable = [0, 2, 6]
 
 camera_group = camera.Camera()
 lvl_example = level.init(os.path.join("lvl", "example.json"))
@@ -63,7 +63,7 @@ while True:
     
 
     # Render the graphics here.
-    screen.fill('black')
+    screen.fill(pygame.Color(16, 13, 19))
     camera_group.custom_draw()
     # Allow debug in debug.py
     if debug.status:

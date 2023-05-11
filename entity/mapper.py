@@ -3,7 +3,7 @@ import camera
 import asset
 import gameobject
 
-tile_size = 64
+tile_size = 128
 
 status_destructable = 0
 status_indestructable = 1
@@ -26,6 +26,16 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
             self.status = [status_indestructable]
         elif self.code == 2:
             self.status = [status_destructable, status_walkable]
+        elif self.code == 3:
+            self.status = [status_destructable, status_walkable]
+        elif self.code == 4:
+            self.status = [status_destructable, status_transparent]
+        elif self.code == 5:
+            self.status = [status_destructable, status_transparent]
+        elif self.code == 6:
+            self.status = []
+        elif self.code == 7:
+            self.status = []
 
 
 def init_tileset(layout, camera_group):
