@@ -55,19 +55,10 @@ while True:
 
     # Do logical updates here.
     if turn != turn_ptr:
-        camera_group.update(lvl_current.layout, tiles)
         for e in enemies:
-            if not camera_group.in_view(e, player_object, tiles):
-                e.player_in_view = True
-                if e.category == 1:
-                    e.to_point_path(layout_walkable, e.pos, player_object.pos)
-                elif e.category == 2:
-                    e.to_axis_path(layout_walkable, e.pos, player_object.pos)
-            else:
-                e.player_in_view = False
-            e.move_on_path()
-            #e.step(lvl_current.layout, tiles)
+            e.behave(layout_walkable, tiles, camera_group, player_object)
         turn_ptr = turn
+        camera_group.update(lvl_current.layout, tiles)
     camera_group.attach_to(player_object)
     
 
@@ -88,6 +79,8 @@ while True:
         debug.display("path: " + str(enemies[0].path), 250)
         debug.display("pos: " + str(enemies[0].pos), 280)
         debug.display("dir: " + str(enemies[0].direction), 310)
+        debug.display("target: " + str(enemies[0].locked_on_target), 340)
+        debug.display("dir_ptr: " + str(enemies[0].direction_ptr), 370)
 
     pygame.display.flip()
     main_clock.tick(60)

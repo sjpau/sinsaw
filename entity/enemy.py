@@ -14,6 +14,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         self.category = 0
         self.path = []
         self.player_in_view = False
+        self.locked_on_target = False
 
     def set_direction(self):
         if len(self.path) > 1:
@@ -35,7 +36,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
                 self.direction[1] = 1
 
     def move_on_path(self):
-        self.direction_ptr = self.direction.copy()
+        #self.direction_ptr = self.direction.copy()
         self.set_direction()
         if not self.player_in_view:
             self.path = self.path[1:]
@@ -44,14 +45,12 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             self.pos[1] = self.path[1][1]
     
     def step(self, layout, tiles):
-        self.direction_ptr = self.direction.copy()
         next_pos = [0,0]
         if self.direction[1] > 0:
             next_pos[0] = self.pos[0] - int(self.direction[1])
         else:
             next_pos[0] = self.pos[0] + abs(int(self.direction[1]))
         next_pos[1] = self.pos[1] + int(self.direction[0])
-        print(next_pos)
         if gameobject.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
@@ -108,6 +107,59 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
                 self.direction = [0, -1]
             else:
                 self.direction = [0, 1]
+    
+    def clockwise_direction(self):
+        self.direction_ptr = self.direction.copy()
+        if self.direction == pygame.math.Vector2(1, 0):
+            self.direction = pygame.math.Vector2(0, -1)
+        elif self.direction == pygame.math.Vector2(0, 1):
+            self.direction = pygame.math.Vector2(1, 0)
+        elif self.direction == pygame.math.Vector2(-1, 0):
+            self.direction = pygame.math.Vector2(0, 1)
+        elif self.direction == pygame.math.Vector2(0, -1):
+            self.direction = pygame.math.Vector2(-1, 0)
+    
+    def default_behaviour(self, layout, tiles, camera_group, player_object):
+        if self.category == 1:
+            self.clockwise_direction()
+            self.step(layout, tiles)
+            self.step(layout, tiles)
+        elif self.category == 2:
+            self.clockwise_direction()
+            self.step(layout, tiles)
+
+    def to_target(self, layout, tiles, target):
+        if target.pos[0] == self.pos[0] or target.pos[1] == self.pos[1]:
+            self.to_direction(self.pos, target.pos)
+            self.step(layout, tiles)
+            self.locked_on_target = True
+
+    def behave(self, layout, tiles, camera_group, player_object):
+        self.direction_ptr = self.direction.copy()
+        if self.category == 1: # Active behavior of melee enemy
+            if not camera_group.in_view(self, player_object, tiles):
+                self.player_in_view = True
+                self.to_point_path(layout, self.pos, player_object.pos)
+            else:
+                self.player_in_view = False
+            if len(self.path) == 0:
+                self.default_behaviour(layout, tiles, camera_group, player_object)
+            else:
+                self.move_on_path()
+        if self.category == 2: # Active behaviour of ranged enemy
+            if not camera_group.in_view(self, player_object, tiles):
+                self.player_in_view = True
+                self.to_axis_path(layout, self.pos, player_object.pos)
+                if self.locked_on_target:
+                    self.locked_on_target = False
+                    #Shoot
+                else:
+                    self.to_target(layout, tiles, player_object)
+            else:
+                self.player_in_view = False
+            self.move_on_path()
+            if len(self.path) == 0:
+                self.default_behaviour(layout, tiles, camera_group, player_object)
 
     def update(self, layout, tiles):
 
