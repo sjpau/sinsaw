@@ -7,9 +7,8 @@ from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
 
 class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
-    def __init__(self, pos, xy, group):
+    def __init__(self, pos, xy, group, image):
         super().__init__(group)
-        image = pygame.image.load(asset.image_enemy).convert_alpha()
         gameobject.GameObject.__init__(self, pos, xy, image, False)
         self.category = 0
         self.path = []
@@ -174,8 +173,12 @@ def init_enemies(enemy_spawns, layout, tiles, group):
     for row in enemy_spawns:
         pos = [row[0], row[1]]
         category = row[2]
+        if category == 1:
+            image = pygame.image.load(asset.image_enemy_dog).convert_alpha()
+        elif category == 2:
+            image = pygame.image.load(asset.image_enemy_gun).convert_alpha()
         xy = mapper.pos_to_xy(pos, layout, tiles)
-        enemy = Enemy(pos, xy, group)
+        enemy = Enemy(pos, xy, group, image)
         enemy.category = category
         enemies.append(enemy)
     

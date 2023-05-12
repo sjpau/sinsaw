@@ -22,6 +22,8 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
     def init_status(self):
         if self.code == 0:
             self.status = [status_walkable, status_transparent]
+        elif self.code == 8:
+            self.status = [status_walkable, status_transparent]
         elif self.code == 1:
             self.status = [status_indestructable]
         elif self.code == 2:

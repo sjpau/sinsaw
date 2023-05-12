@@ -47,6 +47,9 @@ def init_items(item_spawns, layout, tiles, group):
         elif category == 4:
             image = pygame.image.load(asset.item_molotow).convert_alpha()
             name = 'molotow cocktail'
+        elif category == 5:
+            image = pygame.image.load(asset.item_key).convert_alpha()
+            name = 'key'
         item = Item(pos, xy, group, image)
         item.category = category
         item.ammo = ammo

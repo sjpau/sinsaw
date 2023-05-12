@@ -7,7 +7,7 @@ import item
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, attached_item=None):
         super().__init__(group)
-        init_image = pygame.image.load(asset.image_player).convert_alpha()
+        init_image = pygame.image.load(asset.image_player_gun).convert_alpha()
         gameobject.GameObject.__init__(self, pos, xy, init_image, False)
         self.attached_item = None
     

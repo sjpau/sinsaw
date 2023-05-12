@@ -16,7 +16,7 @@ import debug
 pygame.init()
 screen = pygame.display.set_mode((s.width,s.height),pygame.RESIZABLE)
 main_clock = pygame.time.Clock()
-codes_walkable = [0, 2, 6]
+codes_walkable = [0, 2, 6, 8]
 
 camera_group = camera.Camera()
 lvl_example = level.init(os.path.join("lvl", "example.json"))
