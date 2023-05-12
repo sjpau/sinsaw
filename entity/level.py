@@ -11,12 +11,13 @@ import pprint
 codes_opaque = [1, 2]
 
 class Level:
-    def __init__(self, name, num, layout, player_spawn, enemy_spawns):
+    def __init__(self, name, num, layout, player_spawn, enemy_spawns, item_spawns):
         self.name = name
         self.num = num
         self.layout = layout
         self.player_spawn = player_spawn
         self.enemy_spawns = enemy_spawns
+        self.item_spawns = item_spawns
     
     def get_name(self):
         return self.name
@@ -32,10 +33,13 @@ class Level:
     
     def get_enemy_spawns(self):
         return self.enemy_spawns
+    
+    def get_item_spawns(self):
+        return self.item_spawns
 
 def init(json_path):
-    lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns = loader.read_lvl_from_json(json_path) 
-    return Level(lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns)
+    lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns, lvl_item_spawns = loader.read_lvl_from_json(json_path) 
+    return Level(lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns, lvl_item_spawns)
 
 def layout_to_binary(layout, codes):
     layout_binary = []

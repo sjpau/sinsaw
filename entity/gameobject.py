@@ -1,5 +1,6 @@
 import pygame
 import mapper
+import asset
 from math import atan2, degrees
 
 class GameObject:
@@ -21,7 +22,7 @@ class GameObject:
         if self.on_tile_index(layout, tiles) == collider.on_tile_index(layout, tiles):
             return True
         return False
-    
+
 def pos_in_layout_borders(pos, layout):
     MAX = len(layout)
     MIN = 0
@@ -32,8 +33,3 @@ def update(self):
     if self.direction != self.direction_ptr:
         angle = degrees(atan2(self.direction[1], self.direction[0])) % 360
         self.image = pygame.transform.scale(pygame.transform.rotate(self.default_image, angle), (mapper.tile_size, mapper.tile_size))
-
-class Weapon(pygame.sprite.Sprite, GameObject):
-    def __init__(self, pos, xy, group):
-        super().__init__(group)
-        gameobject.GameObject.__init__(self, pos)

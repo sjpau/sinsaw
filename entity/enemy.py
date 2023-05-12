@@ -161,8 +161,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             if len(self.path) == 0:
                 self.default_behaviour(layout, tiles, camera_group, player_object)
 
-    def update(self, layout, tiles):
-
+    def update(self, layout, tiles, items=None):
         if gameobject.pos_in_layout_borders(self.pos, layout):
             xy = mapper.pos_to_xy(self.pos, layout, tiles)
             self.rect.x = xy[0]

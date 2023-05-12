@@ -10,6 +10,7 @@ import screen as s
 import camera 
 import mapper
 import enemy
+import item
 import debug 
 
 pygame.init()
@@ -29,6 +30,7 @@ layout_walkable = level.layout_to_binary(lvl_current.layout, codes_walkable)
 player_spawn_pos = lvl_current.get_player_spawn()
 player_object = player.Player(player_spawn_pos, mapper.pos_to_xy(player_spawn_pos, lvl_current.layout, tiles), camera_group)
 enemies = enemy.init_enemies(lvl_current.enemy_spawns, lvl_current.layout, tiles, camera_group)
+items = item.init_items(lvl_current.item_spawns, lvl_current.layout, tiles, camera_group)
 turn = 0
 turn_ptr = turn
 
@@ -54,11 +56,16 @@ while True:
                 player_object.move_down(lvl_current.layout, tiles)
 
     # Do logical updates here.
-    if turn != turn_ptr:
+    if turn != turn_ptr: 
         for e in enemies:
             e.behave(layout_walkable, tiles, camera_group, player_object)
+        for i in items:
+            if i.discarded:
+                camera_group.remove(i)
+                items.remove(i)
+                del i
         turn_ptr = turn
-        camera_group.update(lvl_current.layout, tiles)
+        camera_group.update(lvl_current.layout, tiles, items)
     camera_group.attach_to(player_object)
     
 
@@ -72,15 +79,9 @@ while True:
         debug.display("tile index: " + str(player_object.on_tile_index(lvl_current.layout, tiles)), 70)
         debug.display("direction: " + str(player_object.direction), 100)
         debug.display("tile status: " + str(tiles[player_object.on_tile_index(lvl_current.layout, tiles)].status), 160)
-        for tile in tiles:
-            if tile.rect.collidepoint(pygame.mouse.get_pos()):
-                debug.display(tile.status, 190)
         debug.display("turn: " + str(turn), 220)
-        debug.display("path: " + str(enemies[0].path), 250)
-        debug.display("pos: " + str(enemies[0].pos), 280)
-        debug.display("dir: " + str(enemies[0].direction), 310)
-        debug.display("target: " + str(enemies[0].locked_on_target), 340)
-        debug.display("dir_ptr: " + str(enemies[0].direction_ptr), 370)
+        if player_object.attached_item is not None:
+            debug.display("attached: " + player_object.attached_item.name, 250)
 
     pygame.display.flip()
     main_clock.tick(60)
