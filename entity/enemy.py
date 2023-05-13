@@ -14,6 +14,15 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         self.path = []
         self.player_in_view = False
         self.locked_on_target = False
+        self.alive = True
+    
+    def die(self):
+        # Write when die state
+        self.alive = False
+    
+    def on_shot(self):
+        super().on_shot()
+        self.die()
 
     def set_direction(self):
         if len(self.path) > 1:
@@ -22,20 +31,19 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             delta_x = x2 - x1
             delta_y = y2 - y1
             if delta_x > 0 and delta_y == 0:
-                self.direction[0] = 1
-                self.direction[1] = 0
+                self.direction.x = 1
+                self.direction.y = 0
             elif delta_x < 0 and delta_y == 0:
-                self.direction[0] = -1
-                self.direction[1]= 0
+                self.direction.x = -1
+                self.direction.y= 0
             elif delta_x == 0 and delta_y > 0:
-                self.direction[0] = 0
-                self.direction[1] = -1
+                self.direction.x = 0
+                self.direction.y = -1
             elif delta_x == 0 and delta_y < 0:
-                self.direction[0] = 0
-                self.direction[1] = 1
+                self.direction.x = 0
+                self.direction.y = 1
 
     def move_on_path(self):
-        #self.direction_ptr = self.direction.copy()
         self.set_direction()
         if not self.player_in_view:
             self.path = self.path[1:]
@@ -45,24 +53,24 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
     
     def step(self, layout, tiles):
         next_pos = [0,0]
-        if self.direction[1] > 0:
-            next_pos[0] = self.pos[0] - int(self.direction[1])
+        if self.direction.y > 0:
+            next_pos[0] = self.pos[0] - int(self.direction.y)
         else:
-            next_pos[0] = self.pos[0] + abs(int(self.direction[1]))
-        next_pos[1] = self.pos[1] + int(self.direction[0])
+            next_pos[0] = self.pos[0] + abs(int(self.direction.y))
+        next_pos[1] = self.pos[1] + int(self.direction.x)
         if gameobject.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
                 if status == mapper.status_walkable:
-                    if self.direction[1] < 0 or self.direction[0] < 0:
-                        self.pos[0] += abs(int(self.direction[1]))
-                        self.pos[1] += int(self.direction[0])
-                    elif self.direction[1] > 0:
-                        self.pos[0] -= int(self.direction[1])
-                        self.pos[1] += int(self.direction[0])
-                    elif self.direction[0] > 0:
-                        self.pos[0] += int(self.direction[1])
-                        self.pos[1] += int(self.direction[0])
+                    if self.direction.y < 0 or self.direction.x < 0:
+                        self.pos[0] += abs(int(self.direction.y))
+                        self.pos[1] += int(self.direction.x)
+                    elif self.direction.y > 0:
+                        self.pos[0] -= int(self.direction.y)
+                        self.pos[1] += int(self.direction.x)
+                    elif self.direction.x > 0:
+                        self.pos[0] += int(self.direction.y)
+                        self.pos[1] += int(self.direction.x)
 
 
     def to_axis_path(self, layout_binary, start_pos, end_pos):
@@ -98,14 +106,18 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         x2, y2 = end_pos
         if x1 == x2 and y1 != y2:
             if y1 - y2 < 0:
-                self.direction = [1, 0]
+                self.direction.x = 1
+                self.direction.y = 0
             else:
-                self.direction = [-1, 0]
+                self.direction.x = -1
+                self.direction.y = 0
         elif y1 == y2 and x1 != x2:
             if x1 - x2 < 0:
-                self.direction = [0, -1]
+                self.direction.x = 0
+                self.direction.y = -1
             else:
-                self.direction = [0, 1]
+                self.direction.x = 0
+                self.direction.y = 1
     
     def clockwise_direction(self):
         self.direction_ptr = self.direction.copy()

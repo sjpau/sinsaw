@@ -11,7 +11,9 @@ import camera
 import mapper
 import enemy
 import item
+import gameobject
 import debug 
+import time 
 
 pygame.init()
 screen = pygame.display.set_mode((s.width,s.height),pygame.RESIZABLE)
@@ -26,13 +28,20 @@ tiles = mapper.init_tileset(lvl_current.layout, camera_group)
 tileset_pixel_size = mapper.tileset_pixel_size(lvl_current.layout, mapper.tile_size)
 layout_walkable = level.layout_to_binary(lvl_current.layout, codes_walkable)
 
-# Initialize player
+# Initialize objects
 player_spawn_pos = lvl_current.get_player_spawn()
+game_objects_unflattened = []
+game_objects = []
 player_object = player.Player(player_spawn_pos, mapper.pos_to_xy(player_spawn_pos, lvl_current.layout, tiles), camera_group)
 enemies = enemy.init_enemies(lvl_current.enemy_spawns, lvl_current.layout, tiles, camera_group)
 items = item.init_items(lvl_current.item_spawns, lvl_current.layout, tiles, camera_group)
+game_objects_unflattened.append(items)
+game_objects_unflattened.append([player_object])
+game_objects_unflattened.append(enemies)
+game_objects = [obj for sublist in game_objects_unflattened for obj in sublist]
 turn = 0
 turn_ptr = turn
+
 
 while True:
 
@@ -54,15 +63,36 @@ while True:
             if event.key == pygame.K_s:
                 turn += 1
                 player_object.move_down(lvl_current.layout, tiles)
+            if event.key == pygame.K_SPACE:
+                turn += 1
+                player_object.shoot(lvl_current.layout, tiles, game_objects)
 
+    if not player_object.alive:
+        camera_group.remove(player_object)
+        game_objects.remove(player_object)
+        del player_object
+        pygame.quit()
+        raise SystemExit
     # Do logical updates here.
+    for e in enemies:
+        if not e.alive:
+            camera_group.remove(e)
+            enemies.remove(e)
+            game_objects.remove(e)
+            del e
+
     if turn != turn_ptr: 
         for e in enemies:
-            e.behave(layout_walkable, tiles, camera_group, player_object)
+            if e.locked_on_target:
+                e.shoot(lvl_current.layout, tiles, game_objects)
+                e.locked_on_target = False
+            else:
+                e.behave(layout_walkable, tiles, camera_group, player_object)
         for i in items:
             if i.discarded:
                 camera_group.remove(i)
                 items.remove(i)
+                game_objects.remove(i)
                 del i
         turn_ptr = turn
         camera_group.update(lvl_current.layout, tiles, items)
@@ -82,6 +112,7 @@ while True:
         debug.display("turn: " + str(turn), 220)
         if player_object.attached_item is not None:
             debug.display("attached: " + player_object.attached_item.name, 250)
+        debug.display("locked: " + str(enemies[1].locked_on_target), 280)
 
     pygame.display.flip()
     main_clock.tick(60)

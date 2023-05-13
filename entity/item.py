@@ -19,9 +19,6 @@ class Item(pygame.sprite.Sprite, gameobject.GameObject):
     def update(self, layout, tiles, items=None):
         if not self.dropped:
             self.image = self.transparent
-        if self.discarded:
-            self.dropped = True
-            self.image = self.image_ptr
         if gameobject.pos_in_layout_borders(self.pos, layout):
             xy = mapper.pos_to_xy(self.pos, layout, tiles)
             self.rect.x = xy[0]

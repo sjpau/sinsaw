@@ -11,6 +11,16 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         gameobject.GameObject.__init__(self, pos, xy, init_image, False)
         self.attached_item = None
     
+        self.alive = True
+    
+    def die(self):
+        # Write when die state
+        self.alive = False
+    
+    def on_shot(self):
+        super().on_shot()
+        self.die()
+
     def attach_item(self, attached_item):
         self.attached_item = attached_item
  
