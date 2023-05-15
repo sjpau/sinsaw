@@ -112,7 +112,6 @@ while True:
         debug.display("turn: " + str(turn), 220)
         if player_object.attached_item is not None:
             debug.display("attached: " + player_object.attached_item.name, 250)
-        debug.display("locked: " + str(enemies[1].locked_on_target), 280)
 
     pygame.display.flip()
     main_clock.tick(60)

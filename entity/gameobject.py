@@ -1,6 +1,7 @@
 import pygame
 import mapper
 import asset
+import misc
 from math import atan2, degrees
 
 class GameObject:
@@ -28,16 +29,7 @@ class GameObject:
         pass
     
     def shoot(self, layout, tiles, objects):
-        rows, cols = len(layout), len(layout[0])
-        tiles_content = []
-        x = self.pos[1]
-        y = self.pos[0]
-    # Keep moving in the specified direction until we reach the end of the matrix
-        while 0 <= y < rows and 0 <= x < cols:
-            tiles_content.append([[y,x],layout[y][x]])
-            y -= int(self.direction.y)
-            x += int(self.direction.x)
-        tiles_content.pop(0)
+        tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
         # Determine final collision point (indestructable tile)
         collide_pos = []
         print(objects)
