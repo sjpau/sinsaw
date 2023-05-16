@@ -52,7 +52,8 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             raise SystemExit
-        #if event.type == pygame.VIDEORESIZE:
+        if event.type == pygame.VIDEORESIZE:
+            camera_group.resize(event.w, event.h, player_object)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
                 turn += 1

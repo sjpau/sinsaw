@@ -69,6 +69,8 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
 
     def update(self, layout, tiles, items=None):
 
+        if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1:
+            self.die()
         if items is None:
             items = []
         else:
