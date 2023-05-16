@@ -31,8 +31,12 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         if gameobject.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
-                if status == mapper.status_walkable:
+                if status == mapper.status['walkable']:
                     self.pos[0] += 1
+                if mapper.status['unlockable'] in next_tile.status and self.attached_item.category == 5 : # Unlockable door and has key
+                    next_tile.status.remove(mapper.status['unlockable'])
+                    next_tile.status.append(mapper.status['walkable'])
+                    next_tile.status.append(mapper.status['breachable'])
 
     def move_up(self, layout, tiles):
         self.direction_ptr = self.direction.copy()
@@ -42,8 +46,12 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         if gameobject.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
-                if status == mapper.status_walkable:
+                if status == mapper.status['walkable']:
                     self.pos[0] -= 1
+                if mapper.status['unlockable'] in next_tile.status and self.attached_item.category == 5 : # Unlockable door and has key
+                    next_tile.status.remove(mapper.status['unlockable'])
+                    next_tile.status.append(mapper.status['walkable'])
+                    next_tile.status.append(mapper.status['breachable'])
 
     def move_left(self, layout, tiles):
         self.direction_ptr = self.direction.copy()
@@ -53,8 +61,12 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         if gameobject.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
-                if status == mapper.status_walkable:
+                if status == mapper.status['walkable']:
                     self.pos[1] -= 1
+                if mapper.status['unlockable'] in next_tile.status and self.attached_item.category == 5 : # Unlockable door and has key
+                    next_tile.status.remove(mapper.status['unlockable'])
+                    next_tile.status.append(mapper.status['walkable'])
+                    next_tile.status.append(mapper.status['breachable'])
 
     def move_right(self, layout, tiles):
         self.direction_ptr = self.direction.copy()
@@ -64,8 +76,12 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         if gameobject.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
-                if status == mapper.status_walkable:
+                if status == mapper.status['walkable']:
                     self.pos[1] += 1
+                if mapper.status['unlockable'] in next_tile.status and self.attached_item.category == 5 : # Unlockable door and has key
+                    next_tile.status.remove(mapper.status['unlockable'])
+                    next_tile.status.append(mapper.status['walkable'])
+                    next_tile.status.append(mapper.status['breachable'])
 
     def update(self, layout, tiles, items=None):
 

@@ -5,11 +5,14 @@ import gameobject
 
 tile_size = 128
 
-status_destructable = 0
-status_indestructable = 1
-status_walkable = 2
-status_unwalkable = 3
-status_transparent = 4
+status = {
+    'destructable': 0,
+    'indestructable': 1,
+    'walkable': 2,
+    'transparent': 3,
+    'unlockable': 4,
+    'breachable': 5
+}
 
 class Tile(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, group, image):
@@ -21,24 +24,24 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
         self.affected = 0
     
     def init_status(self):
-        if self.code == 0:
-            self.status = [status_walkable, status_transparent]
-        elif self.code == 8:
-            self.status = [status_walkable, status_transparent]
-        elif self.code == 1:
-            self.status = [status_indestructable]
-        elif self.code == 2:
-            self.status = [status_destructable, status_walkable]
-        elif self.code == 3:
-            self.status = [status_destructable, status_walkable]
-        elif self.code == 4:
-            self.status = [status_destructable, status_transparent]
-        elif self.code == 5:
-            self.status = [status_destructable, status_transparent]
-        elif self.code == 6:
-            self.status = []
-        elif self.code == 7:
-            self.status = []
+        if self.code == 0: # Tile 
+            self.status = [status['walkable'], status['transparent']] 
+        elif self.code == 8: # Tile
+            self.status = [status['walkable'], status['transparent']] 
+        elif self.code == 1: # Wall
+            self.status = [status['indestructable']]
+        elif self.code == 2: # Door
+            self.status = [status['breachable'], status['walkable']]
+        elif self.code == 3: # Door
+            self.status = [status['breachable'], status['walkable']]
+        elif self.code == 4: # Glass
+            self.status = [status['destructable'], status['transparent']]
+        elif self.code == 5: # Glass
+            self.status = [status['destructable'], status['transparent']]
+        elif self.code == 6: # Locked door
+            self.status = [status['unlockable']]
+        elif self.code == 7: # Locked door
+            self.status = [status['unlockable']]
 
 
 def init_tileset(layout, camera_group):

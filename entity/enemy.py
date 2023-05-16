@@ -59,7 +59,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         if gameobject.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
-                if status == mapper.status_walkable:
+                if status == mapper.status['walkable']:
                     if self.direction.y < 0 or self.direction.x < 0:
                         self.pos[0] += abs(int(self.direction.y))
                         self.pos[1] += int(self.direction.x)

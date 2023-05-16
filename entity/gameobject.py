@@ -39,14 +39,14 @@ class GameObject:
                 for game_obj in objects:
                     if game_obj.pos == [tile[0], tile[1]]:
                         game_obj.on_shot()
-                if mapper.status_indestructable in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
+                if mapper.status['indestructable'] in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
                     collide_pos = tiles_content[i]
                     break
         elif weapon == 4: # Molotow
             tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
             collide_pos = []
             for i, tile in enumerate(tiles_content):
-                if mapper.status_indestructable in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
+                if mapper.status['indestructable'] in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
                     collide_pos = tiles_content[i]
                     molotow_slice = misc.molotow_slice(layout, collide_pos)
                     for tile_pos in molotow_slice:

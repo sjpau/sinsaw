@@ -30,6 +30,6 @@ class Camera(pygame.sprite.Group):
         color = pygame.Color(181, 0, 255, 0)
         line = pygame.draw.line(self.display_surface, color, start_pos, end_pos, thiccness) 
         for tile in tiles:
-            if mapper.status_transparent not in tile.status:
+            if mapper.status['transparent'] not in tile.status:
                 if line.colliderect(tile.rect):
                     return True
