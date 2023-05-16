@@ -9,12 +9,15 @@ def circle_surface(radius, color):
     return surf
 
 class Particle():
-    def __init__(self, position, color, radius, glow_color):
+    def __init__(self, position, color, radius, glow_color, velocity=pygame.Vector2(0,0)):
         self.position = position
         self.color = color
         self.glow_color = glow_color
         self.radius = radius
-        self.velocity = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
+        if velocity == pygame.Vector2(0,0):
+            self.velocity = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
+        else:
+            self.velocity = velocity
         self.last = random.randint(4, 6)
         self.delete = False
 

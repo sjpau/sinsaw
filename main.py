@@ -108,7 +108,7 @@ while True:
 
     for tile in tiles:
         if tile.affected == 1: # Set on fire
-            particles_list.append(particles.Particle(tile.rect.bottomright, (255, 143, 0), random.randint(5, 10), (170, 61, 57)))
+            particles_list.append(particles.Particle(tile.rect.bottomright, (255, 143, 0), random.randint(5, 10), (170, 61, 57), velocity=pygame.Vector2(random.uniform(-3, 3), random.uniform(-3, 3))))
         elif tile.affected == 2: # Set in fog
             particles_list.append(particles.Particle(tile.rect.bottomright, (255, 255, 255), random.randint(10, 15), (20,20,20)))
 
