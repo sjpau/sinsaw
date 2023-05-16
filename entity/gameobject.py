@@ -25,21 +25,34 @@ class GameObject:
         return False
     
     def on_shot(self):
-        print('shot')
         pass
     
-    def shoot(self, layout, tiles, objects):
-        tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
-        # Determine final collision point (indestructable tile)
-        collide_pos = []
-        print(objects)
-        for i, tile in enumerate(tiles_content):
-            for game_obj in objects:
-                if game_obj.pos == [tile[0][0], tile[0][1]]:
-                    game_obj.on_shot()
-            if mapper.status_indestructable in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0][0], tile[0][1]])].status:
-                collide_pos = tiles_content[i]
-                break
+    def shoot(self, layout, tiles, objects, weapon):
+        if weapon == 1: # Fire extinguisher
+            extinguisher_slice = misc.molotow_slice(layout, self.pos, h_area=2, v_area=2)
+            for tile_pos in extinguisher_slice:
+                i = mapper.get_tile_index_from_layout(layout, tiles, tile_pos) # TODO split into separate functions
+                tiles[i].affected = 2 # Set in fog
+        elif weapon == 2: # Pistol
+            tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
+            for i, tile in enumerate(tiles_content):
+                for game_obj in objects:
+                    if game_obj.pos == [tile[0], tile[1]]:
+                        game_obj.on_shot()
+                if mapper.status_indestructable in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
+                    collide_pos = tiles_content[i]
+                    break
+        elif weapon == 4: # Molotow
+            tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
+            collide_pos = []
+            for i, tile in enumerate(tiles_content):
+                if mapper.status_indestructable in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
+                    collide_pos = tiles_content[i]
+                    molotow_slice = misc.molotow_slice(layout, collide_pos)
+                    for tile_pos in molotow_slice:
+                        i = mapper.get_tile_index_from_layout(layout, tiles, tile_pos)
+                        tiles[i].affected = 1 # Set on fire
+                    break
 
 def pos_in_layout_borders(pos, layout):
     MAX = len(layout)

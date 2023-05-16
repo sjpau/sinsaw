@@ -1,6 +1,7 @@
 import pygame
 import gameobject
 import mapper
+import misc
 import asset
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
@@ -26,22 +27,19 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
 
     def set_direction(self):
         if len(self.path) > 1:
+            up, down, right, left = misc.set_direction()
             y1, x1 = self.path[0]
             y2, x2 = self.path[1]
             delta_x = x2 - x1
             delta_y = y2 - y1
             if delta_x > 0 and delta_y == 0:
-                self.direction.x = 1
-                self.direction.y = 0
+                self.direction = right
             elif delta_x < 0 and delta_y == 0:
-                self.direction.x = -1
-                self.direction.y= 0
+                self.direction = left
             elif delta_x == 0 and delta_y > 0:
-                self.direction.x = 0
-                self.direction.y = -1
+                self.direction = down
             elif delta_x == 0 and delta_y < 0:
-                self.direction.x = 0
-                self.direction.y = 1
+                self.direction = up
 
     def move_on_path(self):
         self.set_direction()
@@ -121,14 +119,15 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
     
     def clockwise_direction(self):
         self.direction_ptr = self.direction.copy()
-        if self.direction == pygame.math.Vector2(1, 0):
-            self.direction = pygame.math.Vector2(0, -1)
-        elif self.direction == pygame.math.Vector2(0, 1):
-            self.direction = pygame.math.Vector2(1, 0)
-        elif self.direction == pygame.math.Vector2(-1, 0):
-            self.direction = pygame.math.Vector2(0, 1)
-        elif self.direction == pygame.math.Vector2(0, -1):
-            self.direction = pygame.math.Vector2(-1, 0)
+        up, down, right, left = misc.set_direction()
+        if self.direction == up:
+            self.direction = right
+        elif self.direction == right:
+            self.direction = down
+        elif self.direction == down:
+            self.direction = left
+        elif self.direction == left:
+            self.direction = up
     
     def default_behaviour(self, layout, tiles, camera_group, player_object):
         if self.category == 1:

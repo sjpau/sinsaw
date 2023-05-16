@@ -1,6 +1,7 @@
 import sys
 import os
 import pygame
+import random
 sys.path.insert(0, './loader') 
 sys.path.insert(0, './entity') 
 import level
@@ -14,6 +15,7 @@ import item
 import gameobject
 import debug 
 import time 
+import particles 
 
 pygame.init()
 screen = pygame.display.set_mode((s.width,s.height),pygame.RESIZABLE)
@@ -33,15 +35,16 @@ player_spawn_pos = lvl_current.get_player_spawn()
 game_objects_unflattened = []
 game_objects = []
 player_object = player.Player(player_spawn_pos, mapper.pos_to_xy(player_spawn_pos, lvl_current.layout, tiles), camera_group)
-enemies = enemy.init_enemies(lvl_current.enemy_spawns, lvl_current.layout, tiles, camera_group)
 items = item.init_items(lvl_current.item_spawns, lvl_current.layout, tiles, camera_group)
+enemies = enemy.init_enemies(lvl_current.enemy_spawns, lvl_current.layout, tiles, camera_group)
 game_objects_unflattened.append(items)
 game_objects_unflattened.append([player_object])
 game_objects_unflattened.append(enemies)
 game_objects = [obj for sublist in game_objects_unflattened for obj in sublist]
+particles_list = []
 turn = 0
 turn_ptr = turn
-
+fullscreen = False
 
 while True:
 
@@ -64,8 +67,13 @@ while True:
                 turn += 1
                 player_object.move_down(lvl_current.layout, tiles)
             if event.key == pygame.K_SPACE:
-                turn += 1
-                player_object.shoot(lvl_current.layout, tiles, game_objects)
+                if player_object.attached_item is not None:
+                    if player_object.attached_item.category in [1,2,4] and player_object.attached_item.ammo > 0:
+                        turn += 1
+                        player_object.shoot(lvl_current.layout, tiles, game_objects, player_object.attached_item.category)
+                        player_object.attached_item.ammo -= 1
+                        
+
 
     if not player_object.alive:
         camera_group.remove(player_object)
@@ -84,7 +92,7 @@ while True:
     if turn != turn_ptr: 
         for e in enemies:
             if e.locked_on_target:
-                e.shoot(lvl_current.layout, tiles, game_objects)
+                e.shoot(lvl_current.layout, tiles, game_objects, 2)
                 e.locked_on_target = False
             else:
                 e.behave(layout_walkable, tiles, camera_group, player_object)
@@ -97,11 +105,23 @@ while True:
         turn_ptr = turn
         camera_group.update(lvl_current.layout, tiles, items)
     camera_group.attach_to(player_object)
-    
 
+    for tile in tiles:
+        if tile.affected == 1: # Set on fire
+            particles_list.append(particles.Particle(tile.rect.bottomright, (255, 143, 0), random.randint(5, 10), (170, 61, 57)))
+        elif tile.affected == 2: # Set in fog
+            particles_list.append(particles.Particle(tile.rect.bottomright, (255, 255, 255), random.randint(10, 15), (20,20,20)))
+
+    for i in particles_list:
+        i.update()
+        if i.delete:
+            particles_list.remove(i)
+            del i
     # Render the graphics here.
     screen.fill(pygame.Color(16, 13, 19))
     camera_group.custom_draw()
+    for i in particles_list:
+        i.draw(screen, camera_group)
     # Allow debug in debug.py
     if debug.status:
         debug.display(pygame.mouse.get_pos())
@@ -112,6 +132,7 @@ while True:
         debug.display("turn: " + str(turn), 220)
         if player_object.attached_item is not None:
             debug.display("attached: " + player_object.attached_item.name, 250)
+            debug.display("ammo: " + str(player_object.attached_item.ammo), 280)
 
     pygame.display.flip()
     main_clock.tick(60)

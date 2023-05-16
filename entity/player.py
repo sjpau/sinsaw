@@ -10,7 +10,6 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         init_image = pygame.image.load(asset.image_player_gun).convert_alpha()
         gameobject.GameObject.__init__(self, pos, xy, init_image, False)
         self.attached_item = None
-    
         self.alive = True
     
     def die(self):

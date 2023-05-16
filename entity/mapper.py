@@ -18,6 +18,7 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
         gameobject.GameObject.__init__(self, pos, pos, image, True)
         self.code = -1
         self.status = []
+        self.affected = 0
     
     def init_status(self):
         if self.code == 0:

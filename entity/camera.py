@@ -8,7 +8,7 @@ class Camera(pygame.sprite.Group):
         self.half_width = self.display_surface.get_width() // 2
         self.half_height = self.display_surface.get_height() // 2
         self.offset = pygame.math.Vector2(self.half_width, self.half_height)
-
+    
     def attach_to(self, target):
         self.offset.x = target.rect.centerx - self.half_width
         self.offset.y = target.rect.centery - self.half_height
