@@ -1,7 +1,7 @@
 import pygame
-import mapper
-import asset
-import misc
+import entity.mapper as mapper
+import entity.asset as asset
+import entity.misc as misc
 from math import atan2, degrees
 
 class GameObject:

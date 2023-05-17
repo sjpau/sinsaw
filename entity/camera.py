@@ -1,5 +1,5 @@
 import pygame
-import mapper
+import entity.mapper as mapper
 
 class Camera(pygame.sprite.Group):
     def __init__(self):

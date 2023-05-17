@@ -1,7 +1,7 @@
 import pygame
-import mapper
-import asset
-import gameobject
+import entity.mapper as mapper
+import entity.asset as asset
+import entity.gameobject as gameobject
 
 class Item(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, image):

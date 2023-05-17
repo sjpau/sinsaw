@@ -1,7 +1,7 @@
 import pygame
-import camera
-import asset
-import gameobject
+import entity.camera as camera
+import entity.asset as asset
+import entity.gameobject as gameobject
 
 tile_size = 128
 

@@ -2,20 +2,18 @@ import sys
 import os
 import pygame
 import random
-sys.path.insert(0, './loader') 
-sys.path.insert(0, './entity') 
-import level
-import loader
-import player
-import screen as s
-import camera 
-import mapper
-import enemy
-import item
-import gameobject
-import debug 
+import entity.level as level
+import loader.loader as loader
+import entity.player as player
+import entity.screen as s
+import entity.camera as camera
+import entity.mapper as mapper
+import entity.enemy as enemy
+import entity.item as item
+import entity.gameobject as gameobject
+import entity.debug as debug
 import time 
-import particles 
+import entity.particles as particles
 
 pygame.init()
 screen = pygame.display.set_mode((s.width,s.height),pygame.RESIZABLE)

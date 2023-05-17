@@ -1,8 +1,8 @@
 import pygame
-import gameobject
-import mapper
-import misc
-import asset
+import entity.gameobject as gameobject
+import entity.mapper as mapper
+import entity.misc as misc
+import entity.asset as asset
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
@@ -28,7 +28,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
     def combat_target(self, layout, tiles, target): # Call when target and enemy (self) on the same tile
         if self.category == 1: # Knife enemy
             # If in fog and target has knife
-            if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1 and target.attached_item.category == 3:
+            if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 2 and target.attached_item.category == 3:
                 self.die()
             else:
                 target.die() 
@@ -178,10 +178,11 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
 
     def behave(self, layout, tiles, camera_group, player_object):
         self.direction_ptr = self.direction.copy()
+        tmp_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, player_object.pos)]
         if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1:
             self.die()
         if self.category == 1 or self.category == 3: # Active behavior of melee enemy
-            if not camera_group.in_view(self, player_object, tiles):
+            if not camera_group.in_view(self, player_object, tiles) and tmp_tile.affected != 2:
                 self.player_in_view = True
                 self.to_point_path(layout, self.pos, player_object.pos)
             else:
@@ -191,7 +192,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             else:
                 self.move_on_path()
         if self.category == 2: # Active behaviour of ranged enemy
-            if not camera_group.in_view(self, player_object, tiles):
+            if not camera_group.in_view(self, player_object, tiles) and tmp_tile.affected != 2:
                 self.player_in_view = True
                 self.to_axis_path(layout, self.pos, player_object.pos)
                 if self.locked_on_target:

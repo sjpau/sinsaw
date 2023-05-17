@@ -1,11 +1,9 @@
 import os
-import screen as s
 import pygame
 import sys
-sys.path.insert(0, '../loader')
-import loader
-import camera
-import pprint
+import loader.loader as loader
+import entity.camera as camera
+import entity.screen as s
 
 
 codes_opaque = [1, 2]

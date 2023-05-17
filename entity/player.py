@@ -1,8 +1,8 @@
 import pygame
-import mapper
-import gameobject
-import asset
-import item
+import entity.mapper as mapper
+import entity.gameobject as gameobject
+import entity.asset as asset
+import entity.item as item
 
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, attached_item=None):
@@ -37,6 +37,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     next_tile.status.remove(mapper.status['unlockable'])
                     next_tile.status.append(mapper.status['walkable'])
                     next_tile.status.append(mapper.status['breachable'])
+                    self.attached_item = None
 
     def move_up(self, layout, tiles):
         self.direction_ptr = self.direction.copy()
@@ -52,6 +53,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     next_tile.status.remove(mapper.status['unlockable'])
                     next_tile.status.append(mapper.status['walkable'])
                     next_tile.status.append(mapper.status['breachable'])
+                    self.attached_item = None
 
     def move_left(self, layout, tiles):
         self.direction_ptr = self.direction.copy()
@@ -67,6 +69,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     next_tile.status.remove(mapper.status['unlockable'])
                     next_tile.status.append(mapper.status['walkable'])
                     next_tile.status.append(mapper.status['breachable'])
+                    self.attached_item = None
 
     def move_right(self, layout, tiles):
         self.direction_ptr = self.direction.copy()
@@ -82,6 +85,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     next_tile.status.remove(mapper.status['unlockable'])
                     next_tile.status.append(mapper.status['walkable'])
                     next_tile.status.append(mapper.status['breachable'])
+                    self.attached_item = None
 
     def update(self, layout, tiles, items=None):
 
