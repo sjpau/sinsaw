@@ -84,6 +84,8 @@ while True:
         raise SystemExit
     # Do logical updates here.
     for e in enemies:
+        if e.pos == player_object.pos:
+            e.combat_target(lvl_current.layout, tiles, player_object)
         if not e.alive:
             camera_group.remove(e)
             enemies.remove(e)
@@ -92,7 +94,7 @@ while True:
 
     if turn != turn_ptr: 
         for e in enemies:
-            if e.locked_on_target:
+            if e.locked_on_target and tiles[mapper.get_tile_index_from_layout(lvl_current.layout, tiles, player_object.pos)].affected != 2:
                 e.shoot(lvl_current.layout, tiles, game_objects, 2)
                 e.locked_on_target = False
             else:

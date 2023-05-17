@@ -25,6 +25,24 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         super().on_shot()
         self.die()
 
+    def combat_target(self, layout, tiles, target): # Call when target and enemy (self) on the same tile
+        if self.category == 1: # Knife enemy
+            # If in fog and target has knife
+            if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1 and target.attached_item.category == 3:
+                self.die()
+            else:
+                target.die() 
+        elif self.category == 2: # Pistol enemy
+            if target.attached_item.category == 3:
+                self.die()
+            else:
+                target.die()
+        elif self.category == 3: # Dog
+            if target.attached_item.category == 3:
+                self.die()
+            else:
+                target.die()
+
     def set_direction(self):
         if len(self.path) > 1:
             up, down, right, left = misc.set_direction()
@@ -46,8 +64,12 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         if not self.player_in_view:
             self.path = self.path[1:]
         if len(self.path) > 1:
-            self.pos[0] = self.path[1][0]
-            self.pos[1] = self.path[1][1]
+            if self.category == 3 and len(self.path) != 2:
+                self.pos[0] = self.path[2][0]
+                self.pos[1] = self.path[2][1]
+            else:
+                self.pos[0] = self.path[1][0]
+                self.pos[1] = self.path[1][1]
     
     def step(self, layout, tiles):
         next_pos = [0,0]
@@ -117,17 +139,27 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
                 self.direction.x = 0
                 self.direction.y = 1
     
-    def clockwise_direction(self):
+    def clockwise_direction(self, counter=False):
         self.direction_ptr = self.direction.copy()
         up, down, right, left = misc.set_direction()
-        if self.direction == up:
-            self.direction = right
-        elif self.direction == right:
-            self.direction = down
-        elif self.direction == down:
-            self.direction = left
-        elif self.direction == left:
-            self.direction = up
+        if counter:
+            if self.direction == up:
+                self.direction = left
+            elif self.direction == left:
+                self.direction = down
+            elif self.direction == down:
+                self.direction = right
+            elif self.direction == right:
+                self.direction = up
+        else:
+            if self.direction == up:
+                self.direction = right
+            elif self.direction == right:
+                self.direction = down
+            elif self.direction == down:
+                self.direction = left
+            elif self.direction == left:
+                self.direction = up
     
     def default_behaviour(self, layout, tiles, camera_group, player_object):
         if self.category == 1:
@@ -146,7 +178,9 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
 
     def behave(self, layout, tiles, camera_group, player_object):
         self.direction_ptr = self.direction.copy()
-        if self.category == 1: # Active behavior of melee enemy
+        if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1:
+            self.die()
+        if self.category == 1 or self.category == 3: # Active behavior of melee enemy
             if not camera_group.in_view(self, player_object, tiles):
                 self.player_in_view = True
                 self.to_point_path(layout, self.pos, player_object.pos)

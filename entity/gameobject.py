@@ -46,7 +46,8 @@ class GameObject:
             tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
             collide_pos = []
             for i, tile in enumerate(tiles_content):
-                if mapper.status['indestructable'] in tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
+                tmp_tile_stat = tiles[mapper.get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status
+                if mapper.status['indestructable'] in tmp_tile_stat or mapper.status['destructable'] in tmp_tile_stat or mapper.status['breachable'] in tmp_tile_stat or mapper.status['unlockable'] in tmp_tile_stat:
                     collide_pos = tiles_content[i]
                     molotow_slice = misc.molotow_slice(layout, collide_pos)
                     for tile_pos in molotow_slice:
