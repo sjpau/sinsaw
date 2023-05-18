@@ -1,11 +1,12 @@
 import pygame
 import entity.gameobject as gameobject
-import entity.mapper as mapper
-import entity.misc as misc
-import entity.asset as asset
+import misc
+import loader.asset as asset
+import loader.mapper as mapper
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
+
 
 class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, image):
@@ -28,18 +29,27 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
     def combat_target(self, layout, tiles, target): # Call when target and enemy (self) on the same tile
         if self.category == 1: # Knife enemy
             # If in fog and target has knife
-            if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 2 and target.attached_item.category == 3:
-                self.die()
+            if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 2 and target.attached_item is not None:
+                if target.attached_item.category == 3:
+                    self.die()
+                else: 
+                    target.die()
             else:
                 target.die() 
         elif self.category == 2: # Pistol enemy
-            if target.attached_item.category == 3:
-                self.die()
+            if target.attached_item is not None:
+                if target.attached_item.category == 3:
+                    self.die()
+                else:
+                    target.die()
             else:
                 target.die()
         elif self.category == 3: # Dog
-            if target.attached_item.category == 3:
-                self.die()
+            if target.attached_item is not None:
+                if target.attached_item.category == 3:
+                    self.die()
+                else:
+                    target.die()
             else:
                 target.die()
 
@@ -78,7 +88,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         else:
             next_pos[0] = self.pos[0] + abs(int(self.direction.y))
         next_pos[1] = self.pos[1] + int(self.direction.x)
-        if gameobject.pos_in_layout_borders(next_pos, layout):
+        if mapper.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
                 if status == mapper.status['walkable']:
@@ -207,26 +217,8 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
                 self.default_behaviour(layout, tiles, camera_group, player_object)
 
     def update(self, layout, tiles, items=None):
-        if gameobject.pos_in_layout_borders(self.pos, layout):
+        if mapper.pos_in_layout_borders(self.pos, layout):
             xy = mapper.pos_to_xy(self.pos, layout, tiles)
             self.rect.x = xy[0]
             self.rect.y = xy[1]
-            gameobject.update(self)
-
-
-def init_enemies(enemy_spawns, layout, tiles, group):
-    enemies = []
-    for row in enemy_spawns:
-        pos = [row[0], row[1]]
-        category = row[2]
-        if category == 1:
-            image = pygame.image.load(asset.image_enemy_dog).convert_alpha()
-        elif category == 2:
-            image = pygame.image.load(asset.image_enemy_gun).convert_alpha()
-        xy = mapper.pos_to_xy(pos, layout, tiles)
-        enemy = Enemy(pos, xy, group, image)
-        enemy.category = category
-        enemies.append(enemy)
-    
-    return enemies
-
+            self.update_object()

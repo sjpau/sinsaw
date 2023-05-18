@@ -1,8 +1,8 @@
 import pygame
-import entity.mapper as mapper
 import entity.gameobject as gameobject
-import entity.asset as asset
+import loader.asset as asset
 import entity.item as item
+import loader.mapper as mapper
 
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, attached_item=None):
@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         self.direction.x = 0
         self.direction.y = -1
         next_pos = [self.pos[0] + 1, self.pos[1]]
-        if gameobject.pos_in_layout_borders(next_pos, layout):
+        if mapper.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
                 if status == mapper.status['walkable']:
@@ -44,7 +44,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         self.direction.x = 0
         self.direction.y = 1
         next_pos = [self.pos[0] - 1, self.pos[1]]
-        if gameobject.pos_in_layout_borders(next_pos, layout):
+        if mapper.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
                 if status == mapper.status['walkable']:
@@ -60,7 +60,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         self.direction.x = -1
         self.direction.y = 0
         next_pos = [self.pos[0], self.pos[1] - 1]
-        if gameobject.pos_in_layout_borders(next_pos, layout):
+        if mapper.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
                 if status == mapper.status['walkable']:
@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         self.direction.x = 1
         self.direction.y = 0
         next_pos = [self.pos[0], self.pos[1] + 1]
-        if gameobject.pos_in_layout_borders(next_pos, layout):
+        if mapper.pos_in_layout_borders(next_pos, layout):
             next_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, next_pos)]
             for status in next_tile.status:
                 if status == mapper.status['walkable']:
@@ -107,4 +107,4 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         xy = mapper.pos_to_xy(self.pos, layout, tiles)
         self.rect.x = xy[0]
         self.rect.y = xy[1]
-        gameobject.update(self)
+        self.update_object()

@@ -1,11 +1,12 @@
 import pygame
 
 static_path = "asset/static/"
+sprite_path = "asset/sprites/"
 
-image_player_default = "asset/sprite_player_default_1.png"
-image_player_gun = "asset/sprite_player_gun_1.png"
-image_enemy_dog = "asset/sprite_enemy_dog_1.png"
-image_enemy_gun = "asset/sprite_enemy_gun_1.png"
+image_player_default = sprite_path + "sprite_player_default_1.png"
+image_player_gun = sprite_path + "sprite_player_gun_1.png"
+image_enemy_dog = sprite_path + "sprite_enemy_dog_1.png"
+image_enemy_gun = sprite_path + "sprite_enemy_gun_1.png"
 
 item_gun = static_path + "item_gun.png"
 item_molotow = static_path + "item_molotow.png"

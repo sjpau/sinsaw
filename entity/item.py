@@ -1,7 +1,7 @@
 import pygame
-import entity.mapper as mapper
-import entity.asset as asset
+import loader.asset as asset
 import entity.gameobject as gameobject
+import loader.mapper as mapper
 
 class Item(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, image):
@@ -19,11 +19,11 @@ class Item(pygame.sprite.Sprite, gameobject.GameObject):
     def update(self, layout, tiles, items=None):
         if not self.dropped:
             self.image = self.transparent
-        if gameobject.pos_in_layout_borders(self.pos, layout):
+        if mapper.pos_in_layout_borders(self.pos, layout):
             xy = mapper.pos_to_xy(self.pos, layout, tiles)
             self.rect.x = xy[0]
             self.rect.y = xy[1]
-            gameobject.update(self)
+            self.update_object()
 
 def init_items(item_spawns, layout, tiles, group):
     items = []
