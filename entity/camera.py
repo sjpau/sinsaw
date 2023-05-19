@@ -1,4 +1,5 @@
 import pygame
+import finals
 import loader.mapper as mapper
 
 class Camera(pygame.sprite.Group):
@@ -26,9 +27,8 @@ class Camera(pygame.sprite.Group):
     def in_view(self, go1, go2, tiles):
         start_pos = [go1.rect.centerx, go1.rect.centery] 
         end_pos = [go2.rect.centerx, go2.rect.centery] 
-        thiccness = 5
-        color = pygame.Color(181, 0, 255, 0)
-        line = pygame.draw.line(self.display_surface, color, start_pos, end_pos, thiccness) 
+        thiccness = 1
+        line = pygame.draw.line(self.display_surface, finals.COLOR_ORANGE, start_pos, end_pos, thiccness) 
         for tile in tiles:
             if mapper.status['transparent'] not in tile.status:
                 if line.colliderect(tile.rect):

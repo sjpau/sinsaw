@@ -13,6 +13,7 @@ item_molotow = static_path + "item_molotow.png"
 item_exting = static_path + "item_exting.png"
 item_knife = static_path + "item_knife.png"
 item_key = static_path + "item_key.png"
+floor_0 = "floor_0.png"
 floor_1 = "floor_1.png"
 floor_2 = "floor_2.png"
 wall_1 = "wall_1.png"
@@ -25,6 +26,7 @@ glass_2 = "glass_2.png"
 
 tileset = {
     "0": floor_1,
+    "9": floor_0,
     "8": floor_2,
     "1": wall_1,
     "2": door_1,

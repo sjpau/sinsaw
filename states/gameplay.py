@@ -31,7 +31,7 @@ class Gameplay(State):
             'down': False,
             'shoot': False
         }
-        self.codes_walkable = [0, 2, 6, 8]
+        self.codes_walkable = [0, 2, 6, 8, 3, 7]
         self.camera_group = camera.Camera()
         self.lvl = loader.init_level(os.path.join("lvl", lvl_name))
         self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
@@ -74,9 +74,11 @@ class Gameplay(State):
                 self.player_object.move_right(self.lvl.layout, self.tiles)
                # self.actions['right'] = True
             if event.key == pygame.K_SPACE:
-                self.turn += 1
-                self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
-                self.player_object.attached_item.ammo -= 1
+                if self.player_object.attached_item is not None:
+                    if self.player_object.attached_item.ammo > 0:
+                        self.turn += 1
+                        self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
+                        self.player_object.attached_item.ammo -= 1
                # self.actions['shoot'] = True
 
     def update(self, dt):
@@ -112,7 +114,12 @@ class Gameplay(State):
             self.turn_ptr = self.turn
             self.camera_group.update(self.lvl.layout, self.tiles, self.items)
         self.camera_group.attach_to(self.player_object)
-        
+
+        p_on_tile =  self.player_object.on_tile_index(self.lvl.layout, self.tiles)
+        if mapper.status['breachable'] in self.tiles[p_on_tile].status:
+            self.tiles[p_on_tile].status.remove(mapper.status['breachable'])
+            self.tiles[p_on_tile].status.append(mapper.status['transparent'])
+            self.tiles[p_on_tile].status.append(mapper.status['walkable'])
         for t in self.tiles:
             if t.affected == 1: # Set on fire
                 self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_ORANGE, random.randint(5, 10), finals.COLOR_RED_SUBTLE, velocity=pygame.Vector2(random.uniform(-3, 3), random.uniform(-3, 3))))

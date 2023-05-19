@@ -16,12 +16,14 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
             self.status = [mapper.status['walkable'], mapper.status['transparent']] 
         elif self.code == 8: # Tile
             self.status = [mapper.status['walkable'], mapper.status['transparent']] 
+        elif self.code == 9: # Empty Tile
+            self.status = [mapper.status['transparent']]
         elif self.code == 1: # Wall
             self.status = [mapper.status['indestructable']]
         elif self.code == 2: # Door
-            self.status = [mapper.status['breachable'], mapper.status['walkable']]
+            self.status = [mapper.status['breachable']]
         elif self.code == 3: # Door
-            self.status = [mapper.status['breachable'], mapper.status['walkable']]
+            self.status = [mapper.status['breachable']]
         elif self.code == 4: # Glass
             self.status = [mapper.status['destructable'], mapper.status['transparent']]
         elif self.code == 5: # Glass

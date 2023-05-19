@@ -6,7 +6,7 @@ from .state import State
 class Splash(State):
     def __init__(self):
         super(Splash, self).__init__()
-        self.title = self.font.render("This is a testing environment. Everythin you see is subject to change.", True, finals.COLOR_PURPLE)
+        self.title = self.font.render("This is a testing environment. Everything you see is subject to change.", True, finals.COLOR_PURPLE)
         self.title_rect = self.title.get_rect(center=self.screen_rect.center)
         self.next_state = "MENU"
         self.time_active = 0

@@ -13,7 +13,7 @@ screen = pygame.display.set_mode((s.width, s.height), pygame.RESIZABLE)
 states = {
     "MENU": Menu(),
     "SPLASH": Splash(),
-    "GAMEPLAY": Gameplay("example.json"),
+    "GAMEPLAY": Gameplay("chapter_night_shift/the_night_shift_2.json"),
     "GAME_OVER": GameOver(),
 }
 

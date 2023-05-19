@@ -2,8 +2,7 @@ import pygame
 import loader.asset as asset
 import entity.tile as tile
 
-tile_size = 128
-
+tile_size = 64
 status = {
     'destructable': 0,
     'indestructable': 1,

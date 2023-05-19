@@ -34,7 +34,7 @@ class GameObject:
             extinguisher_slice = misc.molotow_slice(layout, self.pos, h_area=2, v_area=2)
             for tile_pos in extinguisher_slice:
                 i = get_tile_index_from_layout(layout, tiles, tile_pos) # TODO split into separate functions
-                if status['walkable'] in tiles[i].status:
+                if status['walkable'] in tiles[i].status or status['unlockable'] in tiles[i].status or status['breachable'] in tiles[i].status: 
                     tiles[i].affected = 2 # Set in fog
         elif weapon == 2: # Pistol
             tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
@@ -57,6 +57,7 @@ class GameObject:
                         i = get_tile_index_from_layout(layout, tiles, tile_pos)
                         tiles[i].affected = 1 # Set on fire
                     break
+
     def update_object(self):
         if self.direction != self.direction_ptr:
             from loader.mapper import tile_size
