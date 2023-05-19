@@ -16,11 +16,12 @@ import time
 import entity.particles as particles
 import entity.tile as tile
 import loader.mapper as mapper
+import finals
 
 
 
 class Gameplay(State):
-    def __init__(self):
+    def __init__(self, lvl_name):
         super(Gameplay, self).__init__()
         self.next_state = "GAME_OVER"
         self.actions = {
@@ -32,7 +33,7 @@ class Gameplay(State):
         }
         self.codes_walkable = [0, 2, 6, 8]
         self.camera_group = camera.Camera()
-        self.lvl = loader.init_level(os.path.join("lvl", "example.json")) # TODO change to class argument
+        self.lvl = loader.init_level(os.path.join("lvl", lvl_name))
         self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
         self.tileset_pixel_size = mapper.tileset_pixel_size(self.lvl.layout, mapper.tile_size)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
@@ -114,9 +115,9 @@ class Gameplay(State):
         
         for t in self.tiles:
             if t.affected == 1: # Set on fire
-                self.particles_list.append(particles.Particle(t.rect.bottomright, (255, 143, 0), random.randint(5, 10), (170, 61, 57), velocity=pygame.Vector2(random.uniform(-3, 3), random.uniform(-3, 3))))
+                self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_ORANGE, random.randint(5, 10), finals.COLOR_RED_SUBTLE, velocity=pygame.Vector2(random.uniform(-3, 3), random.uniform(-3, 3))))
             elif t.affected == 2: # Set in fog
-                self.particles_list.append(particles.Particle(t.rect.bottomright, (149, 165, 166), random.randint(10, 15), (20,20,20)))
+                self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_GREY, random.randint(10, 15), finals.COLOR_GREY_DARK))
 
         for i in self.particles_list:
             i.update()
@@ -125,7 +126,7 @@ class Gameplay(State):
                 del i
 
     def draw(self, surface):
-        surface.fill(pygame.Color(16, 13, 19))
+        surface.fill(finals.COLOR_BLACK)
         self.camera_group.custom_draw()
         for i in self.particles_list:
             i.draw(surface, self.camera_group)

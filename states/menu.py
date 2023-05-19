@@ -1,5 +1,6 @@
 import pygame
 from .state import State
+import finals
 
 
 class Menu(State):
@@ -10,7 +11,7 @@ class Menu(State):
         self.next_state = "GAMEPLAY"
 
     def render_text(self, index):
-        color = pygame.Color("red") if index == self.active_index else pygame.Color("white")
+        color = finals.COLOR_RED_SUBTLE if index == self.active_index else finals.COLOR_PINK
         return self.font.render(self.options[index], True, color)
 
     def get_text_position(self, text, index):
@@ -39,7 +40,7 @@ class Menu(State):
                 self.handle_action()
 
     def draw(self, surface):
-        surface.fill(pygame.Color("black"))
+        surface.fill(finals.COLOR_BLACK)
         for index, option in enumerate(self.options):
             text_render = self.render_text(index)
             surface.blit(text_render, self.get_text_position(text_render, index))

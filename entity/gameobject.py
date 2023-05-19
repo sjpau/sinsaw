@@ -34,7 +34,8 @@ class GameObject:
             extinguisher_slice = misc.molotow_slice(layout, self.pos, h_area=2, v_area=2)
             for tile_pos in extinguisher_slice:
                 i = get_tile_index_from_layout(layout, tiles, tile_pos) # TODO split into separate functions
-                tiles[i].affected = 2 # Set in fog
+                if status['walkable'] in tiles[i].status:
+                    tiles[i].affected = 2 # Set in fog
         elif weapon == 2: # Pistol
             tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
             for i, tile in enumerate(tiles_content):
