@@ -47,16 +47,21 @@ class Menu(State):
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
                 self.active_index = (self.active_index - 1) % len(self.options)
+                finals.sfx_menu_click.play()
             elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                 self.active_index = (self.active_index + 1) % len(self.options)
+                finals.sfx_menu_click.play()
             elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 if self.active_index == 1:
                     self.switch_levels()
+                    finals.sfx_menu_click.play()
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                 if self.active_index == 1:
                     self.switch_levels()
+                    finals.sfx_menu_click.play()
             elif event.key == pygame.K_RETURN:
                 self.handle_action()
+                finals.sfx_menu_click.play()
 
   
 

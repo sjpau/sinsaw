@@ -8,8 +8,11 @@ from game import Game
 import screen as s
 import finals
 
-
+pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
+pygame.mixer.music.load(finals.music_path + 'night_shift.ogg')
+pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.play(-1)
 screen = pygame.display.set_mode((s.width, s.height), pygame.RESIZABLE)
 states = {
     "MENU": Menu(),

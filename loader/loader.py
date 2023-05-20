@@ -34,9 +34,11 @@ def init_enemies(enemy_spawns, layout, tiles, group):
         pos = [row[0], row[1]]
         category = row[2]
         if category == 1:
-            image = pygame.image.load(asset.image_enemy_dog).convert_alpha()
+            image = pygame.image.load(asset.image_enemy_knife).convert_alpha()
         elif category == 2:
             image = pygame.image.load(asset.image_enemy_gun).convert_alpha()
+        elif category == 3:
+            image = pygame.image.load(asset.image_enemy_dog).convert_alpha()
         xy = mapper.pos_to_xy(pos, layout, tiles)
         e = enemy.Enemy(pos, xy, group, image)
         e.category = category

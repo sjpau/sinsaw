@@ -1,5 +1,6 @@
 from typing import Final
 import pygame
+pygame.mixer.init()
 
 COLOR_BLACK: Final = pygame.Color((16, 13, 19))
 COLOR_PURPLE: Final = pygame.Color((74, 36, 128))
@@ -12,9 +13,24 @@ COLOR_GREY_DARK: Final = pygame.Color((20, 20, 20))
 
 chapter_night_shift: Final = [
     'chapter_night_shift/the_night_shift_1.json', 
-    'chapter_night_shift/the_night_shift_2.json'
+    'chapter_night_shift/the_night_shift_2.json',
+    'chapter_night_shift/the_night_shift_3.json'
     ]
 
 chapters: Final = {
     'The Night Shift': chapter_night_shift,
 }
+
+music_path: Final = 'asset/sound/music/'
+sfx_path: Final = 'asset/sound/sfx/'
+sfx_bottle_break: Final = pygame.mixer.Sound(sfx_path + 'bottle_break.ogg')
+sfx_door_break_1: Final = pygame.mixer.Sound(sfx_path + 'door_break_1.ogg')
+sfx_door_break_2: Final = pygame.mixer.Sound(sfx_path + 'door_break_2.ogg')
+sfx_explode: Final = pygame.mixer.Sound(sfx_path + 'explode.ogg')
+sfx_fire: Final = pygame.mixer.Sound(sfx_path + 'fire.ogg')
+sfx_flame: Final = pygame.mixer.Sound(sfx_path + 'flame.ogg')
+sfx_gun_pickup: Final = pygame.mixer.Sound(sfx_path + 'gun_pickup.ogg')
+sfx_knife_pickup: Final = pygame.mixer.Sound(sfx_path + 'knife_pickup.ogg')
+sfx_menu_click: Final = pygame.mixer.Sound(sfx_path + 'menu_click.ogg')
+sfx_molotow_pickup: Final = pygame.mixer.Sound(sfx_path + 'molotow_pickup.ogg')
+sfx_steam: Final = pygame.mixer.Sound(sfx_path + 'steam.ogg')

@@ -37,6 +37,7 @@ class Gameplay(State):
         self.on_lvl = 0
         self.lvl_final = len(chapter)
         for l in chapter:
+            print(l)
             new_lvl = loader.init_level(os.path.join("lvl", l))
             self.lvls.append(new_lvl)
         self.lvl = self.lvls[self.on_lvl]
@@ -121,7 +122,6 @@ class Gameplay(State):
         
     def update(self, dt):
 
-
         if not self.player_object.alive:
             self.camera_group.remove(self.player_object)
             self.game_objects.remove(self.player_object)
@@ -164,6 +164,8 @@ class Gameplay(State):
 
         p_on_tile =  self.player_object.on_tile_index(self.lvl.layout, self.tiles)
         if mapper.status['breachable'] in self.tiles[p_on_tile].status:
+            finals.sfx_door_break_1.play()
+            finals.sfx_door_break_2.play()
             self.tiles[p_on_tile].status.remove(mapper.status['breachable'])
             self.tiles[p_on_tile].status.append(mapper.status['transparent'])
             self.tiles[p_on_tile].status.append(mapper.status['walkable'])

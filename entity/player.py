@@ -98,11 +98,13 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                 if self.on_tile_collides_with(i, layout, tiles):
                     if self.attached_item is None:
                         self.attach_item(i)
+                        i.play_sfx_pick()
                         i.dropped = False
                         i.discarded = False
                     else:
                         self.attached_item.discarded = True
                         self.attach_item(i)
+                        i.play_sfx_pick()
                         i.dropped = False
         xy = mapper.pos_to_xy(self.pos, layout, tiles)
         self.rect.x = xy[0]

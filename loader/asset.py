@@ -7,7 +7,7 @@ image_player_default = sprite_path + "sprite_player_default_1.png"
 image_player_gun = sprite_path + "sprite_player_gun_1.png"
 image_enemy_dog = sprite_path + "sprite_enemy_dog_1.png"
 image_enemy_gun = sprite_path + "sprite_enemy_gun_1.png"
-
+image_enemy_knife = sprite_path + "sprite_enemy_knife_1.png"
 item_gun = static_path + "item_gun.png"
 item_molotow = static_path + "item_molotow.png"
 item_exting = static_path + "item_exting.png"

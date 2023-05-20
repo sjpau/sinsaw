@@ -1,5 +1,6 @@
 import pygame
 import debug
+import finals
 
 class Game(object):
     def __init__(self, screen, states, start_state):
@@ -36,8 +37,8 @@ class Game(object):
             self.done = True
         elif self.state.done:
             self.flip_state()
+            self.switch_music = True
         self.state.update(dt)
-      
 
     def draw(self):
         self.state.draw(self.screen)
