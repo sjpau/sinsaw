@@ -84,29 +84,42 @@ class Gameplay(State):
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
                 self.turn += 1
-                self.player_object.move_up(self.lvl.layout, self.tiles)
-               # self.actions['up'] = True
+                self.actions['up'] = True
             if event.key == pygame.K_s:
                 self.turn += 1
-                self.player_object.move_down(self.lvl.layout, self.tiles)
-               # self.actions['down'] = True
+                self.actions['down'] = True
             if event.key == pygame.K_a:
                 self.turn += 1
-                self.player_object.move_left(self.lvl.layout, self.tiles)
-               # self.actions['left'] = True
+                self.actions['left'] = True
             if event.key == pygame.K_d:
                 self.turn += 1
-                self.player_object.move_right(self.lvl.layout, self.tiles)
-               # self.actions['right'] = True
+                self.actions['right'] = True
             if event.key == pygame.K_SPACE:
                 if self.player_object.attached_item is not None:
                     if self.player_object.attached_item.ammo > 0:
                         self.turn += 1
-                        self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
-                        self.player_object.attached_item.ammo -= 1
-               # self.actions['shoot'] = True
+                        self.actions['shoot'] = True
 
+    def handle_actions(self):
+        if self.actions['down']:
+            self.player_object.move_down(self.lvl.layout, self.tiles)
+            self.actions['down'] = False
+        elif self.actions['up']:
+            self.player_object.move_up(self.lvl.layout, self.tiles)
+            self.actions['up'] = False
+        elif self.actions['right']:
+            self.player_object.move_right(self.lvl.layout, self.tiles)
+            self.actions['right'] = False
+        elif self.actions['left']:
+            self.player_object.move_left(self.lvl.layout, self.tiles)
+            self.actions['left'] = False
+        elif self.actions['shoot']:
+            self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
+            self.player_object.attached_item.ammo -= 1
+            self.actions['shoot'] = False
+        
     def update(self, dt):
+
 
         if not self.player_object.alive:
             self.camera_group.remove(self.player_object)
@@ -116,14 +129,20 @@ class Gameplay(State):
             if self.on_lvl != self.lvl_final - 1:
                 self.on_lvl += 1
                 self.reinit() 
-        for e in self.enemies:
-            if e.pos == self.player_object.pos:
-                e.combat_target(self.lvl.layout, self.tiles, self.player_object)
-            if not e.alive:
-                self.camera_group.remove(e)
-                self.enemies.remove(e)
-                self.game_objects.remove(e)
-                del e
+        if self.enemies:
+            for e in self.enemies:
+                if not e.locked_on_target:
+                    self.handle_actions()
+                if e.pos == self.player_object.pos:
+                    e.combat_target(self.lvl.layout, self.tiles, self.player_object)
+                if not e.alive:
+                    self.camera_group.remove(e)
+                    self.enemies.remove(e)
+                    self.game_objects.remove(e)
+                    del e
+                    break
+        else:
+            self.handle_actions()
 
         if self.turn != self.turn_ptr: 
             for e in self.enemies:
