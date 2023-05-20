@@ -17,15 +17,16 @@ def read_lvl_from_json(json_path):
         spawn_player = config['spawn_player']
         spawn_enemies = config['spawn_enemies']
         spawn_items = config['spawn_items']
+        spawn_exit = config['exit']
 
     except Exception as e:
         print('Error when opening {json_path}: {e}')
 
-    return name, number, layout, spawn_player, spawn_enemies, spawn_items
+    return name, number, layout, spawn_player, spawn_enemies, spawn_items, spawn_exit
 
 def init_level(json_path):
-    lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns, lvl_item_spawns = read_lvl_from_json(json_path) 
-    return level.Level(lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns, lvl_item_spawns)
+    lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns, lvl_item_spawns, lvl_exit_spawn = read_lvl_from_json(json_path) 
+    return level.Level(lvl_name, lvl_number, lvl_layout, lvl_player_spawn, lvl_enemy_spawns, lvl_item_spawns, lvl_exit_spawn)
 
 def init_enemies(enemy_spawns, layout, tiles, group):
     enemies = []

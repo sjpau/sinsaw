@@ -35,6 +35,7 @@ class Gameplay(State):
         }
         self.lvls = []
         self.on_lvl = 0
+        self.lvl_final = len(chapter)
         for l in chapter:
             new_lvl = loader.init_level(os.path.join("lvl", l))
             self.lvls.append(new_lvl)
@@ -111,7 +112,10 @@ class Gameplay(State):
             self.camera_group.remove(self.player_object)
             self.game_objects.remove(self.player_object)
             self.reinit()
-        
+        if self.player_object.pos == self.lvl.exit_spawn:
+            if self.on_lvl != self.lvl_final - 1:
+                self.on_lvl += 1
+                self.reinit() 
         for e in self.enemies:
             if e.pos == self.player_object.pos:
                 e.combat_target(self.lvl.layout, self.tiles, self.player_object)
