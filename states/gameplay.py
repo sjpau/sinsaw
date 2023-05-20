@@ -114,9 +114,10 @@ class Gameplay(State):
             self.player_object.move_left(self.lvl.layout, self.tiles)
             self.actions['left'] = False
         elif self.actions['shoot']:
-            self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
-            self.player_object.attached_item.ammo -= 1
-            self.actions['shoot'] = False
+            if self.player_object.attached_item is not None:
+                self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
+                self.player_object.attached_item.ammo -= 1
+                self.actions['shoot'] = False
         
     def update(self, dt):
 
