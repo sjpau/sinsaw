@@ -12,7 +12,8 @@ COLOR_GREY: Final = pygame.Color((149, 165, 166))
 COLOR_GREY_DARK: Final = pygame.Color((20, 20, 20))
 
 chapter_night_shift: Final = [
-    'chapter_night_shift/the_night_shift_1.json', 
+    'example.json',
+    'chapter_night_shift/the_night_shift_1.json',
     'chapter_night_shift/the_night_shift_2.json',
     'chapter_night_shift/the_night_shift_3.json'
     ]
@@ -34,3 +35,10 @@ sfx_knife_pickup: Final = pygame.mixer.Sound(sfx_path + 'knife_pickup.ogg')
 sfx_menu_click: Final = pygame.mixer.Sound(sfx_path + 'menu_click.ogg')
 sfx_molotow_pickup: Final = pygame.mixer.Sound(sfx_path + 'molotow_pickup.ogg')
 sfx_steam: Final = pygame.mixer.Sound(sfx_path + 'steam.ogg')
+sfx_shoot: Final = pygame.mixer.Sound(sfx_path + 'shoot.ogg')
+sfx_shoot_enemy: Final = pygame.mixer.Sound(sfx_path + 'shoot_enemy.ogg')
+sfx_key_pickup: Final = pygame.mixer.Sound(sfx_path + 'key_pickup.ogg')
+sfx_ext_pickup: Final = pygame.mixer.Sound(sfx_path + 'ext_pickup.ogg')
+sfx_step: Final = pygame.mixer.Sound(sfx_path + 'step.ogg')
+
+sfx_step.set_volume(0.3)

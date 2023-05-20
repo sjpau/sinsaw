@@ -19,13 +19,26 @@ class Item(pygame.sprite.Sprite, gameobject.GameObject):
 
     def play_sfx_pick(self):
         if self.category == 1:
-            pass
+            finals.sfx_ext_pickup.play()
         elif self.category == 2:
             finals.sfx_gun_pickup.play()
         elif self.category == 3:
             finals.sfx_knife_pickup.play()
         elif self.category == 4:
             finals.sfx_molotow_pickup.play()
+        elif self.category == 5:
+            finals.sfx_key_pickup.play()
+    
+    def play_sfx_shoot(self):
+        if self.category == 1:
+            finals.sfx_steam.play()
+        elif self.category == 2:
+            finals.sfx_shoot.play()
+        elif self.category == 3:
+            pass
+        elif self.category == 4:
+            finals.sfx_flame.play()
+            finals.sfx_bottle_break.play()
         elif self.category == 5:
             pass
 

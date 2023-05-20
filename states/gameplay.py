@@ -104,20 +104,25 @@ class Gameplay(State):
     def handle_actions(self):
         if self.actions['down']:
             self.player_object.move_down(self.lvl.layout, self.tiles)
+            finals.sfx_step.play()
             self.actions['down'] = False
         elif self.actions['up']:
             self.player_object.move_up(self.lvl.layout, self.tiles)
+            finals.sfx_step.play()
             self.actions['up'] = False
         elif self.actions['right']:
             self.player_object.move_right(self.lvl.layout, self.tiles)
+            finals.sfx_step.play()
             self.actions['right'] = False
         elif self.actions['left']:
             self.player_object.move_left(self.lvl.layout, self.tiles)
+            finals.sfx_step.play()
             self.actions['left'] = False
         elif self.actions['shoot']:
             if self.player_object.attached_item is not None:
                 self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
                 self.player_object.attached_item.ammo -= 1
+                self.player_object.attached_item.play_sfx_shoot()
                 self.actions['shoot'] = False
         
     def update(self, dt):
@@ -149,6 +154,7 @@ class Gameplay(State):
             for e in self.enemies:
                 if e.locked_on_target and self.tiles[mapper.get_tile_index_from_layout(self.lvl.layout, self.tiles, self.player_object.pos)].affected != 2:
                     e.shoot(self.lvl.layout, self.tiles, self.game_objects, 2)
+                    finals.sfx_shoot_enemy.play()
                     e.locked_on_target = False
                 else:
                     e.behave(self.layout_walkable, self.tiles, self.camera_group, self.player_object)
