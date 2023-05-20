@@ -9,3 +9,12 @@ COLOR_RED_SUBTLE: Final = pygame.Color((170, 61, 57))
 COLOR_ORANGE: Final = pygame.Color((255, 143, 0))
 COLOR_GREY: Final = pygame.Color((149, 165, 166))
 COLOR_GREY_DARK: Final = pygame.Color((20, 20, 20))
+
+chapter_night_shift: Final = [
+    'chapter_night_shift/the_night_shift_1.json', 
+    'chapter_night_shift/the_night_shift_2.json'
+    ]
+
+chapters: Final = {
+    'The Night Shift': chapter_night_shift,
+}

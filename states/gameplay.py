@@ -21,9 +21,11 @@ import finals
 
 
 class Gameplay(State):
-    def __init__(self, lvl_name):
+    def __init__(self, chapter):
         super(Gameplay, self).__init__()
         self.next_state = "GAME_OVER"
+        self.codes_walkable = [0, 2, 6, 8, 3, 7]
+        self.camera_group = camera.Camera()
         self.actions = {
             'left': False,
             'right': False,
@@ -31,16 +33,20 @@ class Gameplay(State):
             'down': False,
             'shoot': False
         }
-        self.codes_walkable = [0, 2, 6, 8, 3, 7]
-        self.camera_group = camera.Camera()
-        self.lvl = loader.init_level(os.path.join("lvl", lvl_name))
+        self.lvls = []
+        self.on_lvl = 0
+        for l in chapter:
+            new_lvl = loader.init_level(os.path.join("lvl", l))
+            self.lvls.append(new_lvl)
+        self.lvl = self.lvls[self.on_lvl]
+        # INIT LVL VARS
         self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
         self.tileset_pixel_size = mapper.tileset_pixel_size(self.lvl.layout, mapper.tile_size)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
-        player_spawn_pos = self.lvl.get_player_spawn()
+        self.player_spawn = self.lvl.player_spawn.copy()
         game_objects_unflattened = []
         self.game_objects = []
-        self.player_object = player.Player(player_spawn_pos, mapper.pos_to_xy(player_spawn_pos, self.lvl.layout, self.tiles), self.camera_group)
+        self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
         self.items = item.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
         self.enemies = loader.init_enemies(self.lvl.enemy_spawns, self.lvl.layout, self.tiles, self.camera_group)
         game_objects_unflattened.append(self.items)
@@ -50,6 +56,24 @@ class Gameplay(State):
         self.particles_list = []
         self.turn = 0
         self.turn_ptr = self.turn
+    
+    def reinit(self):
+        self.lvl = self.lvls[self.on_lvl]
+        self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
+        self.tileset_pixel_size = mapper.tileset_pixel_size(self.lvl.layout, mapper.tile_size)
+        self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
+        self.player_spawn = self.lvl.player_spawn.copy()
+        game_objects_unflattened = []
+        self.game_objects = []
+        self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
+        self.items = item.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
+        self.enemies = loader.init_enemies(self.lvl.enemy_spawns, self.lvl.layout, self.tiles, self.camera_group)
+        game_objects_unflattened.append(self.items)
+        game_objects_unflattened.append([self.player_object])
+        game_objects_unflattened.append(self.enemies)
+        self.game_objects = [obj for sublist in game_objects_unflattened for obj in sublist]
+        self.particles_list = []
+        self.turn = 0
 
     def get_event(self, event):
         if event.type == pygame.QUIT:
@@ -82,12 +106,11 @@ class Gameplay(State):
                # self.actions['shoot'] = True
 
     def update(self, dt):
+
         if not self.player_object.alive:
             self.camera_group.remove(self.player_object)
             self.game_objects.remove(self.player_object)
-            del self.player_object
-            pygame.quit()
-            raise SystemExit
+            self.reinit()
         
         for e in self.enemies:
             if e.pos == self.player_object.pos:
@@ -139,7 +162,7 @@ class Gameplay(State):
             i.draw(surface, self.camera_group)
         # Allow debug in debug.py
         if debug.status:
-            debug.display(self.player_object.pos, 40)
+            debug.display(str(self.player_object.pos) + str(self.lvl.player_spawn), 40)
             debug.display("tile index: " + str(self.player_object.on_tile_index(self.lvl.layout, self.tiles)), 70)
             debug.display("direction: " + str(self.player_object.direction), 100)
             debug.display("tile status: " + str(self.tiles[self.player_object.on_tile_index(self.lvl.layout, self.tiles)].status), 160)
