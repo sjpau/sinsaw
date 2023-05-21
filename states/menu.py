@@ -4,8 +4,9 @@ import finals
 
 
 class Menu(State):
-    def __init__(self):
+    def __init__(self, surface):
         super(Menu, self).__init__()
+        self.surface = surface
         self.active_index = 0
         self.levels = {
             "The Night Shift": "the_night_shift_1.json", # TODO: implement choosing levels
@@ -44,6 +45,16 @@ class Menu(State):
     def get_event(self, event):
         if event.type == pygame.QUIT:
             self.quit = True
+        elif event.type == pygame.VIDEORESIZE:
+            if not self.fullscreen:
+                self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_f:
+                self.fullscreen = not self.fullscreen
+                if self.fullscreen:
+                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.FULLSCREEN)
+                else:
+                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.RESIZABLE)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
                 self.active_index = (self.active_index - 1) % len(self.options)
@@ -65,8 +76,8 @@ class Menu(State):
 
   
 
-    def draw(self, surface):
-        surface.fill(finals.COLOR_BLACK)
+    def draw(self):
+        self.surface.fill(finals.COLOR_BLACK)
         for index, option in enumerate(self.options):
             text_render = self.render_text(index)
-            surface.blit(text_render, self.get_text_position(text_render, index))
+            self.surface.blit(text_render, self.get_text_position(text_render, index))

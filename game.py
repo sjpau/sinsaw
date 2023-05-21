@@ -41,7 +41,7 @@ class Game(object):
         self.state.update(dt)
 
     def draw(self):
-        self.state.draw(self.screen)
+        self.state.draw()
         if debug.status:
             debug.display(int(self.clock.get_fps()))
 

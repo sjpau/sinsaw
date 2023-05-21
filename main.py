@@ -15,10 +15,9 @@ pygame.mixer.music.set_volume(0.4)
 pygame.mixer.music.play(-1)
 screen = pygame.display.set_mode((s.width, s.height), pygame.RESIZABLE)
 states = {
-    "MENU": Menu(),
-    "SPLASH": Splash(),
-    "GAMEPLAY": Gameplay(finals.chapters['The Night Shift']),
-    "GAME_OVER": GameOver(),
+    "MENU": Menu(screen),
+    "SPLASH": Splash(screen),
+    "GAMEPLAY": Gameplay(finals.chapters['The Night Shift'], screen),
 }
 
 game = Game(screen, states, "SPLASH")

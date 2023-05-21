@@ -21,8 +21,9 @@ import finals
 
 
 class Gameplay(State):
-    def __init__(self, chapter):
+    def __init__(self, chapter, surface):
         super(Gameplay, self).__init__()
+        self.surface = surface
         self.next_state = "GAME_OVER"
         self.codes_walkable = [0, 2, 6, 8, 3, 7]
         self.camera_group = camera.Camera()
@@ -79,8 +80,19 @@ class Gameplay(State):
     def get_event(self, event):
         if event.type == pygame.QUIT:
             self.quit = True
-        #if event.type == pygame.VIDEORESIZE:
-        #    self.camera_group.resize(event.w, event.h, self.player_object)
+        elif event.type == pygame.VIDEORESIZE:
+            if not self.fullscreen:
+                self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                self.camera_group.resize(event.w, event.h, self.player_object)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_f:
+                self.fullscreen = not self.fullscreen
+                if self.fullscreen:
+                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.FULLSCREEN)
+                    self.camera_group.resize(self.surface.get_width(), self.surface.get_height(), self.player_object)
+                else:
+                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.RESIZABLE)
+                    self.camera_group.resize(self.surface.get_width(), self.surface.get_height(), self.player_object)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
                 self.turn += 1
@@ -186,11 +198,11 @@ class Gameplay(State):
                 self.particles_list.remove(i)
                 del i
 
-    def draw(self, surface):
-        surface.fill(finals.COLOR_BLACK)
+    def draw(self):
+        self.surface.fill(finals.COLOR_BLACK)
         self.camera_group.custom_draw()
         for i in self.particles_list:
-            i.draw(surface, self.camera_group)
+            i.draw(self.surface, self.camera_group)
         # Allow debug in debug.py
         if debug.status:
             debug.display(str(self.player_object.pos) + str(self.lvl.player_spawn), 40)
