@@ -1,8 +1,11 @@
 import pygame
+import random
+import finals
 import entity.gameobject as gameobject
 import loader.asset as asset
 import entity.item as item
 import loader.mapper as mapper
+import entity.particles as particles
 
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, attached_item=None):
@@ -12,13 +15,17 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
         self.attached_item = None
         self.alive = True
     
-    def die(self):
+    def die(self, particles_list):
         # Write when die state
+        for i in range(30):
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-20, 0), random.randint(0, 20)), random.uniform(random.randint(-20, 0), random.randint(0, 20)))))
         self.alive = False
     
-    def on_shot(self):
-        super().on_shot()
-        self.die()
+    def on_shot(self, particles_list):
+        super().on_shot(particles_list)
+        for i in range(50):
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(-20, 10), random.uniform(-10, 10))))
+        self.die(particles_list)
 
     def attach_item(self, attached_item):
         self.attached_item = attached_item

@@ -1,8 +1,11 @@
 import pygame
+import random
 import entity.gameobject as gameobject
 import misc
+import finals
 import loader.asset as asset
 import loader.mapper as mapper
+import entity.particles as particles
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
@@ -18,40 +21,55 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         self.locked_on_target = False
         self.alive = True
     
-    def die(self):
+    def die(self, particles_list):
         # Write when die state
+        for i in range(30):
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-20, 0), random.randint(0, 20)), random.uniform(random.randint(-20, 0), random.randint(0, 20)))))
         self.alive = False
     
-    def on_shot(self):
-        super().on_shot()
-        self.die()
+    def on_shot(self, particles_list):
+        super().on_shot(particles_list)
+        for i in range(100):
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-20, 0), random.randint(0, 20)), random.uniform(random.randint(-20, 0), random.randint(0, 20)))))
+        self.die(particles_list)
 
-    def combat_target(self, layout, tiles, target): # Call when target and enemy (self) on the same tile
+    def combat_target(self, layout, tiles, target, particles_list): # Call when target and enemy (self) on the same tile
         if self.category == 1: # Knife enemy
             # If in fog and target has knife
             if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 2 and target.attached_item is not None:
                 if target.attached_item.category == 3:
-                    self.die()
+                    self.die(particles_list)
+                    finals.sfx_knife_stab.play()
+                    finals.sfx_scream[random.randint(0, 2)].play()
                 else: 
-                    target.die()
+                    target.die(particles_list)
+                    finals.sfx_knife_stab.play()
             else:
-                target.die() 
+                target.die(particles_list) 
+                finals.sfx_knife_stab.play()
         elif self.category == 2: # Pistol enemy
             if target.attached_item is not None:
                 if target.attached_item.category == 3:
-                    self.die()
+                    self.die(particles_list)
+                    finals.sfx_knife_stab.play()
+                    finals.sfx_scream[random.randint(0, 2)].play()
                 else:
-                    target.die()
+                    target.die(particles_list)
+                    finals.sfx_knife_stab.play()
             else:
-                target.die()
+                target.die(particles_list)
+                finals.sfx_knife_stab.play()
         elif self.category == 3: # Dog
             if target.attached_item is not None:
                 if target.attached_item.category == 3:
-                    self.die()
+                    self.die(particles_list)
+                    finals.sfx_knife_stab.play()
                 else:
-                    target.die()
+                    target.die(particles_list)
+                    finals.sfx_knife_stab.play()
             else:
-                target.die()
+                target.die(particles_list)
+                finals.sfx_knife_stab.play()
 
     def set_direction(self):
         if len(self.path) > 1:

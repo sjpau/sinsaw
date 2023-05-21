@@ -37,8 +37,8 @@ class Item(pygame.sprite.Sprite, gameobject.GameObject):
         elif self.category == 3:
             pass
         elif self.category == 4:
-            finals.sfx_flame.play()
             finals.sfx_bottle_break.play()
+            finals.sfx_flame.play()
         elif self.category == 5:
             pass
 

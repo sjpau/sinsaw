@@ -1,6 +1,9 @@
 import pygame
 import entity.gameobject as gameobject
 import loader.mapper as mapper
+import entity.particles as particles
+import random
+import finals
 
 class Tile(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, group, image):
@@ -11,6 +14,20 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
         self.status = []
         self.affected = 0 # 1 - Fire, 2 - Fog
     
+    def on_shot(self, particles_list):
+        super().on_shot(particles_list)
+        if self.code == 4 or self.code == 5: # Glass
+            finals.sfx_glass_on_shot.play()
+            for i in range(20):
+                particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_BEIGE, random.randint(1, 4), finals.COLOR_BEIGE, velocity=pygame.Vector2(random.uniform(-5, 10), random.uniform(-5, 10))))
+        elif self.code == 2 or self.code == 3 or self.code == 6 or self.code == 7: # Doors
+            finals.sfx_door_on_shot.play()
+            for i in range(20):
+                particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_BEIGE, random.randint(1, 4), finals.COLOR_BEIGE, velocity=pygame.Vector2(random.uniform(-5, 10), random.uniform(-5, 10))))
+        elif self.code == 1: # Wall
+            for i in range(10):
+                particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_PURPLE, random.randint(1, 4), finals.COLOR_PURPLE, velocity=pygame.Vector2(random.uniform(-5, 1), random.uniform(-5, 1))))
+
     def init_status(self):
         if self.code == 0: # Tile 
             self.status = [mapper.status['walkable'], mapper.status['transparent']] 

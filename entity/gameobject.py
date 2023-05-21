@@ -25,10 +25,10 @@ class GameObject:
             return True
         return False
     
-    def on_shot(self):
+    def on_shot(self, particles_list):
         pass
     
-    def shoot(self, layout, tiles, objects, weapon):
+    def shoot(self, layout, tiles, objects, weapon, particles_list):
         from loader.mapper import pos_to_xy, get_tile_index_from_layout, status
         if weapon == 1: # Fire extinguisher
             extinguisher_slice = misc.molotow_slice(layout, self.pos, h_area=2, v_area=2)
@@ -39,9 +39,10 @@ class GameObject:
         elif weapon == 2: # Pistol
             tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
             for i, tile in enumerate(tiles_content):
+                tiles[get_tile_index_from_layout(layout, tiles, tile)].on_shot(particles_list)
                 for game_obj in objects:
                     if game_obj.pos == [tile[0], tile[1]]:
-                        game_obj.on_shot()
+                        game_obj.on_shot(particles_list)
                 if status['indestructable'] in tiles[get_tile_index_from_layout(layout, tiles, [tile[0], tile[1]])].status:
                     collide_pos = tiles_content[i]
                     break

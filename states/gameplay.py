@@ -37,7 +37,6 @@ class Gameplay(State):
         self.on_lvl = 0
         self.lvl_final = len(chapter)
         for l in chapter:
-            print(l)
             new_lvl = loader.init_level(os.path.join("lvl", l))
             self.lvls.append(new_lvl)
         self.lvl = self.lvls[self.on_lvl]
@@ -120,7 +119,7 @@ class Gameplay(State):
             self.actions['left'] = False
         elif self.actions['shoot']:
             if self.player_object.attached_item is not None:
-                self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category)
+                self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category, self.particles_list)
                 self.player_object.attached_item.ammo -= 1
                 self.player_object.attached_item.play_sfx_shoot()
                 self.actions['shoot'] = False
@@ -140,7 +139,7 @@ class Gameplay(State):
                 if not e.locked_on_target:
                     self.handle_actions()
                 if e.pos == self.player_object.pos:
-                    e.combat_target(self.lvl.layout, self.tiles, self.player_object)
+                    e.combat_target(self.lvl.layout, self.tiles, self.player_object, self.particles_list)
                 if not e.alive:
                     self.camera_group.remove(e)
                     self.enemies.remove(e)
@@ -153,7 +152,7 @@ class Gameplay(State):
         if self.turn != self.turn_ptr: 
             for e in self.enemies:
                 if e.locked_on_target and self.tiles[mapper.get_tile_index_from_layout(self.lvl.layout, self.tiles, self.player_object.pos)].affected != 2:
-                    e.shoot(self.lvl.layout, self.tiles, self.game_objects, 2)
+                    e.shoot(self.lvl.layout, self.tiles, self.game_objects, 2, self.particles_list)
                     finals.sfx_shoot_enemy.play()
                     e.locked_on_target = False
                 else:
