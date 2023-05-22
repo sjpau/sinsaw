@@ -41,47 +41,45 @@ class Gameplay(State):
             new_lvl = loader.init_level(os.path.join("lvl", l))
             self.lvls.append(new_lvl)
         self.lvl = self.lvls[self.on_lvl]
+        print(self.lvl.player_spawn)
         # INIT LVL VARS
         self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
-        self.tileset_pixel_size = mapper.tileset_pixel_size(self.lvl.layout, mapper.tile_size)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
+        self.particles_list = []
+       
         self.player_spawn = self.lvl.player_spawn.copy()
-        game_objects_unflattened = []
-        self.game_objects = []
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
         self.items = loader.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
         self.enemies = loader.init_enemies(self.lvl.enemy_spawns, self.lvl.layout, self.tiles, self.camera_group)
-        game_objects_unflattened.append(self.items)
-        game_objects_unflattened.append([self.player_object])
-        game_objects_unflattened.append(self.enemies)
+        game_objects_unflattened = [self.items, self.enemies, [self.player_object]]
         self.game_objects = [obj for sublist in game_objects_unflattened for obj in sublist]
-        self.particles_list = []
+      
         self.turn = 0
         self.turn_ptr = self.turn
-    
+#    def initialize(self):
+        
     def reinit(self):
-    # Clean up previous objects
-        self.player_object.kill() 
-        for item in self.items:
-            item.kill() 
-        for enemy in self.enemies:
-            enemy.kill() 
         self.lvl = self.lvls[self.on_lvl]
+        for sprite in self.camera_group:
+            sprite.kill()
+        self.tiles = None
+        self.layout_walkable = None
+        self.particles_list = None
+        self.player_object = None
+        self.items = None
+        self.enemies = None
+        self.game_objects = None
+        
         self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
-        self.tileset_pixel_size = mapper.tileset_pixel_size(self.lvl.layout, mapper.tile_size)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
+        self.particles_list = []
+       
         self.player_spawn = self.lvl.player_spawn.copy()
-        game_objects_unflattened = []
-        self.game_objects = []
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
         self.items = loader.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
         self.enemies = loader.init_enemies(self.lvl.enemy_spawns, self.lvl.layout, self.tiles, self.camera_group)
-        game_objects_unflattened.append(self.items)
-        game_objects_unflattened.append([self.player_object])
-        game_objects_unflattened.append(self.enemies)
+        game_objects_unflattened = [self.items, self.enemies, [self.player_object]]
         self.game_objects = [obj for sublist in game_objects_unflattened for obj in sublist]
-        self.particles_list = []
-        self.turn = 1
 
     def get_event(self, event):
         if event.type == pygame.QUIT:
@@ -145,7 +143,8 @@ class Gameplay(State):
     def update(self, dt):
         if not self.player_object.alive:
             self.camera_group.remove(self.player_object)
-            self.game_objects.remove(self.player_object)
+            if self.player_object in self.game_objects:
+                self.game_objects.remove(self.player_object)
             self.reinit()
         if self.player_object.pos == self.lvl.exit_spawn:
             if self.on_lvl != self.lvl_final - 1:
@@ -204,6 +203,7 @@ class Gameplay(State):
             if i.delete:
                 self.particles_list.remove(i)
                 del i
+        # NOTE: Animation bug speed is dependent on the amount of object being updated
         self.player_object.update_object()
         self.player_object.play('default_idle')
         for i in self.items:
