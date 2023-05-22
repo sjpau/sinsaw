@@ -7,7 +7,8 @@ import finals
 class Item(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, image):
         super().__init__(group)
-        gameobject.GameObject.__init__(self, pos, xy, image, False)
+        self.animations = {}
+        gameobject.GameObject.__init__(self, pos, xy, image, group, False, self.animations)
         self.category = 0
         self.ammo = 0
         self.dropped = True
@@ -49,34 +50,3 @@ class Item(pygame.sprite.Sprite, gameobject.GameObject):
             xy = mapper.pos_to_xy(self.pos, layout, tiles)
             self.rect.x = xy[0]
             self.rect.y = xy[1]
-            self.update_object()
-
-def init_items(item_spawns, layout, tiles, group):
-    items = []
-    for row in item_spawns:
-        pos = [row[0], row[1]]
-        category = row[2]
-        ammo = row[3]
-        xy = mapper.pos_to_xy(pos, layout, tiles)
-        if category == 1:
-            image = pygame.image.load(asset.item_exting).convert_alpha()
-            name = 'fire extinguisher'
-        elif category == 2:
-            image = pygame.image.load(asset.item_gun).convert_alpha()
-            name = 'pistol'
-        elif category == 3:
-            image = pygame.image.load(asset.item_knife).convert_alpha()
-            name = 'combat knife'
-        elif category == 4:
-            image = pygame.image.load(asset.item_molotow).convert_alpha()
-            name = 'molotow cocktail'
-        elif category == 5:
-            image = pygame.image.load(asset.item_key).convert_alpha()
-            name = 'key'
-        item = Item(pos, xy, group, image)
-        item.category = category
-        item.ammo = ammo
-        item.name = name
-        items.append(item)
-    
-    return items

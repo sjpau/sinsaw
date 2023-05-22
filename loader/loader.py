@@ -5,6 +5,10 @@ import entity.enemy as enemy
 import entity.level as level
 import loader.asset as asset
 import loader.mapper as mapper
+from entity.animation import Animation
+import loader.anims as anims
+from entity.item import Item
+import finals
 
 def read_lvl_from_json(json_path):
     try:
@@ -35,13 +39,53 @@ def init_enemies(enemy_spawns, layout, tiles, group):
         category = row[2]
         if category == 1:
             image = pygame.image.load(asset.image_enemy_knife).convert_alpha()
+            animations = finals.animations_enemy_knife
         elif category == 2:
             image = pygame.image.load(asset.image_enemy_gun).convert_alpha()
+            animations = finals.animations_enemy_gun
         elif category == 3:
             image = pygame.image.load(asset.image_enemy_dog).convert_alpha()
+            animations = finals.animations_enemy_dog
         xy = mapper.pos_to_xy(pos, layout, tiles)
         e = enemy.Enemy(pos, xy, group, image)
         e.category = category
+        e.animations = animations
         enemies.append(e)
     
     return enemies
+
+def init_items(item_spawns, layout, tiles, group):
+    items = []
+    for row in item_spawns:
+        pos = [row[0], row[1]]
+        category = row[2]
+        ammo = row[3]
+        xy = mapper.pos_to_xy(pos, layout, tiles)
+        if category == 1:
+            image = pygame.image.load(asset.item_exting).convert_alpha()
+            animations = finals.animations_exting
+            name = 'fire extinguisher'
+        elif category == 2:
+            image = pygame.image.load(asset.item_gun).convert_alpha()
+            animations = finals.animations_gun
+            name = 'pistol'
+        elif category == 3:
+            image = pygame.image.load(asset.item_knife).convert_alpha()
+            animations = finals.animations_knife
+            name = 'combat knife'
+        elif category == 4:
+            image = pygame.image.load(asset.item_molotow).convert_alpha()
+            animations = finals.animations_molotow
+            name = 'molotow cocktail'
+        elif category == 5:
+            image = pygame.image.load(asset.item_key).convert_alpha()
+            animations = finals.animations_key
+            name = 'key'
+        item = Item(pos, xy, group, image)
+        item.category = category
+        item.ammo = ammo
+        item.name = name
+        item.animations = animations
+        items.append(item)
+    
+    return items

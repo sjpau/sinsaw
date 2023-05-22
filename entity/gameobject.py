@@ -4,8 +4,10 @@ import misc
 from math import atan2, degrees
 
 class GameObject:
-    def __init__(self, pos, xy, image, is_tile):
+    def __init__(self, pos, xy, image, is_tile, group, animations=None):
         from loader.mapper import tile_size
+        self.animations = animations or {}
+        self.current_animation = None
         self.pos = pos
         self.image = pygame.transform.scale(image, (tile_size, tile_size))
         self.default_image = self.image
@@ -58,9 +60,15 @@ class GameObject:
                         i = get_tile_index_from_layout(layout, tiles, tile_pos)
                         tiles[i].affected = 1 # Set on fire
                     break
+    
+    def play(self, animation_name):
+        if animation_name in self.animations:
+            self.current_animation = self.animations[animation_name]
+            self.default_image = self.current_animation.get_sprite(0)
 
     def update_object(self):
-        if self.direction != self.direction_ptr:
-            from loader.mapper import tile_size
+        from loader.mapper import tile_size
+        if self.current_animation is not None:
+            self.current_animation.play()
             angle = degrees(atan2(self.direction[1], self.direction[0])) % 360
-            self.image = pygame.transform.scale(pygame.transform.rotate(self.default_image, angle), (tile_size, tile_size))
+            self.image = pygame.transform.scale(pygame.transform.rotate(self.current_animation.get_current_sprite(), angle), (tile_size, tile_size))

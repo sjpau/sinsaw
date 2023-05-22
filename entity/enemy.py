@@ -14,7 +14,8 @@ from pathfinding.core.diagonal_movement import DiagonalMovement
 class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, image):
         super().__init__(group)
-        gameobject.GameObject.__init__(self, pos, xy, image, False)
+        self.animations = {}
+        gameobject.GameObject.__init__(self, pos, xy, image, False, group, self.animations)
         self.category = 0
         self.path = []
         self.player_in_view = False
@@ -204,11 +205,11 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             self.step(layout, tiles)
             self.locked_on_target = True
 
-    def behave(self, layout, tiles, camera_group, player_object):
+    def behave(self, layout, tiles, camera_group, player_object, particles_list):
         self.direction_ptr = self.direction.copy()
         tmp_tile = tiles[mapper.get_tile_index_from_layout(layout, tiles, player_object.pos)]
         if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1:
-            self.die()
+            self.die(particles_list)
         if self.category == 1 or self.category == 3: # Active behavior of melee enemy
             if not camera_group.in_view(self, player_object, tiles) and tmp_tile.affected != 2:
                 self.player_in_view = True
@@ -239,4 +240,3 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             xy = mapper.pos_to_xy(self.pos, layout, tiles)
             self.rect.x = xy[0]
             self.rect.y = xy[1]
-            self.update_object()

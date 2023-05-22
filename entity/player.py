@@ -10,8 +10,10 @@ import entity.particles as particles
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, attached_item=None):
         super().__init__(group)
+        self.group = group
+        self.animations = finals.animations_player 
         init_image = pygame.image.load(asset.image_player_gun).convert_alpha()
-        gameobject.GameObject.__init__(self, pos, xy, init_image, False)
+        gameobject.GameObject.__init__(self, pos, xy, init_image, False,group, animations=self.animations)
         self.attached_item = None
         self.alive = True
     
@@ -95,9 +97,6 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                         self.attached_item = None
 
     def update(self, layout, tiles, items=None):
-
-        if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1:
-            self.die()
         if items is None:
             items = []
         else:
@@ -108,12 +107,15 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                         i.play_sfx_pick()
                         i.dropped = False
                         i.discarded = False
+                        items.remove(i)
+                        self.group.remove(i)
                     else:
                         self.attached_item.discarded = True
                         self.attach_item(i)
                         i.play_sfx_pick()
                         i.dropped = False
+                        items.remove(i)
+                        self.group.remove(i)
         xy = mapper.pos_to_xy(self.pos, layout, tiles)
         self.rect.x = xy[0]
         self.rect.y = xy[1]
-        self.update_object()

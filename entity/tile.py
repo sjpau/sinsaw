@@ -9,7 +9,7 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, group, image):
         super().__init__(group)
         pos = [0,0]
-        gameobject.GameObject.__init__(self, pos, pos, image, True)
+        gameobject.GameObject.__init__(self, pos, pos, image, group, True)
         self.code = -1
         self.status = []
         self.affected = 0 # 1 - Fire, 2 - Fog

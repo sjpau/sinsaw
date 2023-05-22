@@ -49,7 +49,7 @@ class Gameplay(State):
         game_objects_unflattened = []
         self.game_objects = []
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
-        self.items = item.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
+        self.items = loader.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
         self.enemies = loader.init_enemies(self.lvl.enemy_spawns, self.lvl.layout, self.tiles, self.camera_group)
         game_objects_unflattened.append(self.items)
         game_objects_unflattened.append([self.player_object])
@@ -60,6 +60,12 @@ class Gameplay(State):
         self.turn_ptr = self.turn
     
     def reinit(self):
+    # Clean up previous objects
+        self.player_object.kill() 
+        for item in self.items:
+            item.kill() 
+        for enemy in self.enemies:
+            enemy.kill() 
         self.lvl = self.lvls[self.on_lvl]
         self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
         self.tileset_pixel_size = mapper.tileset_pixel_size(self.lvl.layout, mapper.tile_size)
@@ -68,14 +74,14 @@ class Gameplay(State):
         game_objects_unflattened = []
         self.game_objects = []
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
-        self.items = item.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
+        self.items = loader.init_items(self.lvl.item_spawns, self.lvl.layout, self.tiles, self.camera_group)
         self.enemies = loader.init_enemies(self.lvl.enemy_spawns, self.lvl.layout, self.tiles, self.camera_group)
         game_objects_unflattened.append(self.items)
         game_objects_unflattened.append([self.player_object])
         game_objects_unflattened.append(self.enemies)
         self.game_objects = [obj for sublist in game_objects_unflattened for obj in sublist]
         self.particles_list = []
-        self.turn = 0
+        self.turn = 1
 
     def get_event(self, event):
         if event.type == pygame.QUIT:
@@ -137,7 +143,6 @@ class Gameplay(State):
                 self.actions['shoot'] = False
         
     def update(self, dt):
-
         if not self.player_object.alive:
             self.camera_group.remove(self.player_object)
             self.game_objects.remove(self.player_object)
@@ -146,6 +151,8 @@ class Gameplay(State):
             if self.on_lvl != self.lvl_final - 1:
                 self.on_lvl += 1
                 self.reinit() 
+        if self.tiles[mapper.get_tile_index_from_layout(self.lvl.layout, self.tiles, self.player_object.pos)].affected == 1:
+            self.player_object.die(self.particles_list)
         if self.enemies:
             for e in self.enemies:
                 if not e.locked_on_target:
@@ -168,7 +175,7 @@ class Gameplay(State):
                     finals.sfx_shoot_enemy.play()
                     e.locked_on_target = False
                 else:
-                    e.behave(self.layout_walkable, self.tiles, self.camera_group, self.player_object)
+                    e.behave(self.layout_walkable, self.tiles, self.camera_group, self.player_object, self.particles_list)
             for i in self.items:
                 if i.discarded:
                     self.camera_group.remove(i)
@@ -197,6 +204,14 @@ class Gameplay(State):
             if i.delete:
                 self.particles_list.remove(i)
                 del i
+        self.player_object.update_object()
+        self.player_object.play('default_idle')
+        for i in self.items:
+            i.update_object()
+            i.play('anim')
+        for e in self.enemies:
+            e.update_object()
+            e.play('idle')
 
     def draw(self):
         self.surface.fill(finals.COLOR_BLACK)

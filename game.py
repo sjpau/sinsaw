@@ -42,6 +42,7 @@ class Game(object):
 
     def draw(self):
         self.state.draw()
+        print(self.clock.tick_busy_loop())
         if debug.status:
             debug.display(int(self.clock.get_fps()))
 
