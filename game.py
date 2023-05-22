@@ -12,13 +12,6 @@ class Game(object):
         self.state_name = start_state
         self.state = self.states[self.state_name]
 
-    def load_assets(self):
-        self.assets_dir = os.path.join("asset")
-        self.assets_sprite = os.path.join(self.assets_dir, "sprites")
-        self.assets_static = os.path.join(self.assets_dir, "static")
-        self.font_dir = os.path.join(self.assets_dir, "font")
-        self.font = pygame.font.Font(os.path.join(self.font_dir, "PressStart2P-vaV7.ttf"), 20)
-
     def event_loop(self):
         for event in pygame.event.get():
             self.state.get_event(event)

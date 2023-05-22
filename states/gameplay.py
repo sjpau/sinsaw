@@ -204,13 +204,13 @@ class Gameplay(State):
                 self.particles_list.remove(i)
                 del i
         # NOTE: Animation bug speed is dependent on the amount of object being updated
-        self.player_object.update_object()
+        self.player_object.update_object(dt)
         self.player_object.play('default_idle')
         for i in self.items:
-            i.update_object()
+            i.update_object(dt)
             i.play('anim')
         for e in self.enemies:
-            e.update_object()
+            e.update_object(dt)
             e.play('idle')
 
     def draw(self):

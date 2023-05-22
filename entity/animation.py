@@ -4,11 +4,9 @@ import loader.mapper as mapper
 class Animation():
     def __init__(self, sprites, speed):
         self.sprites = sprites
-        for sprite in self.sprites:
-            image = pygame.transform.scale(sprite, (mapper.tile_size, mapper.tile_size))
-            sprite = image
         self.speed = speed
         self.current_sprite = 0
+        self.frame_timer = 0.0
     
     def get_current_sprite(self):
         if self.current_sprite >= len(self.sprites):
@@ -18,7 +16,8 @@ class Animation():
     def get_sprite(self, i):
         return self.sprites[i]
 
-    def play(self):
-        if self.current_sprite >= len(self.sprites):
-            self.current_sprite = 0
-        self.current_sprite += self.speed
+    def play(self, dt):
+        self.frame_timer += dt
+        if self.frame_timer >= self.speed:
+            self.frame_timer = 0.0
+            self.current_sprite += 1
