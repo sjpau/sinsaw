@@ -97,6 +97,8 @@ class Gameplay(State):
                     self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.RESIZABLE)
                     self.camera_group.resize(self.surface.get_width(), self.surface.get_height(), self.player_object)
         elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_q:
+                self.reinit()
             if event.key == pygame.K_w:
                 self.turn += 1
                 self.actions['up'] = True
