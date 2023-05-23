@@ -2,6 +2,8 @@ from typing import Final
 import pygame
 from entity.animation import Animation
 import loader.anims as anims
+import loader.asset as asset
+import loader.mapper as mapper
 pygame.mixer.init()
 
 COLOR_BLACK: Final = pygame.Color((16, 13, 19))
@@ -113,3 +115,13 @@ sfx_scream: Final = [sfx_scream_1, sfx_scream_2, sfx_scream_3]
 sfx_step.set_volume(0.3)
 sfx_glass_on_shot.set_volume(0.3)
 sfx_door_on_shot.set_volume(0.3)
+
+### MISC ###
+image_door_broken_1 = pygame.image.load(asset.door_broken_1).convert_alpha()
+image_door_broken_1 = pygame.transform.scale(image_door_broken_1, (mapper.tile_size, mapper.tile_size))
+image_door_broken_2 = pygame.image.load(asset.door_broken_2).convert_alpha()
+image_door_broken_2 = pygame.transform.scale(image_door_broken_2, (mapper.tile_size, mapper.tile_size))
+image_door_unlocked_1 = pygame.image.load(asset.door_unlocked_1).convert_alpha()
+image_door_unlocked_1 = pygame.transform.scale(image_door_unlocked_1, (mapper.tile_size, mapper.tile_size))
+image_door_unlocked_2 = pygame.image.load(asset.door_unlocked_2).convert_alpha()
+image_door_unlocked_2 = pygame.transform.scale(image_door_unlocked_2, (mapper.tile_size, mapper.tile_size))

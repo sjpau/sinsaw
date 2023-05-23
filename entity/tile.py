@@ -28,6 +28,16 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
             for i in range(10):
                 particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_PURPLE, random.randint(1, 4), finals.COLOR_PURPLE, velocity=pygame.Vector2(random.uniform(-5, 1), random.uniform(-5, 1))))
 
+    def change_image(self):
+        if self.code == 2: 
+            self.image = finals.image_door_broken_2
+        elif self.code == 3:
+            self.image = finals.image_door_broken_1
+        elif self.code == 6:
+            self.image = finals.image_door_unlocked_2
+        elif self.code == 7:
+            self.image = finals.image_door_unlocked_1
+
     def init_status(self):
         if self.code == 0: # Tile 
             self.status = [mapper.status['walkable'], mapper.status['transparent']] 

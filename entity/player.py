@@ -44,6 +44,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     self.pos[0] += 1
                 if self.attached_item is not None:
                     if status == mapper.status['unlockable'] and self.attached_item.category == 5 : # Unlockable door and has key
+                        next_tile.change_image()
                         next_tile.status.remove(mapper.status['unlockable'])
                         next_tile.status.append(mapper.status['breachable'])
                         self.attached_item = None
@@ -60,6 +61,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     self.pos[0] -= 1
                 if self.attached_item is not None:
                     if status == mapper.status['unlockable'] and self.attached_item.category == 5 : # Unlockable door and has key
+                        next_tile.change_image()
                         next_tile.status.remove(mapper.status['unlockable'])
                         next_tile.status.append(mapper.status['breachable'])
                         self.attached_item = None
@@ -76,6 +78,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     self.pos[1] -= 1
                 if self.attached_item is not None:
                     if status == mapper.status['unlockable'] and self.attached_item.category == 5 : # Unlockable door and has key
+                        next_tile.change_image()
                         next_tile.status.remove(mapper.status['unlockable'])
                         next_tile.status.append(mapper.status['breachable'])
                         self.attached_item = None
@@ -92,6 +95,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
                     self.pos[1] += 1
                 if self.attached_item is not None:
                     if status == mapper.status['unlockable'] and self.attached_item.category == 5 : # Unlockable door and has key
+                        next_tile.change_image()
                         next_tile.status.remove(mapper.status['unlockable'])
                         next_tile.status.append(mapper.status['breachable'])
                         self.attached_item = None

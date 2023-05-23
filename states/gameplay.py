@@ -24,7 +24,7 @@ class Gameplay(State):
     def __init__(self, chapter, surface):
         super(Gameplay, self).__init__()
         self.surface = surface
-        self.next_state = "GAME_OVER"
+        self.next_state = "MENU"
         self.codes_walkable = [0, 2, 6, 8, 3, 7]
         self.camera_group = camera.Camera()
         self.actions = {
@@ -41,7 +41,6 @@ class Gameplay(State):
             new_lvl = loader.init_level(os.path.join("lvl", l))
             self.lvls.append(new_lvl)
         self.lvl = self.lvls[self.on_lvl]
-        print(self.lvl.player_spawn)
         # INIT LVL VARS
         self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
@@ -150,10 +149,20 @@ class Gameplay(State):
             if self.on_lvl != self.lvl_final - 1:
                 self.on_lvl += 1
                 self.reinit() 
+            else:
+                self.done = True
         if self.tiles[mapper.get_tile_index_from_layout(self.lvl.layout, self.tiles, self.player_object.pos)].affected == 1:
             self.player_object.die(self.particles_list)
         if self.enemies:
             for e in self.enemies:
+                e_on_tile =  e.on_tile_index(self.lvl.layout, self.tiles)
+                if mapper.status['breachable'] in self.tiles[e_on_tile].status:
+                    self.tiles[e_on_tile].change_image()
+                    finals.sfx_door_break_1.play()
+                    finals.sfx_door_break_2.play()
+                    self.tiles[e_on_tile].status.remove(mapper.status['breachable'])
+                    self.tiles[e_on_tile].status.append(mapper.status['transparent'])
+                    self.tiles[e_on_tile].status.append(mapper.status['walkable'])
                 if not e.locked_on_target:
                     self.handle_actions()
                 if e.pos == self.player_object.pos:
@@ -187,6 +196,7 @@ class Gameplay(State):
 
         p_on_tile =  self.player_object.on_tile_index(self.lvl.layout, self.tiles)
         if mapper.status['breachable'] in self.tiles[p_on_tile].status:
+            self.tiles[p_on_tile].change_image()
             finals.sfx_door_break_1.play()
             finals.sfx_door_break_2.play()
             self.tiles[p_on_tile].status.remove(mapper.status['breachable'])
