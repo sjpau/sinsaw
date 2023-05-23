@@ -211,7 +211,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
         if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 1:
             self.die(particles_list)
         if self.category == 1 or self.category == 3: # Active behavior of melee enemy
-            if not camera_group.in_view(self, player_object, tiles) and tmp_tile.affected != 2:
+            if self.is_object_visible(player_object, layout, tiles) and tmp_tile.affected != 2:
                 self.player_in_view = True
                 self.to_point_path(layout, self.pos, player_object.pos)
             else:
@@ -221,7 +221,7 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             else:
                 self.move_on_path()
         if self.category == 2: # Active behaviour of ranged enemy
-            if not camera_group.in_view(self, player_object, tiles) and tmp_tile.affected != 2:
+            if self.is_object_visible(player_object, layout, tiles) and tmp_tile.affected != 2:
                 self.player_in_view = True
                 self.to_axis_path(layout, self.pos, player_object.pos)
                 if self.locked_on_target:
