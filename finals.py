@@ -17,11 +17,12 @@ COLOR_GREY: Final = pygame.Color((149, 165, 166))
 COLOR_GREY_DARK: Final = pygame.Color((20, 20, 20))
 
 chapter_night_shift: Final = [
-   # 'example.json',
+    #'example.json',
     'chapter_night_shift/the_night_shift_1.json',
     'chapter_night_shift/the_night_shift_2.json',
     'chapter_night_shift/the_night_shift_3.json',
-    'chapter_night_shift/the_night_shift_4.json'
+    'chapter_night_shift/the_night_shift_4.json',
+    'chapter_night_shift/the_night_shift_5.json',
     ]
 
 chapters: Final = {
@@ -77,7 +78,7 @@ animations_enemy_knife = {
 }
 sprites_attack, sprites_idle, sprites_walk = anims.load_animation_enemy_gun()
 animations_enemy_gun = {
-    'idle': Animation(sprites_idle, 300),
+    'idle': Animation(sprites_idle, 500),
     'attack': Animation(sprites_attack, 200),
     'walk': Animation(sprites_walk, 100),
 }

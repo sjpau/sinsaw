@@ -135,9 +135,12 @@ class Gameplay(State):
         elif self.actions['shoot']:
             if self.player_object.attached_item is not None:
                 self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category, self.particles_list)
-                self.player_object.attached_item.ammo -= 1
                 self.player_object.attached_item.play_sfx_shoot()
                 self.actions['shoot'] = False
+                self.player_object.attached_item.ammo -= 1
+                if self.player_object.attached_item.ammo == 0:
+                    self.player_object.attached_item = None
+
         
     def update(self, dt):
         if not self.player_object.alive:
@@ -150,6 +153,7 @@ class Gameplay(State):
                 self.on_lvl += 1
                 self.reinit() 
             else:
+                self.on_lvl = -1
                 self.done = True
         if self.tiles[mapper.get_tile_index_from_layout(self.lvl.layout, self.tiles, self.player_object.pos)].affected == 1:
             self.player_object.die(self.particles_list)
@@ -215,7 +219,19 @@ class Gameplay(State):
                 del i
         # NOTE: Animation bug speed is dependent on the amount of object being updated
         self.player_object.update_object(dt)
-        self.player_object.play('default_idle')
+        if self.player_object.attached_item is not None:
+            if self.player_object.attached_item.category == 1:
+                self.player_object.play('exting_idle')
+            elif self.player_object.attached_item.category == 2:
+                self.player_object.play('gun_idle')
+            elif self.player_object.attached_item.category == 3:
+                self.player_object.play('knife_idle')
+            elif self.player_object.attached_item.category == 4:
+                self.player_object.play('molotow_idle')
+            elif self.player_object.attached_item.category == 5:
+                self.player_object.play('default_idle')
+        else:
+            self.player_object.play('default_idle')
         for i in self.items:
             i.update_object(dt)
             i.play('anim')
@@ -229,6 +245,12 @@ class Gameplay(State):
         for i in self.particles_list:
             i.draw(self.surface, self.camera_group)
         # Allow debug in debug.py
+        if self.player_object.attached_item:
+            if self.player_object.attached_item.ammo > 0:
+                debug.display('ammo: ' + str(self.player_object.attached_item.ammo))
+            elif self.player_object.attached_item.ammo < 0:
+                debug.display(self.player_object.attached_item.name)
+
         if debug.status:
             debug.display(str(self.player_object.pos) + str(self.lvl.player_spawn), 40)
             debug.display("tile index: " + str(self.player_object.on_tile_index(self.lvl.layout, self.tiles)), 70)
@@ -238,3 +260,6 @@ class Gameplay(State):
             if self.player_object.attached_item is not None:
                 debug.display("attached: " + self.player_object.attached_item.name, 250)
                 debug.display("ammo: " + str(self.player_object.attached_item.ammo), 280)
+            if self.enemies:
+                for e in self.enemies:
+                    debug.display(e.locked_on_target, 320)
