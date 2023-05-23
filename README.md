@@ -14,6 +14,9 @@ Install dependencies:
 * `pip install pathfinding`
 * `pip install pygame-ce`
 
+Unzip assets:
+* `unzip asset.zip`
+
 And simply run from main.py
 * `python main.py`
 
