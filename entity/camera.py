@@ -24,13 +24,3 @@ class Camera(pygame.sprite.Group):
             if sprite.rect:
                 offset_pos = sprite.rect.center - self.offset
                 self.display_surface.blit(sprite.image, offset_pos)
-        
-    def in_view(self, go1, go2, tiles):
-        start_pos = [go1.rect.centerx, go1.rect.centery] 
-        end_pos = [go2.rect.centerx, go2.rect.centery] 
-        thiccness = 1
-        line = pygame.draw.line(self.display_surface, finals.COLOR_ORANGE, start_pos, end_pos, thiccness) 
-        for tile in tiles:
-            if mapper.status['transparent'] not in tile.status:
-                if line.colliderect(tile.rect):
-                    return True

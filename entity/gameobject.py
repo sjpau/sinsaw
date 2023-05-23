@@ -2,6 +2,7 @@ import pygame
 import loader.asset as asset
 import misc
 from math import atan2, degrees
+import loader.mapper as mapper
 
 class GameObject:
     def __init__(self, pos, xy, image, is_tile, group, animations=None):
@@ -65,6 +66,35 @@ class GameObject:
         if animation_name in self.animations:
             self.current_animation = self.animations[animation_name]
             self.default_image = self.current_animation.get_sprite(0)
+
+    def is_object_visible(self, target, layout, tiles):
+        object_y = self.pos[0]
+        object_x = self.pos[1]
+        target_y = target.pos[0]
+        target_x = target.pos[1]
+        dx = abs(target_x - object_x)
+        dy = abs(target_y - object_y)
+        sx = -1 if object_x > target_x else 1
+        sy = -1 if object_y > target_y else 1
+        err = dx - dy
+
+        while object_x != target_x or object_y != target_y:
+            if object_y < 0 or object_y >= len(layout) or object_x < 0 or object_x >= len(layout[0]):
+                return False
+            
+            if mapper.status['transparent'] not in tiles[mapper.get_tile_index_from_layout(layout, tiles, [object_y, object_x])].status:
+                return False
+
+            e2 = 2 * err
+            if e2 > -dy:
+                err -= dy
+                object_x += sx
+            if e2 < dx:
+                err += dx
+                object_y += sy
+        
+        return True
+
 
     def update_object(self, dt):
         from loader.mapper import tile_size
