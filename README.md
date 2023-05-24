@@ -21,8 +21,8 @@ And simply run from main.py
 * `python main.py`
 
 # Developers
-* ![Bobster](https://mobyus.xyz/bobster/)
-* ![Jan Sauchyk](https://mobyus.xyz/yan-sauchyk/)
+* Bobster - https://mobyus.xyz/bobster/
+* Jan Sauchyk - https://mobyus.xyz/yan-sauchyk/
 
 # Credits
 Credits to authors of external assets that are used in the game.
