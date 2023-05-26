@@ -15,9 +15,9 @@ pygame.mixer.music.load(finals.music_path + 'night_shift.ogg')
 pygame.mixer.music.set_volume(0.4)
 pygame.mixer.music.play(-1)
 states = {
-    "MENU": Menu(screen),
-    "SPLASH": Splash(screen),
-    "GAMEPLAY": Gameplay(finals.chapters['The Night Shift'], screen),
+    "MENU": Menu(),
+    "SPLASH": Splash(),
+    "GAMEPLAY": Gameplay(finals.chapters['The Night Shift']),
 }
 
 game = Game(screen, states, "SPLASH")

@@ -4,9 +4,9 @@ import defs.finals as finals
 
 
 class Menu(State):
-    def __init__(self, surface):
+    def __init__(self):
         super(Menu, self).__init__()
-        self.surface = surface
+        self.surface = pygame.display.get_surface()
         self.active_index = 0
         self.levels = {
             "The Night Shift": "the_night_shift_1.json", # TODO: implement choosing levels
@@ -24,7 +24,7 @@ class Menu(State):
         return self.font.render(self.options[index], True, color)
 
     def get_text_position(self, text, index):
-        center = (self.screen_rect.center[0], self.screen_rect.center[1] + (index * 50))
+        center = (self.screen_rect.centerx, self.screen_rect.centery + (index * 50))
         return text.get_rect(center=center)
 
     def handle_action(self):
@@ -48,6 +48,9 @@ class Menu(State):
         elif event.type == pygame.VIDEORESIZE:
             if not self.fullscreen:
                 self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                self.screen_rect = pygame.display.get_surface().get_rect()
+            else:
+                self.screen_rect = pygame.display.get_surface().get_rect()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
                 self.fullscreen = not self.fullscreen

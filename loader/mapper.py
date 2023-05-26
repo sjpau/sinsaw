@@ -1,8 +1,8 @@
 import pygame
 import loader.asset as asset
 import entity.tile as tile
+import defs.finals as finals
 
-tile_size = 100
 status = {
     'destructable': 0,
     'indestructable': 1,
@@ -11,29 +11,6 @@ status = {
     'unlockable': 4,
     'breachable': 5
 }
-
-def init_tileset(layout, camera_group):
-    tiles = []
-    for y, row in enumerate(layout):
-        for x, layout in enumerate(row):
-
-            filename =  asset.static_path + asset.tileset[str(layout)] 
-            image = pygame.image.load(filename).convert_alpha()
-            image = pygame.transform.scale(image, (tile_size, tile_size))
-            t = tile.Tile(camera_group, image)
-
-            t.rect.x = x * t.rect.width
-            t.rect.y = y * t.rect.height
-            
-            t.code = layout
-            t.pos[0] = x
-            t.pos[1] = y
-
-            t.init_status()
-
-            tiles.append(t)
-    
-    return tiles
 
 def get_tile_index_from_layout(layout, tiles, matrix_index):
     for row in range(len(layout)):

@@ -1,4 +1,5 @@
 import pygame
+import defs.screen as s
 
 
 class State(object):

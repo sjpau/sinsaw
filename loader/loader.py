@@ -3,6 +3,7 @@ import json
 import os
 import entity.enemy as enemy
 import entity.level as level
+import entity.tile as tile
 import loader.asset as asset
 import loader.mapper as mapper
 from entity.animation import Animation
@@ -89,3 +90,27 @@ def init_items(item_spawns, layout, tiles, group):
         items.append(item)
     
     return items
+
+def init_tileset(layout, camera_group):
+    tiles = []
+    for y, row in enumerate(layout):
+        for x, layout in enumerate(row):
+
+            filename =  asset.static_path + asset.tileset[str(layout)] 
+            image = pygame.image.load(filename).convert_alpha()
+            image = pygame.transform.scale(image, (finals.tile_size, finals.tile_size))
+            t = tile.Tile(camera_group, image)
+
+            t.rect.x = x * t.rect.width
+            t.rect.y = y * t.rect.height
+            
+            t.code = layout
+            t.pos[0] = x
+            t.pos[1] = y
+
+            t.init_status()
+
+            tiles.append(t)
+    
+    return tiles
+

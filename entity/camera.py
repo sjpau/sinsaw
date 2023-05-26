@@ -1,6 +1,5 @@
 import pygame
 import defs.finals as finals
-import loader.mapper as mapper
 
 class Camera(pygame.sprite.Group):
     def __init__(self):
@@ -10,14 +9,16 @@ class Camera(pygame.sprite.Group):
         self.half_height = self.display_surface.get_height() // 2
         self.offset = pygame.math.Vector2(self.half_width, self.half_height)
 
-    def resize(self, width, height, target):
-        self.display_surface = pygame.display.set_mode((width, height))
-        self.offset.x = target.rect.centerx - self.display_surface.get_width() / 2
-        self.offset.y = target.rect.centery - self.display_surface.get_height() / 2
+    def resize(self, surface, target):
+        self.display_surface = surface
+        self.half_width = self.display_surface.get_width() // 2
+        self.half_height = self.display_surface.get_height() // 2
 
     def attach_to(self, target):
-        self.offset.x = target.rect.centerx - self.half_width
-        self.offset.y = target.rect.centery - self.half_height
+        x = target.rect.bottomright[0]
+        y = target.rect.bottomright[1]
+        self.offset.x = x - self.half_width
+        self.offset.y = y - self.half_height
 
     def custom_draw(self):
         for sprite in self.sprites():

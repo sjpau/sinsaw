@@ -21,9 +21,9 @@ import defs.finals as finals
 
 
 class Gameplay(State):
-    def __init__(self, chapter, surface):
+    def __init__(self, chapter):
         super(Gameplay, self).__init__()
-        self.surface = surface
+        self.surface = pygame.display.get_surface()
         self.next_state = "MENU"
         self.codes_walkable = [0, 2, 6, 8, 3, 7]
         self.camera_group = camera.Camera()
@@ -42,7 +42,7 @@ class Gameplay(State):
             self.lvls.append(new_lvl)
         self.lvl = self.lvls[self.on_lvl]
         # INIT LVL VARS
-        self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
+        self.tiles = loader.init_tileset(self.lvl.layout, self.camera_group)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
        
@@ -69,7 +69,7 @@ class Gameplay(State):
         self.enemies = None
         self.game_objects = None
         
-        self.tiles = mapper.init_tileset(self.lvl.layout, self.camera_group)
+        self.tiles = loader.init_tileset(self.lvl.layout, self.camera_group)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
        
@@ -86,16 +86,14 @@ class Gameplay(State):
         elif event.type == pygame.VIDEORESIZE:
             if not self.fullscreen:
                 self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                self.camera_group.resize(event.w, event.h, self.player_object)
+            self.camera_group.resize(pygame.display.get_surface(), self.player_object)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
                 self.fullscreen = not self.fullscreen
                 if self.fullscreen:
                     self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.FULLSCREEN)
-                    self.camera_group.resize(self.surface.get_width(), self.surface.get_height(), self.player_object)
                 else:
                     self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.RESIZABLE)
-                    self.camera_group.resize(self.surface.get_width(), self.surface.get_height(), self.player_object)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_q:
                 self.reinit()

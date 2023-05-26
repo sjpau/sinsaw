@@ -3,9 +3,9 @@ import pygame
 from entity.animation import Animation
 import loader.anims as anims
 import loader.asset as asset
-import loader.mapper as mapper
 pygame.mixer.init()
 
+tile_size: Final = 64
 COLOR_BLACK: Final = pygame.Color((16, 13, 19))
 COLOR_PURPLE: Final = pygame.Color((74, 36, 128))
 COLOR_PINK: Final = pygame.Color((197, 58, 157))
@@ -119,10 +119,10 @@ sfx_door_on_shot.set_volume(0.3)
 
 ### MISC ###
 image_door_broken_1 = pygame.image.load(asset.door_broken_1).convert_alpha()
-image_door_broken_1 = pygame.transform.scale(image_door_broken_1, (mapper.tile_size, mapper.tile_size))
+image_door_broken_1 = pygame.transform.scale(image_door_broken_1, (tile_size, tile_size))
 image_door_broken_2 = pygame.image.load(asset.door_broken_2).convert_alpha()
-image_door_broken_2 = pygame.transform.scale(image_door_broken_2, (mapper.tile_size, mapper.tile_size))
+image_door_broken_2 = pygame.transform.scale(image_door_broken_2, (tile_size, tile_size))
 image_door_unlocked_1 = pygame.image.load(asset.door_unlocked_1).convert_alpha()
-image_door_unlocked_1 = pygame.transform.scale(image_door_unlocked_1, (mapper.tile_size, mapper.tile_size))
+image_door_unlocked_1 = pygame.transform.scale(image_door_unlocked_1, (tile_size, tile_size))
 image_door_unlocked_2 = pygame.image.load(asset.door_unlocked_2).convert_alpha()
-image_door_unlocked_2 = pygame.transform.scale(image_door_unlocked_2, (mapper.tile_size, mapper.tile_size))
+image_door_unlocked_2 = pygame.transform.scale(image_door_unlocked_2, (tile_size, tile_size))

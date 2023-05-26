@@ -3,14 +3,14 @@ import loader.asset as asset
 import helper.misc as misc
 from math import atan2, degrees
 import loader.mapper as mapper
+import defs.finals as finals
 
 class GameObject:
     def __init__(self, pos, xy, image, is_tile, group, animations=None):
-        from loader.mapper import tile_size
         self.animations = animations or {}
         self.current_animation = None
         self.pos = pos
-        self.image = pygame.transform.scale(image, (tile_size, tile_size))
+        self.image = pygame.transform.scale(image, (finals.tile_size, finals.tile_size))
         self.default_image = self.image
         self.direction = pygame.math.Vector2(1, 0)
         self.direction_ptr = self.direction.copy()
@@ -97,8 +97,7 @@ class GameObject:
 
 
     def update_object(self, dt):
-        from loader.mapper import tile_size
         if self.current_animation is not None:
             self.current_animation.play(dt)
             angle = degrees(atan2(self.direction[1], self.direction[0])) % 360
-            self.image = pygame.transform.scale(pygame.transform.rotate(self.current_animation.get_current_sprite(), angle), (tile_size, tile_size))
+            self.image = pygame.transform.scale(pygame.transform.rotate(self.current_animation.get_current_sprite(), angle), (finals.tile_size, finals.tile_size))
