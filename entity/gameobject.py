@@ -1,6 +1,6 @@
 import pygame
 import loader.asset as asset
-import misc
+import helper.misc as misc
 from math import atan2, degrees
 import loader.mapper as mapper
 

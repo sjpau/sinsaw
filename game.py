@@ -1,6 +1,6 @@
 import pygame
 import debug
-import finals
+import defs.finals as finals
 
 class Game(object):
     def __init__(self, screen, states, start_state):

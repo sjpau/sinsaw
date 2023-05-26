@@ -8,7 +8,7 @@ import loader.mapper as mapper
 from entity.animation import Animation
 import loader.anims as anims
 from entity.item import Item
-import finals
+import defs.finals as finals
 
 def read_lvl_from_json(json_path):
     try:

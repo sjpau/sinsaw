@@ -3,7 +3,7 @@ import pygame
 import sys
 import loader.loader as loader
 import entity.camera as camera
-import screen as s
+import defs.screen as s
 
 class Level:
     def __init__(self, name, num, layout, player_spawn, enemy_spawns, item_spawns, exit_spawn):

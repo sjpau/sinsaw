@@ -2,7 +2,7 @@
 
 pyinstaller --noconfirm --log-level=WARN \
     --onefile \
-    --icon="icon.ico" \
+    --icon="misc/icon.ico" \
 		--add-data="asset/sound/music/*.ogg:asset/sound/music/" \
 		--add-data="asset/sound/sfx/*.ogg:asset/sound/sfx/" \
 		--add-data="asset/static/*.png:asset/static/" \

@@ -1,6 +1,6 @@
 import pygame
 import random
-import finals
+import defs.finals as finals
 import entity.gameobject as gameobject
 import loader.asset as asset
 import entity.item as item

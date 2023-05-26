@@ -1,5 +1,5 @@
 import pygame
-import finals
+import defs.finals as finals
 import loader.mapper as mapper
 
 class Camera(pygame.sprite.Group):

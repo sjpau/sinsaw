@@ -2,7 +2,7 @@ import pygame
 import loader.asset as asset
 import entity.gameobject as gameobject
 import loader.mapper as mapper
-import finals
+import defs.finals as finals
 
 class Item(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, image):

@@ -1,5 +1,5 @@
 import pygame
-import finals
+import defs.finals as finals
 from .state import State
 
 

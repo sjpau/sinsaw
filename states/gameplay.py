@@ -6,7 +6,7 @@ import random
 import entity.level as level
 import loader.loader as loader
 import entity.player as player
-import screen as s
+import defs.screen as s
 import entity.camera as camera
 import entity.enemy as enemy
 import entity.item as item
@@ -16,7 +16,7 @@ import time
 import entity.particles as particles
 import entity.tile as tile
 import loader.mapper as mapper
-import finals
+import defs.finals as finals
 
 
 

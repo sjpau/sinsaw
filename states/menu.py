@@ -1,6 +1,6 @@
 import pygame
 from .state import State
-import finals
+import defs.finals as finals
 
 
 class Menu(State):

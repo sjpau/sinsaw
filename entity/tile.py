@@ -3,7 +3,7 @@ import entity.gameobject as gameobject
 import loader.mapper as mapper
 import entity.particles as particles
 import random
-import finals
+import defs.finals as finals
 
 class Tile(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, group, image):

@@ -1,7 +1,7 @@
 # Sinsaw
 Sinsaw is a small turn-based shooter with puzzle elements.
 
-![](example.gif)
+![](misc/example.gif)
 
 # Development Status
 The game is currently in active development, and we (the team of two devs) are working to release v1.0 as soon as possible.

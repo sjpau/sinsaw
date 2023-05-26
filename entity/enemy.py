@@ -1,8 +1,8 @@
 import pygame
 import random
 import entity.gameobject as gameobject
-import misc
-import finals
+import helper.misc as misc
+import defs.finals as finals
 import loader.asset as asset
 import loader.mapper as mapper
 import entity.particles as particles
