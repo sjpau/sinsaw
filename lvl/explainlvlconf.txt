@@ -1,0 +1,20 @@
+0 - floor
+1 - wall
+2 - door hor
+3 - door ver
+4 - glass ver
+5 - glass hor
+6 - locked door hor
+7 - locked door ver
+8 - cool floor
+9 - empty
+
+1 - ext
+2 - pistol
+3 - knife
+4 - molotow
+5 - key
+
+1 - enemy knife
+2 - enemy pistol
+3 - enemy dog

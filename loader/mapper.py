@@ -1,6 +1,5 @@
 import pygame
 import loader.asset as asset
-import entity.tile as tile
 import defs.finals as finals
 
 status = {

@@ -9,15 +9,14 @@ class Menu(State):
         self.surface = pygame.display.get_surface()
         self.active_index = 0
         self.levels = {
-            "The Night Shift": "the_night_shift_1.json", # TODO: implement choosing levels
-            "!NOT IMPLEMENTED!": "CRASH!"
+            "The Night Shift": 1, 
+            "The Afterparty": 2,
         }
         self.levels_keys = list(self.levels.keys())
         self.choose_level = "< " + self.levels_keys[0] + " >"
         self.options = ["Start Game", self.choose_level, "Quit Game"]
-        self.chosen_level = ""
         self.chosen_level = self.levels[self.levels_keys[0]]
-        self.next_state = "GAMEPLAY"
+        self.next_state = ""
 
     def render_text(self, index):
         color = finals.COLOR_BEIGE if index == self.active_index else finals.COLOR_PINK
@@ -29,6 +28,10 @@ class Menu(State):
 
     def handle_action(self):
         if self.active_index == 0:
+            if self.chosen_level == 1:
+                self.next_state = 'CHAPTER_NIGHT_SHIFT'
+            elif self.chosen_level == 2:
+                self.next_state = 'CHAPTER_AFTERPARTY'
             self.done = True
         elif self.active_index == 1:
             pass
@@ -41,6 +44,7 @@ class Menu(State):
         self.choose_level = "< " + self.levels_keys[new_level_index] + " >"
         self.options = ["Start Game", self.choose_level, "Quit Game"]
         self.chosen_level = self.levels[self.levels_keys[new_level_index]]
+        self.state_arg = self.chosen_level
 
     def get_event(self, event):
         if event.type == pygame.QUIT:
@@ -84,3 +88,4 @@ class Menu(State):
         for index, option in enumerate(self.options):
             text_render = self.render_text(index)
             self.surface.blit(text_render, self.get_text_position(text_render, index))
+    

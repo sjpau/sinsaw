@@ -114,6 +114,9 @@ class Gameplay(State):
                     if self.player_object.attached_item.ammo > 0:
                         self.turn += 1
                         self.actions['shoot'] = True
+            if event.key == pygame.K_ESCAPE:
+                self.next_state = 'MENU'
+                self.done = True
 
     def handle_actions(self):
         if self.actions['down']:

@@ -11,14 +11,15 @@ class Game(object):
         self.states = states
         self.state_name = start_state
         self.state = self.states[self.state_name]
+        self.desired_next_state = ""
 
     def event_loop(self):
         for event in pygame.event.get():
             self.state.get_event(event)
 
-    def flip_state(self):
-        current_state = self.state_name
-        next_state = self.state.next_state
+    def flip_state(self, next_state=""):
+        if  next_state == "":
+            next_state = self.state.next_state
         self.state.done = False
         self.state_name = next_state
         persistent = self.state.persist
@@ -26,10 +27,11 @@ class Game(object):
         self.state.startup(persistent)
 
     def update(self, dt):
+        self.desired_next_state = self.state.desired_next_state
         if self.state.quit:
             self.done = True
         elif self.state.done:
-            self.flip_state()
+            self.flip_state(self.desired_next_state)
             self.switch_music = True
         self.state.update(dt)
 

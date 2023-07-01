@@ -17,7 +17,10 @@ pygame.mixer.music.play(-1)
 states = {
     "MENU": Menu(),
     "SPLASH": Splash(),
-    "GAMEPLAY": Gameplay(finals.chapters['The Night Shift']),
+    #if it works it works..
+    #it's a prototype anyways..right?
+    "CHAPTER_NIGHT_SHIFT": Gameplay(finals.chapters['The Night Shift']),
+    "CHAPTER_AFTERPARTY": Gameplay(finals.chapters['The Afterparty']),
 }
 
 game = Game(screen, states, "SPLASH")

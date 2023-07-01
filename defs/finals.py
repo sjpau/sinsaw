@@ -5,7 +5,7 @@ import loader.anims as anims
 import loader.asset as asset
 pygame.mixer.init()
 
-tile_size: Final = 64
+tile_size: Final = 80
 COLOR_BLACK: Final = pygame.Color((16, 13, 19))
 COLOR_PURPLE: Final = pygame.Color((74, 36, 128))
 COLOR_PINK: Final = pygame.Color((197, 58, 157))
@@ -24,9 +24,14 @@ chapter_night_shift: Final = [
     'chapter_night_shift/the_night_shift_4.json',
     'chapter_night_shift/the_night_shift_5.json',
     ]
+  
+chapter_the_afterparty: Final = [
+  'chapter_the_afterparty/the_afterparty_1.json'
+]
 
 chapters: Final = {
     'The Night Shift': chapter_night_shift,
+    'The Afterparty': chapter_the_afterparty,
 }
 
 anim_default_attack, anim_default_idle, anim_default_smoking, anim_default_walk = anims.load_animations_player_default()
@@ -112,7 +117,8 @@ sfx_scream_1: Final = pygame.mixer.Sound(sfx_path + 'scream_1.ogg')
 sfx_scream_2: Final = pygame.mixer.Sound(sfx_path + 'scream_2.ogg')
 sfx_scream_3: Final = pygame.mixer.Sound(sfx_path + 'scream_3.ogg')
 sfx_scream: Final = [sfx_scream_1, sfx_scream_2, sfx_scream_3]
-
+for s in sfx_scream:
+  s.set_volume(0.3)
 sfx_step.set_volume(0.3)
 sfx_glass_on_shot.set_volume(0.3)
 sfx_door_on_shot.set_volume(0.3)

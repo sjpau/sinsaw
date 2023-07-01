@@ -8,6 +8,8 @@ class State(object):
         self.quit = False
         self.fullscreen = False
         self.next_state = None
+        self.desired_next_state = ""
+        self.state_arg = 0
         self.screen_rect = pygame.display.get_surface().get_rect()
         self.persist = {}
         self.font = pygame.font.Font(None, 50)
