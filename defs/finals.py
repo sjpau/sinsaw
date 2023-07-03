@@ -38,6 +38,7 @@ chapters: Final = {
     'The Afterparty': chapter_the_afterparty,
 }
 
+# There is only one instance of player animations so for now its here. TODO: move smwr else
 anim_default_attack, anim_default_idle, anim_default_smoking, anim_default_walk = anims.load_animations_player_default()
 anim_molotow_attack, anim_molotow_idle,  anim_molotow_walk = anims.load_animations_player_molotow()
 anim_exting_idle,  anim_exting_walk = anims.load_animations_player_exting()
@@ -59,43 +60,8 @@ animations_player = {
     'gun_idle': Animation(anim_gun_idle, 300),
     'gun_walk': Animation(anim_gun_idle, 100),
 }
-anim_exting = anims.load_animation_item_exting()
-animations_exting = {
-  'anim': Animation(anim_exting, 200)
-}
-anim_gun = anims.load_animation_item_gun()
-animations_gun = {
-  'anim': Animation(anim_gun, 200)
-}
-anim_knife = anims.load_animation_item_knife()
-animations_knife = {
-  'anim': Animation(anim_knife, 200)
-}
-anim_molotow = anims.load_animation_item_molotow()
-animations_molotow = {
-  'anim': Animation(anim_molotow, 200)
-}
-anim_key = anims.load_animation_item_key()
-animations_key = {
-  'anim': Animation(anim_key, 200)
-}
-sprites_attack, sprites_idle, sprites_walk = anims.load_animation_enemy_knife()
-animations_enemy_knife = {
-    'idle': Animation(sprites_idle, 300),
-    'attack': Animation(sprites_attack, 200),
-    'walk': Animation(sprites_walk, 100),
-}
-sprites_attack, sprites_idle, sprites_walk = anims.load_animation_enemy_gun()
-animations_enemy_gun = {
-    'idle': Animation(sprites_idle, 500),
-    'attack': Animation(sprites_attack, 200),
-    'walk': Animation(sprites_walk, 100),
-}
-sprites_idle, sprites_walk = anims.load_animation_enemy_dog()
-animations_enemy_dog = {
-    'idle': Animation(sprites_idle, 300),
-    'walk': Animation(sprites_walk, 100),
-}
+
+
 music_path: Final = 'asset/sound/music/'
 sfx_path: Final = 'asset/sound/sfx/'
 sfx_bottle_break: Final = pygame.mixer.Sound(sfx_path + 'bottle_break.ogg')

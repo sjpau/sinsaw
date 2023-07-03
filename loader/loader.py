@@ -40,12 +40,29 @@ def init_enemies(enemy_spawns, layout, tiles, group):
         category = row[2]
         if category == 1:
             image = pygame.image.load(asset.image_enemy_knife).convert_alpha()
-            animations = finals.animations_enemy_knife
+            sprites_attack, sprites_idle, sprites_walk = anims.load_animation_enemy_knife()
+            animations_enemy_knife = {
+                'idle': Animation(sprites_idle, 100),
+                'attack': Animation(sprites_attack, 50),
+                'walk': Animation(sprites_walk, 100),
+            }
+            animations = animations_enemy_knife
         elif category == 2:
             image = pygame.image.load(asset.image_enemy_gun).convert_alpha()
-            animations = finals.animations_enemy_gun
+            sprites_attack, sprites_idle, sprites_walk = anims.load_animation_enemy_gun()
+            animations_enemy_gun = {
+                'idle': Animation(sprites_idle, 100),
+                'attack': Animation(sprites_attack, 50),
+                'walk': Animation(sprites_walk, 100),
+            }
+            animations = animations_enemy_gun
         elif category == 3:
             image = pygame.image.load(asset.image_enemy_dog).convert_alpha()
+            sprites_idle, sprites_walk = anims.load_animation_enemy_dog()
+            animations_enemy_dog = {
+                'idle': Animation(sprites_idle, 100),
+                'walk': Animation(sprites_walk, 100),
+            }
             animations = finals.animations_enemy_dog
         xy = mapper.pos_to_xy(pos, layout, tiles)
         e = enemy.Enemy(pos, xy, group, image)
@@ -64,23 +81,43 @@ def init_items(item_spawns, layout, tiles, group):
         xy = mapper.pos_to_xy(pos, layout, tiles)
         if category == 1:
             image = pygame.image.load(asset.item_exting).convert_alpha()
-            animations = finals.animations_exting
+            anim_exting = anims.load_animation_item_exting()
+            animations_exting = {
+            'anim': Animation(anim_exting, 100)
+            }
+            animations = animations_exting
             name = 'fire extinguisher'
         elif category == 2:
             image = pygame.image.load(asset.item_gun).convert_alpha()
-            animations = finals.animations_gun
+            anim_gun = anims.load_animation_item_gun()
+            animations_gun = {
+            'anim': Animation(anim_gun, 100)
+            }
+            animations = animations_gun
             name = 'pistol'
         elif category == 3:
             image = pygame.image.load(asset.item_knife).convert_alpha()
-            animations = finals.animations_knife
+            anim_knife = anims.load_animation_item_knife()
+            animations_knife = {
+            'anim': Animation(anim_knife, 100)
+            }
+            animations = animations_knife
             name = 'combat knife'
         elif category == 4:
             image = pygame.image.load(asset.item_molotow).convert_alpha()
+            anim_molotow = anims.load_animation_item_molotow()
+            animations_molotow = {
+            'anim': Animation(anim_molotow, 100)
+            }
             animations = finals.animations_molotow
             name = 'molotow cocktail'
         elif category == 5:
             image = pygame.image.load(asset.item_key).convert_alpha()
-            animations = finals.animations_key
+            anim_key = anims.load_animation_item_key()
+            animations_key = {
+            'anim': Animation(anim_key, 100)
+            }
+            animations = animations_key
             name = 'key'
         item = Item(pos, xy, group, image)
         item.category = category

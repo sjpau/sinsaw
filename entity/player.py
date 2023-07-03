@@ -2,16 +2,39 @@ import pygame
 import random
 import defs.finals as finals
 import entity.gameobject as gameobject
+from entity.animation import Animation
 import loader.asset as asset
 import entity.item as item
 import loader.mapper as mapper
+import loader.anims as anims
 import entity.particles as particles
 
 class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, pos, xy, group, attached_item=None):
         super().__init__(group)
         self.group = group
-        self.animations = finals.animations_player 
+        anim_default_attack, anim_default_idle, anim_default_smoking, anim_default_walk = anims.load_animations_player_default()
+        anim_molotow_attack, anim_molotow_idle,  anim_molotow_walk = anims.load_animations_player_molotow()
+        anim_exting_idle,  anim_exting_walk = anims.load_animations_player_exting()
+        anim_knife_attack, anim_knife_idle,  anim_knife_walk = anims.load_animations_player_knife()
+        anim_gun_attack, anim_gun_idle,  anim_gun_walk = anims.load_animations_player_gun()
+        animations_player = {
+            'default_attack': Animation(anim_default_attack, 50),
+            'default_idle': Animation(anim_default_idle, 100),
+            'default_smoking': Animation(anim_default_smoking, 100),
+            'molotow_attack': Animation(anim_molotow_attack, 50),
+            'molotow_idle': Animation(anim_molotow_idle, 100),
+            'molotow_walk': Animation(anim_molotow_walk, 100),
+            'exting_idle': Animation(anim_exting_idle, 100),
+            'exting_walk': Animation(anim_exting_idle, 100),
+            'knife_attack': Animation(anim_knife_attack, 50),
+            'knife_idle': Animation(anim_knife_idle, 100),
+            'knife_walk': Animation(anim_knife_walk, 100),
+            'gun_attack': Animation(anim_gun_attack, 50),
+            'gun_idle': Animation(anim_gun_idle, 100),
+            'gun_walk': Animation(anim_gun_idle, 100),
+        }
+        self.animations = animations_player 
         init_image = pygame.image.load(asset.image_player_gun).convert_alpha()
         gameobject.GameObject.__init__(self, pos, xy, init_image, False,group, animations=self.animations)
         self.attached_item = None
