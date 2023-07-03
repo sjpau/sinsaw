@@ -214,6 +214,9 @@ class Gameplay(State):
                 self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_ORANGE, random.randint(5, 10), finals.COLOR_RED_SUBTLE, velocity=pygame.Vector2(random.uniform(-3, 3), random.uniform(-3, 3))))
             elif t.affected == 2: # Set in fog
                 self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_GREY, random.randint(10, 15), finals.COLOR_GREY_DARK))
+            if t.affected != 2 and mapper.status['opaque'] in t.status:
+                        t.status.remove(mapper.status['opaque'])
+                        t.status.append(mapper.status['transparent'])
 
         for i in self.particles_list:
             i.update()

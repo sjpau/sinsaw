@@ -26,7 +26,11 @@ chapter_night_shift: Final = [
     ]
   
 chapter_the_afterparty: Final = [
-  'chapter_the_afterparty/the_afterparty_1.json'
+  'chapter_the_afterparty/the_afterparty_5.json',
+  'chapter_the_afterparty/the_afterparty_1.json',
+  'chapter_the_afterparty/the_afterparty_2.json',
+  'chapter_the_afterparty/the_afterparty_3.json',
+  'chapter_the_afterparty/the_afterparty_4.json',
 ]
 
 chapters: Final = {

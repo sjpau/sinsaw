@@ -8,7 +8,8 @@ status = {
     'walkable': 2,
     'transparent': 3,
     'unlockable': 4,
-    'breachable': 5
+    'breachable': 5,
+    'opaque': 6
 }
 
 def get_tile_index_from_layout(layout, tiles, matrix_index):

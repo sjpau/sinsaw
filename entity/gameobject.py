@@ -39,6 +39,9 @@ class GameObject:
                 i = get_tile_index_from_layout(layout, tiles, tile_pos) # TODO split into separate functions
                 if status['walkable'] in tiles[i].status or status['unlockable'] in tiles[i].status or status['breachable'] in tiles[i].status: 
                     tiles[i].affected = 2 # Set in fog
+                    if status['transparent'] in tiles[i].status:
+                        tiles[i].status.remove(status['transparent'])
+                        tiles[i].status.append(status['opaque'])
         elif weapon == 2: # Pistol
             tiles_content = misc.slice_from_direction(layout, self.direction, self.pos)
             for i, tile in enumerate(tiles_content):
