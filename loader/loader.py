@@ -63,7 +63,7 @@ def init_enemies(enemy_spawns, layout, tiles, group):
                 'idle': Animation(sprites_idle, 100),
                 'walk': Animation(sprites_walk, 100),
             }
-            animations = finals.animations_enemy_dog
+            animations = animations_enemy_dog
         xy = mapper.pos_to_xy(pos, layout, tiles)
         e = enemy.Enemy(pos, xy, group, image)
         e.category = category
@@ -109,7 +109,7 @@ def init_items(item_spawns, layout, tiles, group):
             animations_molotow = {
             'anim': Animation(anim_molotow, 100)
             }
-            animations = finals.animations_molotow
+            animations = animations_molotow
             name = 'molotow cocktail'
         elif category == 5:
             image = pygame.image.load(asset.item_key).convert_alpha()

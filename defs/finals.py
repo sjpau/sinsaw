@@ -26,11 +26,11 @@ chapter_night_shift: Final = [
     ]
   
 chapter_the_afterparty: Final = [
-  'chapter_the_afterparty/the_afterparty_5.json',
   'chapter_the_afterparty/the_afterparty_1.json',
   'chapter_the_afterparty/the_afterparty_2.json',
   'chapter_the_afterparty/the_afterparty_3.json',
   'chapter_the_afterparty/the_afterparty_4.json',
+  'chapter_the_afterparty/the_afterparty_5.json',
 ]
 
 chapters: Final = {
@@ -38,28 +38,7 @@ chapters: Final = {
     'The Afterparty': chapter_the_afterparty,
 }
 
-# There is only one instance of player animations so for now its here. TODO: move smwr else
-anim_default_attack, anim_default_idle, anim_default_smoking, anim_default_walk = anims.load_animations_player_default()
-anim_molotow_attack, anim_molotow_idle,  anim_molotow_walk = anims.load_animations_player_molotow()
-anim_exting_idle,  anim_exting_walk = anims.load_animations_player_exting()
-anim_knife_attack, anim_knife_idle,  anim_knife_walk = anims.load_animations_player_knife()
-anim_gun_attack, anim_gun_idle,  anim_gun_walk = anims.load_animations_player_gun()
-animations_player = {
-    'default_attack': Animation(anim_default_attack, 100),
-    'default_idle': Animation(anim_default_idle, 300),
-    'default_smoking': Animation(anim_default_smoking, 300),
-    'molotow_attack': Animation(anim_molotow_attack, 200),
-    'molotow_idle': Animation(anim_molotow_idle, 300),
-    'molotow_walk': Animation(anim_molotow_walk, 100),
-    'exting_idle': Animation(anim_exting_idle, 300),
-    'exting_walk': Animation(anim_exting_idle, 100),
-    'knife_attack': Animation(anim_knife_attack, 200),
-    'knife_idle': Animation(anim_knife_idle, 300),
-    'knife_walk': Animation(anim_knife_walk, 100),
-    'gun_attack': Animation(anim_gun_attack, 200),
-    'gun_idle': Animation(anim_gun_idle, 300),
-    'gun_walk': Animation(anim_gun_idle, 100),
-}
+
 
 
 music_path: Final = 'asset/sound/music/'
