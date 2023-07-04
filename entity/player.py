@@ -43,13 +43,13 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
     def die(self, particles_list):
         # Write when die state
         for i in range(30):
-            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-20, 0), random.randint(0, 20)), random.uniform(random.randint(-20, 0), random.randint(0, 20)))))
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-20, 0), random.randint(0, 20)), random.uniform(random.randint(-20, 0), random.randint(0, 20))), tag=1))
         self.alive = False
     
     def on_shot(self, particles_list):
         super().on_shot(particles_list)
         for i in range(50):
-            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(-20, 10), random.uniform(-10, 10))))
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(-20, 10), random.uniform(-10, 10)), tag=1))
         self.die(particles_list)
 
     def attach_item(self, attached_item):

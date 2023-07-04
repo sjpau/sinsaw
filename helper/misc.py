@@ -49,3 +49,10 @@ def molotow_slice(layout, pos, h_area=3, v_area=3):
         molotow_slice.append(i)
 
     return molotow_slice
+
+def circle_surface(radius, color):
+    surf = pygame.Surface((radius * 2, radius * 2))
+    pygame.draw.circle(surf, color, (radius, radius), radius, pygame.SRCALPHA)
+    surf.set_colorkey((0, 0, 0))
+    surf.set_alpha(100)
+    return surf

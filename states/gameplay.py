@@ -17,8 +17,8 @@ import entity.particles as particles
 import entity.tile as tile
 import loader.mapper as mapper
 import defs.finals as finals
-
-
+import helper.misc as misc
+from entity.deadimage import DeadImage
 
 class Gameplay(State):
     def __init__(self, chapter):
@@ -27,6 +27,7 @@ class Gameplay(State):
         self.next_state = "MENU"
         self.codes_walkable = [0, 2, 6, 8, 3, 7]
         self.camera_group = camera.Camera()
+        self.tile_group = camera.Camera()
         self.actions = {
             'left': False,
             'right': False,
@@ -42,9 +43,10 @@ class Gameplay(State):
             self.lvls.append(new_lvl)
         self.lvl = self.lvls[self.on_lvl]
         # INIT LVL VARS
-        self.tiles = loader.init_tileset(self.lvl.layout, self.camera_group)
+        self.tiles = loader.init_tileset(self.lvl.layout, self.tile_group)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
+        self.dead_images = []
        
         self.player_spawn = self.lvl.player_spawn.copy()
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
@@ -55,7 +57,6 @@ class Gameplay(State):
       
         self.turn = 0
         self.turn_ptr = self.turn
-#    def initialize(self):
         
     def reinit(self):
         self.lvl = self.lvls[self.on_lvl]
@@ -64,14 +65,16 @@ class Gameplay(State):
         self.tiles = None
         self.layout_walkable = None
         self.particles_list = None
+        self.dead_images = None
         self.player_object = None
         self.items = None
         self.enemies = None
         self.game_objects = None
         
-        self.tiles = loader.init_tileset(self.lvl.layout, self.camera_group)
+        self.tiles = loader.init_tileset(self.lvl.layout, self.tile_group)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
+        self.dead_images = []
        
         self.player_spawn = self.lvl.player_spawn.copy()
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
@@ -144,7 +147,6 @@ class Gameplay(State):
                 if self.player_object.attached_item.ammo == 0:
                     self.player_object.attached_item = None
 
-        
     def update(self, dt):
         if not self.player_object.alive:
             self.camera_group.remove(self.player_object)
@@ -200,6 +202,7 @@ class Gameplay(State):
             self.turn_ptr = self.turn
             self.camera_group.update(self.lvl.layout, self.tiles, self.items)
         self.camera_group.attach_to(self.player_object)
+        self.tile_group.attach_to(self.player_object)
 
         p_on_tile =  self.player_object.on_tile_index(self.lvl.layout, self.tiles)
         if mapper.status['breachable'] in self.tiles[p_on_tile].status:
@@ -217,13 +220,19 @@ class Gameplay(State):
             if t.affected != 2 and mapper.status['opaque'] in t.status:
                         t.status.remove(mapper.status['opaque'])
                         t.status.append(mapper.status['transparent'])
-
+        
         for i in self.particles_list:
             i.update()
             if i.delete:
+                if i.tag == 1 and random.random() < finals.blood_splatter_chance:
+                    radius = random.randint(10, 50)
+                    circle = misc.circle_surface(radius, finals.COLOR_RED)
+                    circle.set_alpha(200) #Unset
+                    blood_splatter = DeadImage(circle, i.position, pygame.math.Vector2(1, 0), radius, radius, self.camera_group)
+                    self.dead_images.append(blood_splatter)
                 self.particles_list.remove(i)
                 del i
-        # NOTE: Animation bug speed is dependent on the amount of object being updated
+
         self.player_object.update_object(dt)
         if self.player_object.attached_item is not None:
             if self.player_object.attached_item.category == 1:
@@ -247,7 +256,12 @@ class Gameplay(State):
 
     def draw(self):
         self.surface.fill(finals.COLOR_BLACK)
+
+        self.tile_group.custom_draw()
+        for i in self.dead_images:
+            i.draw(self.surface, self.camera_group)
         self.camera_group.custom_draw()
+
         for i in self.particles_list:
             i.draw(self.surface, self.camera_group)
         # Allow debug in debug.py

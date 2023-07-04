@@ -25,13 +25,13 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
     def die(self, particles_list):
         # Write when die state
         for i in range(30):
-            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-20, 0), random.randint(0, 20)), random.uniform(random.randint(-20, 0), random.randint(0, 20)))))
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 6), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-5, 5), random.randint(-5, 5)), random.uniform(random.randint(-2, 2), random.randint(-2, 2))), tag=1))
         self.alive = False
     
     def on_shot(self, particles_list):
         super().on_shot(particles_list)
         for i in range(100):
-            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 2), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-20, 0), random.randint(0, 20)), random.uniform(random.randint(-20, 0), random.randint(0, 20)))))
+            particles_list.append(particles.Particle(self.rect.bottomright, finals.COLOR_RED, random.randint(1, 6), finals.COLOR_RED, velocity=pygame.Vector2(random.uniform(random.randint(-5, 5), random.randint(-5, 5)), random.uniform(random.randint(-2, 2), random.randint(-1, 1))), tag=1))
         self.die(particles_list)
 
     def combat_target(self, layout, tiles, target, particles_list): # Call when target and enemy (self) on the same tile

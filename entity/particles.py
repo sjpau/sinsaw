@@ -1,15 +1,9 @@
 import pygame
 import random
-
-def circle_surface(radius, color):
-    surf = pygame.Surface((radius * 2, radius * 2))
-    pygame.draw.circle(surf, color, (radius, radius), radius, pygame.SRCALPHA)
-    surf.set_colorkey((0, 0, 0))
-    surf.set_alpha(100)
-    return surf
+import helper.misc as misc
 
 class Particle():
-    def __init__(self, position, color, radius, glow_color, velocity=pygame.Vector2(0,0)):
+    def __init__(self, position, color, radius, glow_color, velocity=pygame.Vector2(0,0), tag=0): #0 does nothing, 1 is blood
         self.position = position
         self.color = color
         self.glow_color = glow_color
@@ -20,6 +14,7 @@ class Particle():
             self.velocity = velocity
         self.last = random.randint(4, 6)
         self.delete = False
+        self.tag = tag
 
     def update(self):
         self.position += self.velocity
@@ -32,4 +27,4 @@ class Particle():
         pygame.draw.circle(screen, self.color, (int(offset_pos.x), int(offset_pos.y)), int(self.radius))
         if glow:
             glow_radius = self.radius * 2
-            screen.blit(circle_surface(glow_radius, color=self.glow_color), (int(offset_pos.x - glow_radius), int(offset_pos.y - glow_radius)), special_flags=pygame.BLEND_RGB_ADD)
+            screen.blit(misc.circle_surface(glow_radius, color=self.glow_color), (int(offset_pos.x - glow_radius), int(offset_pos.y - glow_radius)), special_flags=pygame.BLEND_RGB_ADD)
