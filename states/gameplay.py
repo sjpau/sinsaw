@@ -62,6 +62,8 @@ class Gameplay(State):
         self.lvl = self.lvls[self.on_lvl]
         for sprite in self.camera_group:
             sprite.kill()
+        for sprite in self.tile_group:
+            sprite.kill()
         self.tiles = None
         self.layout_walkable = None
         self.particles_list = None
@@ -200,7 +202,7 @@ class Gameplay(State):
                     self.game_objects.remove(i)
                     del i
             self.turn_ptr = self.turn
-            self.camera_group.update(self.lvl.layout, self.tiles, self.items)
+        self.camera_group.update(self.lvl.layout, self.tiles, self.items)
         self.camera_group.attach_to(self.player_object)
         self.tile_group.attach_to(self.player_object)
 
@@ -230,6 +232,7 @@ class Gameplay(State):
                     circle.set_alpha(200) #Unset
                     blood_splatter = DeadImage(circle, i.position, pygame.math.Vector2(1, 0), radius, radius, self.camera_group)
                     self.dead_images.append(blood_splatter)
+                    finals.sfx_blood_drip_1.play()
                 self.particles_list.remove(i)
                 del i
 

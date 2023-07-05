@@ -62,6 +62,7 @@ sfx_step: Final = pygame.mixer.Sound(sfx_path + 'step.ogg')
 sfx_door_on_shot: Final = pygame.mixer.Sound(sfx_path + 'door_on_shot.ogg')
 sfx_glass_on_shot: Final = pygame.mixer.Sound(sfx_path + 'glass_on_shot.ogg')
 sfx_knife_stab: Final = pygame.mixer.Sound(sfx_path + 'knife_stab.ogg')
+sfx_blood_drip_1: Final = pygame.mixer.Sound(sfx_path + 'blood_drip_1.ogg')
 sfx_scream_1: Final = pygame.mixer.Sound(sfx_path + 'scream_1.ogg')
 sfx_scream_2: Final = pygame.mixer.Sound(sfx_path + 'scream_2.ogg')
 sfx_scream_3: Final = pygame.mixer.Sound(sfx_path + 'scream_3.ogg')
@@ -82,4 +83,4 @@ image_door_unlocked_1 = pygame.transform.scale(image_door_unlocked_1, (tile_size
 image_door_unlocked_2 = pygame.image.load(asset.door_unlocked_2).convert_alpha()
 image_door_unlocked_2 = pygame.transform.scale(image_door_unlocked_2, (tile_size, tile_size))
 
-blood_splatter_chance: Final = 0.04
+blood_splatter_chance: Final = 0.1
