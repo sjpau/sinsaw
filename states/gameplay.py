@@ -89,16 +89,9 @@ class Gameplay(State):
         if event.type == pygame.QUIT:
             self.quit = True
         elif event.type == pygame.VIDEORESIZE:
-            if not self.fullscreen:
-                self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-            self.camera_group.resize(pygame.display.get_surface(), self.player_object)
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_f:
-                self.fullscreen = not self.fullscreen
-                if self.fullscreen:
-                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.FULLSCREEN)
-                else:
-                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.RESIZABLE)
+            self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            self.camera_group.resize(self.surface, self.player_object)
+            self.tile_group.resize(self.surface, self.player_object)
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_q:
                 self.reinit()
@@ -260,10 +253,10 @@ class Gameplay(State):
     def draw(self):
         self.surface.fill(finals.COLOR_BLACK)
 
-        self.tile_group.custom_draw()
+        self.tile_group.custom_draw(self.surface)
         for i in self.dead_images:
             i.draw(self.surface, self.camera_group)
-        self.camera_group.custom_draw()
+        self.camera_group.custom_draw(self.surface)
 
         for i in self.particles_list:
             i.draw(self.surface, self.camera_group)

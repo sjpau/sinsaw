@@ -12,6 +12,7 @@ class Splash(State):
         self.title_rect = self.title.get_rect(center=self.screen_rect.center)
         self.next_state = "MENU"
         self.time_active = 0
+        self.screen_rect = pygame.display.get_surface().get_rect()
 
     def update(self, dt):
         self.time_active += dt
@@ -20,11 +21,8 @@ class Splash(State):
     
     def get_event(self, event):
         if event.type == pygame.VIDEORESIZE:
-            if not self.fullscreen:
-                self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                self.screen_rect = pygame.display.get_surface().get_rect()
-            else:
-                self.screen_rect = pygame.display.get_surface().get_rect()
+            self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            self.screen_rect = pygame.display.get_surface().get_rect()
             self.title_rect.center = self.screen_rect.center
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:

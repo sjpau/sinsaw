@@ -83,4 +83,4 @@ image_door_unlocked_1 = pygame.transform.scale(image_door_unlocked_1, (tile_size
 image_door_unlocked_2 = pygame.image.load(asset.door_unlocked_2).convert_alpha()
 image_door_unlocked_2 = pygame.transform.scale(image_door_unlocked_2, (tile_size, tile_size))
 
-blood_splatter_chance: Final = 0.1
+blood_splatter_chance: Final = 0.2

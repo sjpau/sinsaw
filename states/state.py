@@ -6,7 +6,6 @@ class State(object):
     def __init__(self):
         self.done = False
         self.quit = False
-        self.fullscreen = False
         self.next_state = None
         self.desired_next_state = ""
         self.state_arg = 0

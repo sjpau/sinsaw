@@ -50,18 +50,8 @@ class Menu(State):
         if event.type == pygame.QUIT:
             self.quit = True
         elif event.type == pygame.VIDEORESIZE:
-            if not self.fullscreen:
-                self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
-                self.screen_rect = pygame.display.get_surface().get_rect()
-            else:
-                self.screen_rect = pygame.display.get_surface().get_rect()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_f:
-                self.fullscreen = not self.fullscreen
-                if self.fullscreen:
-                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.FULLSCREEN)
-                else:
-                    self.surface = pygame.display.set_mode((self.surface.get_width(), self.surface.get_height()), pygame.RESIZABLE)
+            self.surface = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            self.screen_rect = pygame.display.get_surface().get_rect()
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP or event.key == pygame.K_w:
                 self.active_index = (self.active_index - 1) % len(self.options)
