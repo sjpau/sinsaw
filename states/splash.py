@@ -2,6 +2,7 @@ import pygame
 import defs.finals as finals
 from .state import State
 import time
+import loader.save as save
 
 
 class Splash(State):
@@ -13,10 +14,14 @@ class Splash(State):
         self.next_state = "MENU"
         self.time_active = 0
         self.screen_rect = pygame.display.get_surface().get_rect()
+        self.loading_data = True
 
     def update(self, dt):
         self.time_active += dt
-        if self.time_active >= 2000:
+
+        save.load_game_data()
+        self.loading_data = False
+        if not self.loading_data:
             self.done = True
     
     def get_event(self, event):

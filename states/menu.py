@@ -9,7 +9,7 @@ class Menu(State):
         self.surface = pygame.display.get_surface()
         self.active_index = 0
         self.levels = {
-            "The Night Shift": 1, 
+            "Night Shift": 1, 
             "The Afterparty": 2,
         }
         self.levels_keys = list(self.levels.keys())

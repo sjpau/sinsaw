@@ -38,8 +38,26 @@ chapters: Final = {
     'The Afterparty': chapter_the_afterparty,
 }
 
+achievement_min_turn_night_shift: Final = {
+  1: 33,
+  2: 20,
+  3: 68,
+  4: 64,
+  5: 50,
+}
 
+achievement_min_turn_afterparty: Final = {
+  1: 71,
+  2: 81,
+  3: 39,
+  4: 121,
+  5: 30,
+}
 
+chapter_to_achievement_map: Final = {
+  'Night Shift': achievement_min_turn_night_shift,
+  'The Afterparty': achievement_min_turn_afterparty,
+}
 
 music_path: Final = 'asset/sound/music/'
 sfx_path: Final = 'asset/sound/sfx/'

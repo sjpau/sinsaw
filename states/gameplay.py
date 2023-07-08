@@ -16,6 +16,7 @@ import time
 import entity.particles as particles
 import entity.tile as tile
 import loader.mapper as mapper
+import loader.save as save
 import defs.finals as finals
 import helper.misc as misc
 from entity.deadimage import DeadImage
@@ -42,7 +43,14 @@ class Gameplay(State):
             new_lvl = loader.init_level(os.path.join("lvl", l))
             self.lvls.append(new_lvl)
         self.lvl = self.lvls[self.on_lvl]
+        self.lvl_save = save.game_save[self.lvl.name]
+        self.achievement_min_turns = self.lvl_save['AchMinTurns']
+        self.achievement_max_kills = self.lvl_save['AchMaxKills']
         # INIT LVL VARS
+        self.completed_with_min_turns = True
+        self.completed_with_max_kills = True
+        self.completed = self.lvl_save['Completed']
+        self.achievement_map = finals.chapter_to_achievement_map[self.lvl.name]
         self.tiles = loader.init_tileset(self.lvl.layout, self.tile_group)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
@@ -72,6 +80,8 @@ class Gameplay(State):
         self.items = None
         self.enemies = None
         self.game_objects = None
+        self.turn = 0
+        self.achievement_map = finals.chapter_to_achievement_map[self.lvl.name]
         
         self.tiles = loader.init_tileset(self.lvl.layout, self.tile_group)
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
@@ -149,11 +159,25 @@ class Gameplay(State):
                 self.game_objects.remove(self.player_object)
             self.reinit()
         if self.player_object.pos == self.lvl.exit_spawn:
+            if self.turn > self.achievement_map[self.lvl.num]:
+                self.completed_with_min_turns = False
+            if len(self.enemies) > 0:
+                self.completed_with_max_kills = False
+                self.completed_with_min_turns = False
             if self.on_lvl != self.lvl_final - 1:
                 self.on_lvl += 1
                 self.reinit() 
             else:
+                if self.completed_with_min_turns:
+                    self.achievement_min_turns = True
+                if self.completed_with_max_kills:
+                    self.achievement_max_kills = True
                 self.on_lvl = -1
+                save.chapter_save['Completed'] = self.completed 
+                save.chapter_save['AchMinTurns'] = self.achievement_min_turns 
+                save.chapter_save['AchMaxKills'] = self.achievement_max_kills 
+                save.game_save[self.lvl.name] = save.chapter_save
+                save.save_game_state(save.game_save)
                 self.done = True
         if self.tiles[mapper.get_tile_index_from_layout(self.lvl.layout, self.tiles, self.player_object.pos)].affected == 1:
             self.player_object.die(self.particles_list)
