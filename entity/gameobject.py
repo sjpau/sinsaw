@@ -9,6 +9,7 @@ class GameObject:
     def __init__(self, pos, xy, image, is_tile, group, animations=None):
         self.animations = animations or {}
         self.current_animation = None
+        self.playing_busy = False
         self.pos = pos
         self.image = pygame.transform.scale(image, (finals.tile_size, finals.tile_size))
         self.default_image = self.image
@@ -101,6 +102,10 @@ class GameObject:
 
     def update_object(self, dt):
         if self.current_animation is not None:
+            if self.playing_busy:
+                if self.current_animation.current_sprite >= len(self.current_animation.sprites)-1:
+                    self.playing_busy = False
+                    self.current_animation.current_sprite = 0
             self.current_animation.play(dt)
             angle = degrees(atan2(self.direction[1], self.direction[0])) % 360
             self.image = pygame.transform.scale(pygame.transform.rotate(self.current_animation.get_current_sprite(), angle), (finals.tile_size, finals.tile_size))

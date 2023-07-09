@@ -40,9 +40,12 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             if tiles[mapper.get_tile_index_from_layout(layout, tiles, self.pos)].affected == 2 and target.attached_item is not None:
                 if target.attached_item.category == 3:
                     self.die(particles_list)
+                    target.play('knife_attack')
+                    target.playing_busy = True
                     finals.sfx_knife_stab.play()
                     finals.sfx_scream[random.randint(0, 2)].play()
                 else: 
+                    self.playing_busy = True
                     target.die(particles_list)
                     finals.sfx_knife_stab.play()
             else:
@@ -52,18 +55,24 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
             if target.attached_item is not None:
                 if target.attached_item.category == 3:
                     self.die(particles_list)
+                    target.play('knife_attack')
+                    target.playing_busy = True
                     finals.sfx_knife_stab.play()
                     finals.sfx_scream[random.randint(0, 2)].play()
                 else:
+                    self.playing_busy = True
                     target.die(particles_list)
                     finals.sfx_knife_stab.play()
             else:
+                self.playing_busy = True
                 target.die(particles_list)
                 finals.sfx_knife_stab.play()
         elif self.category == 3: # Dog
             if target.attached_item is not None:
                 if target.attached_item.category == 3:
                     self.die(particles_list)
+                    target.play('knife_attack')
+                    target.playing_busy = True
                     finals.sfx_knife_stab.play()
                 else:
                     target.die(particles_list)
@@ -226,6 +235,8 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
                 self.to_axis_path(layout, self.pos, player_object.pos)
                 if self.locked_on_target:
                     self.locked_on_target = False
+                    self.playing_busy = True
+                    print(self.playing_busy)
                     #Shoot
                 else:
                     self.to_target(layout, tiles, player_object)

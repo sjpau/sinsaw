@@ -54,6 +54,14 @@ achievement_min_turn_afterparty: Final = {
   5: 30,
 }
 
+player_atack_anim_map: Final = {
+  1: 'exting_walk',
+  2: 'gun_attack',
+  3: 'knife_attack',
+  4: 'molotow_attack',
+  5: 'key_idle',
+}
+
 chapter_to_achievement_map: Final = {
   'Night Shift': achievement_min_turn_night_shift,
   'The Afterparty': achievement_min_turn_afterparty,

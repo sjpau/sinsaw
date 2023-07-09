@@ -52,7 +52,7 @@ def init_enemies(enemy_spawns, layout, tiles, group):
             sprites_attack, sprites_idle, sprites_walk = anims.load_animation_enemy_gun()
             animations_enemy_gun = {
                 'idle': Animation(sprites_idle, 200),
-                'attack': Animation(sprites_attack, 50),
+                'attack': Animation(sprites_attack, 500),
                 'walk': Animation(sprites_walk, 100),
             }
             animations = animations_enemy_gun

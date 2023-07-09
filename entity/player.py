@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite, gameobject.GameObject):
             'knife_attack': Animation(anim_knife_attack, 50),
             'knife_idle': Animation(anim_knife_idle, 100),
             'knife_walk': Animation(anim_knife_walk, 100),
-            'gun_attack': Animation(anim_gun_attack, 50),
+            'gun_attack': Animation(anim_gun_attack, 20),
             'gun_idle': Animation(anim_gun_idle, 200),
             'gun_walk': Animation(anim_gun_idle, 100),
         }

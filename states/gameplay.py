@@ -145,6 +145,8 @@ class Gameplay(State):
             self.actions['left'] = False
         elif self.actions['shoot']:
             if self.player_object.attached_item is not None:
+                self.player_object.playing_busy = True
+                self.player_object.play(finals.player_atack_anim_map[self.player_object.attached_item.category])
                 self.player_object.shoot(self.lvl.layout, self.tiles, self.game_objects, self.player_object.attached_item.category, self.particles_list)
                 self.player_object.attached_item.play_sfx_shoot()
                 self.actions['shoot'] = False
@@ -177,7 +179,7 @@ class Gameplay(State):
                 save.chapter_save['AchMinTurns'] = self.achievement_min_turns 
                 save.chapter_save['AchMaxKills'] = self.achievement_max_kills 
                 save.game_save[self.lvl.name] = save.chapter_save
-                save.save_game_state(save.game_save)
+                save.save_game_data(save.game_save)
                 self.done = True
         if self.tiles[mapper.get_tile_index_from_layout(self.lvl.layout, self.tiles, self.player_object.pos)].affected == 1:
             self.player_object.die(self.particles_list)
@@ -254,25 +256,29 @@ class Gameplay(State):
                 del i
 
         self.player_object.update_object(dt)
-        if self.player_object.attached_item is not None:
-            if self.player_object.attached_item.category == 1:
-                self.player_object.play('exting_idle')
-            elif self.player_object.attached_item.category == 2:
-                self.player_object.play('gun_idle')
-            elif self.player_object.attached_item.category == 3:
-                self.player_object.play('knife_idle')
-            elif self.player_object.attached_item.category == 4:
-                self.player_object.play('molotow_idle')
-            elif self.player_object.attached_item.category == 5:
+        if not self.player_object.playing_busy:
+            if self.player_object.attached_item is not None:
+                if self.player_object.attached_item.category == 1:
+                    self.player_object.play('exting_idle')
+                elif self.player_object.attached_item.category == 2:
+                    self.player_object.play('gun_idle')
+                elif self.player_object.attached_item.category == 3:
+                    self.player_object.play('knife_idle')
+                elif self.player_object.attached_item.category == 4:
+                    self.player_object.play('molotow_idle')
+                elif self.player_object.attached_item.category == 5:
+                    self.player_object.play('default_idle')
+            else:
                 self.player_object.play('default_idle')
-        else:
-            self.player_object.play('default_idle')
         for i in self.items:
             i.update_object(dt)
             i.play('anim')
         for e in self.enemies:
+            if not e.playing_busy:
+                e.play('idle')
+            else:
+                e.play('attack')
             e.update_object(dt)
-            e.play('idle')
 
     def draw(self):
         self.surface.fill(finals.COLOR_BLACK)
