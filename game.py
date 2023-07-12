@@ -31,6 +31,9 @@ class Game(object):
         if self.state.quit:
             self.done = True
         elif self.state.done:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+            self.state.start_playing_music = True
             self.flip_state(self.desired_next_state)
             self.switch_music = True
         self.state.update(dt)

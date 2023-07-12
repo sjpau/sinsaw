@@ -22,8 +22,10 @@ import helper.misc as misc
 from entity.deadimage import DeadImage
 
 class Gameplay(State):
-    def __init__(self, chapter):
+    def __init__(self, chapter, theme=""):
         super(Gameplay, self).__init__()
+        self.theme = theme
+        self.start_playing_music = True
         self.surface = pygame.display.get_surface()
         self.next_state = "MENU"
         self.codes_walkable = [0, 2, 6, 8, 3, 7]
@@ -155,6 +157,7 @@ class Gameplay(State):
                     self.player_object.attached_item = None
 
     def update(self, dt):
+        self.manage_music()
         if not self.player_object.alive:
             self.camera_group.remove(self.player_object)
             if self.player_object in self.game_objects:

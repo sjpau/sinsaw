@@ -11,6 +11,7 @@ class Menu(State):
         self.levels = {
             "Night Shift": 1, 
             "The Afterparty": 2,
+            "Carte Blanche": 3,
         }
         self.levels_keys = list(self.levels.keys())
         self.choose_level = "< " + self.levels_keys[0] + " >"
@@ -32,15 +33,20 @@ class Menu(State):
                 self.next_state = 'CHAPTER_NIGHT_SHIFT'
             elif self.chosen_level == 2:
                 self.next_state = 'CHAPTER_AFTERPARTY'
+            elif self.chosen_level == 3:
+                self.next_state = 'CHAPTER_CARTE_BLANCHE'
             self.done = True
         elif self.active_index == 1:
             pass
         elif self.active_index == 2:
             self.quit = True
     
-    def switch_levels(self):
+    def switch_levels(self, reverse=False):
         current_level_index = self.levels_keys.index(self.choose_level[2:-2])
-        new_level_index = (current_level_index - 1) % len(self.levels_keys)
+        if reverse:
+            new_level_index = (current_level_index - 1) % len(self.levels_keys)
+        else:
+            new_level_index = (current_level_index + 1) % len(self.levels_keys)
         self.choose_level = "< " + self.levels_keys[new_level_index] + " >"
         self.options = ["Start Game", self.choose_level, "Quit Game"]
         self.chosen_level = self.levels[self.levels_keys[new_level_index]]
@@ -61,7 +67,7 @@ class Menu(State):
                 finals.sfx_menu_click.play()
             elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 if self.active_index == 1:
-                    self.switch_levels()
+                    self.switch_levels(True)
                     finals.sfx_menu_click.play()
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                 if self.active_index == 1:

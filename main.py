@@ -11,16 +11,15 @@ from game import Game
 import defs.finals as finals
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
-pygame.mixer.music.load(finals.music_path + 'night_shift.ogg')
 pygame.mixer.music.set_volume(0.4)
-pygame.mixer.music.play(-1)
 states = {
     "MENU": Menu(),
     "SPLASH": Splash(),
     #if it works it works..
     #it's a prototype anyways..right?
-    "CHAPTER_NIGHT_SHIFT": Gameplay(finals.chapters['The Night Shift']),
+    "CHAPTER_NIGHT_SHIFT": Gameplay(finals.chapters['The Night Shift'], 'night_shift.ogg'),
     "CHAPTER_AFTERPARTY": Gameplay(finals.chapters['The Afterparty']),
+    "CHAPTER_CARTE_BLANCHE": Gameplay(finals.chapters['Carte Blanche']),
 }
 
 game = Game(screen, states, "SPLASH")

@@ -10,6 +10,7 @@ chapter_save = {
 game_save = {
     'Night Shift': chapter_save,
     'The Afterparty': chapter_save,
+    'Carte Blanche': chapter_save,
 }
 
 def save_game_data(game_save_arg):

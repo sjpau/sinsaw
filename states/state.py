@@ -1,4 +1,5 @@
 import pygame
+import defs.finals as finals
 import defs.screen as s
 
 
@@ -7,6 +8,8 @@ class State(object):
         self.done = False
         self.quit = False
         self.next_state = None
+        self.theme = ""
+        self.start_playing_music = True
         self.desired_next_state = ""
         self.state_arg = 0
         self.screen_rect = pygame.display.get_surface().get_rect()
@@ -18,6 +21,12 @@ class State(object):
 
     def get_event(self, event):
         pass
+
+    def manage_music(self):
+        if self.start_playing_music and self.theme != "":
+            pygame.mixer.music.load(finals.music_path + self.theme)
+            pygame.mixer.music.play(-1)
+            self.start_playing_music = False
 
     def update(self, dt):
         pass

@@ -33,15 +33,24 @@ chapter_the_afterparty: Final = [
   'chapter_the_afterparty/the_afterparty_5.json',
 ]
 
+chapter_carte_blanche: Final = [
+  'chapter_carte_blanche/carte_blanche_1.json',
+  'chapter_carte_blanche/carte_blanche_2.json',
+  'chapter_carte_blanche/carte_blanche_3.json',
+  'chapter_carte_blanche/carte_blanche_4.json',
+  'chapter_carte_blanche/carte_blanche_5.json',
+]
+
 chapters: Final = {
     'The Night Shift': chapter_night_shift,
     'The Afterparty': chapter_the_afterparty,
+    'Carte Blanche': chapter_carte_blanche,
 }
 
 achievement_min_turn_night_shift: Final = {
-  1: 33,
-  2: 20,
-  3: 68,
+  1: 95,
+  2: 37,
+  3: 83,
   4: 64,
   5: 50,
 }
@@ -54,17 +63,27 @@ achievement_min_turn_afterparty: Final = {
   5: 30,
 }
 
+achievement_min_turn_carte_blanche: Final = {
+  1: 71,
+  2: 81,
+  3: 39,
+  4: 81,
+  5: 23,
+}
+
+chapter_to_achievement_map: Final = {
+  'Night Shift': achievement_min_turn_night_shift,
+  'The Afterparty': achievement_min_turn_afterparty,
+  'Carte Blanche': achievement_min_turn_carte_blanche,
+}
+
+
 player_atack_anim_map: Final = {
   1: 'exting_walk',
   2: 'gun_attack',
   3: 'knife_attack',
   4: 'molotow_attack',
   5: 'key_idle',
-}
-
-chapter_to_achievement_map: Final = {
-  'Night Shift': achievement_min_turn_night_shift,
-  'The Afterparty': achievement_min_turn_afterparty,
 }
 
 music_path: Final = 'asset/sound/music/'
