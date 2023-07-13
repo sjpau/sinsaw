@@ -6,7 +6,7 @@ import loader.mapper as mapper
 import defs.finals as finals
 
 class GameObject:
-    def __init__(self, pos, xy, image, is_tile, group, animations=None):
+    def __init__(self, pos, xy, image, is_tile, group=None, animations=None):
         self.animations = animations or {}
         self.current_animation = None
         self.playing_busy = False

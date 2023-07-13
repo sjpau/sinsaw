@@ -284,3 +284,18 @@ anim_items_molotow = [
     sprite_path + 'item_molotow_6.png',
     sprite_path + 'item_molotow_7.png',
 ]
+sprite_path = 'asset/sprites/active/fire/'
+anim_active_fire = [
+    sprite_path + 'fire_1.png',
+    sprite_path + 'fire_2.png',
+    sprite_path + 'fire_3.png',
+    sprite_path + 'fire_4.png',
+]
+sprite_path = 'asset/sprites/active/smoke/'
+anim_active_smoke = [
+    sprite_path + 'smoke_1.png',
+    sprite_path + 'smoke_2.png',
+    sprite_path + 'smoke_3.png',
+    sprite_path + 'smoke_4.png',
+    sprite_path + 'smoke_5.png',
+]

@@ -20,6 +20,7 @@ import loader.save as save
 import defs.finals as finals
 import helper.misc as misc
 from entity.deadimage import DeadImage
+from entity.effect import Effect
 
 class Gameplay(State):
     def __init__(self, chapter, theme=""):
@@ -57,6 +58,7 @@ class Gameplay(State):
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
         self.dead_images = []
+        self.effects = []
        
         self.player_spawn = self.lvl.player_spawn.copy()
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
@@ -78,6 +80,7 @@ class Gameplay(State):
         self.layout_walkable = None
         self.particles_list = None
         self.dead_images = None
+        self.effects = None
         self.player_object = None
         self.items = None
         self.enemies = None
@@ -89,6 +92,7 @@ class Gameplay(State):
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
         self.dead_images = []
+        self.effects = []
        
         self.player_spawn = self.lvl.player_spawn.copy()
         self.player_object = player.Player(self.player_spawn, mapper.pos_to_xy(self.player_spawn, self.lvl.layout, self.tiles), self.camera_group)
@@ -237,10 +241,24 @@ class Gameplay(State):
             self.tiles[p_on_tile].status.append(mapper.status['transparent'])
             self.tiles[p_on_tile].status.append(mapper.status['walkable'])
         for t in self.tiles:
+            xy = mapper.pos_to_xy(t.pos, self.lvl.layout, self.tiles)
+            if t.effect is not None:
+                t.effect.update_object(dt)
             if t.affected == 1: # Set on fire
-                self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_ORANGE, random.randint(5, 10), finals.COLOR_RED_SUBTLE, velocity=pygame.Vector2(random.uniform(-3, 3), random.uniform(-3, 3))))
+                if t.effect is None:
+                    t.effect = Effect(t.pos, xy, t.image)
+                    self.effects.append(t.effect)
+                else:
+                    t.effect.rect = t.effect.image.get_rect(center = t.rect.topleft) #Don't ask me why I DONT KNOW
+                t.effect.play('fire')
             elif t.affected == 2: # Set in fog
-                self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_GREY, random.randint(10, 15), finals.COLOR_GREY_DARK))
+                #self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_GREY, random.randint(10, 15), finals.COLOR_GREY_DARK))
+                if t.effect is None:
+                    t.effect = Effect(t.pos, xy, t.image)
+                    self.effects.append(t.effect)
+                else:
+                    t.effect.rect = t.effect.image.get_rect(center = t.rect.topleft) 
+                t.effect.play('smoke')
             if t.affected != 2 and mapper.status['opaque'] in t.status:
                         t.status.remove(mapper.status['opaque'])
                         t.status.append(mapper.status['transparent'])
@@ -290,6 +308,8 @@ class Gameplay(State):
         for i in self.dead_images:
             i.draw(self.surface, self.camera_group)
         self.camera_group.custom_draw(self.surface)
+        for e in self.effects:
+            e.draw(self.surface, self.camera_group)
 
         for i in self.particles_list:
             i.draw(self.surface, self.camera_group)

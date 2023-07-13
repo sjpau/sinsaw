@@ -7,7 +7,7 @@ anim_molotow_walk = None
 def load_animations_player_molotow():
     global anim_molotow_attack, anim_molotow_idle, anim_molotow_walk
 
-    if anim_molotow_attack is None:
+    if anim_molotow_attack is None: #It was 4am and I am not sure why I did this. not gonna fix ofcourse
         anim_molotow_attack = []
         for path in asset.anim_player_molotow_attack:
             image = pygame.image.load(path).convert_alpha()
@@ -268,3 +268,23 @@ def load_animation_enemy_gun():
             anim_enemy_gun_walk.append(image)
 
     return anim_enemy_gun_attack, anim_enemy_gun_idle, anim_enemy_gun_walk
+
+anim_active_fire = None
+anim_active_smoke = None
+
+def load_animation_effects():
+    global anim_active_fire, anim_active_smoke
+
+    if anim_active_fire is None:
+        anim_active_fire = []
+    if anim_active_smoke is None:
+        anim_active_smoke = []
+
+        for path in asset.anim_active_fire:
+            image = pygame.image.load(path).convert_alpha()
+            anim_active_fire.append(image)
+        for path in asset.anim_active_smoke:
+            image = pygame.image.load(path).convert_alpha()
+            anim_active_smoke.append(image)
+
+    return anim_active_fire, anim_active_smoke

@@ -4,6 +4,8 @@ import loader.mapper as mapper
 import entity.particles as particles
 import random
 import defs.finals as finals
+from entity.animation import Animation
+import loader.asset as asset
 
 class Tile(pygame.sprite.Sprite, gameobject.GameObject):
     def __init__(self, group, image):
@@ -13,6 +15,7 @@ class Tile(pygame.sprite.Sprite, gameobject.GameObject):
         self.code = -1
         self.status = []
         self.affected = 0 # 1 - Fire, 2 - Fog
+        self.effect = None
     
     def on_shot(self, particles_list):
         super().on_shot(particles_list)
