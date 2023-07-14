@@ -4,9 +4,10 @@ import defs.finals as finals
 
 
 class Menu(State):
-    def __init__(self):
+    def __init__(self, theme=""):
         super(Menu, self).__init__()
         self.surface = pygame.display.get_surface()
+        self.theme = theme
         self.active_index = 0
         self.levels = {
             "Night Shift": 1, 
@@ -77,7 +78,8 @@ class Menu(State):
                 self.handle_action()
                 finals.sfx_menu_click.play()
 
-  
+    def update(self, dt):
+        self.manage_music()
 
     def draw(self):
         self.surface.fill(finals.COLOR_BLACK)

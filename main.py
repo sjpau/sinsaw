@@ -13,13 +13,13 @@ import defs.finals as finals
 pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.mixer.music.set_volume(0.4)
 states = {
-    "MENU": Menu(),
+    "MENU": Menu(theme='contemplating.ogg'),
     "SPLASH": Splash(),
     #if it works it works..
     #it's a prototype anyways..right?
     "CHAPTER_NIGHT_SHIFT": Gameplay(finals.chapters['The Night Shift'], 'night_shift.ogg'),
-    "CHAPTER_AFTERPARTY": Gameplay(finals.chapters['The Afterparty']),
-    "CHAPTER_CARTE_BLANCHE": Gameplay(finals.chapters['Carte Blanche']),
+    "CHAPTER_AFTERPARTY": Gameplay(finals.chapters['The Afterparty'], 'carte_blanche.ogg'),
+    "CHAPTER_CARTE_BLANCHE": Gameplay(finals.chapters['Carte Blanche'], 'dusk_in_the_city_of_lights.ogg'),
 }
 
 game = Game(screen, states, "SPLASH")

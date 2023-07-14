@@ -26,7 +26,6 @@ class Gameplay(State):
     def __init__(self, chapter, theme=""):
         super(Gameplay, self).__init__()
         self.theme = theme
-        self.start_playing_music = True
         self.surface = pygame.display.get_surface()
         self.next_state = "MENU"
         self.codes_walkable = [0, 2, 6, 8, 3, 7]
@@ -241,28 +240,28 @@ class Gameplay(State):
             self.tiles[p_on_tile].status.append(mapper.status['transparent'])
             self.tiles[p_on_tile].status.append(mapper.status['walkable'])
         for t in self.tiles:
-            xy = mapper.pos_to_xy(t.pos, self.lvl.layout, self.tiles)
-            if t.effect is not None:
-                t.effect.update_object(dt)
-            if t.affected == 1: # Set on fire
-                if t.effect is None:
-                    t.effect = Effect(t.pos, xy, t.image)
-                    self.effects.append(t.effect)
-                else:
-                    t.effect.rect = t.effect.image.get_rect(center = t.rect.topleft) #Don't ask me why I DONT KNOW
-                t.effect.play('fire')
-            elif t.affected == 2: # Set in fog
-                #self.particles_list.append(particles.Particle(t.rect.bottomright, finals.COLOR_GREY, random.randint(10, 15), finals.COLOR_GREY_DARK))
-                if t.effect is None:
-                    t.effect = Effect(t.pos, xy, t.image)
-                    self.effects.append(t.effect)
-                else:
-                    t.effect.rect = t.effect.image.get_rect(center = t.rect.topleft) 
-                t.effect.play('smoke')
-            if t.affected != 2 and mapper.status['opaque'] in t.status:
-                        t.status.remove(mapper.status['opaque'])
-                        t.status.append(mapper.status['transparent'])
-        
+            if mapper.pos_in_layout_borders(t.pos, self.lvl.layout):
+                xy = mapper.pos_to_xy(t.pos, self.lvl.layout, self.tiles)
+                if t.effect is not None:
+                    t.effect.update_object(dt)
+                if t.affected == 1: # Set on fire
+                    if t.effect is None:
+                        t.effect = Effect(t.pos, xy, t.image)
+                        self.effects.append(t.effect)
+                    else:
+                        t.effect.rect = t.effect.image.get_rect(center = t.rect.topleft) #Don't ask me why I DONT KNOW
+                    t.effect.play('fire')
+                elif t.affected == 2: # Set in fog
+                    if t.effect is None:
+                        t.effect = Effect(t.pos, xy, t.image)
+                        self.effects.append(t.effect)
+                    else:
+                        t.effect.rect = t.effect.image.get_rect(center = t.rect.topleft) 
+                    t.effect.play('smoke')
+                if t.affected != 2 and mapper.status['opaque'] in t.status:
+                            t.status.remove(mapper.status['opaque'])
+                            t.status.append(mapper.status['transparent'])
+            
         for i in self.particles_list:
             i.update()
             if i.delete:
