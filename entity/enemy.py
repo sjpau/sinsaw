@@ -43,7 +43,6 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
                     target.play('knife_attack')
                     target.playing_busy = True
                     finals.sfx_knife_stab.play()
-                    finals.sfx_scream[random.randint(0, 2)].play()
                 else: 
                     self.playing_busy = True
                     target.die(particles_list)
@@ -58,7 +57,6 @@ class Enemy(pygame.sprite.Sprite, gameobject.GameObject):
                     target.play('knife_attack')
                     target.playing_busy = True
                     finals.sfx_knife_stab.play()
-                    finals.sfx_scream[random.randint(0, 2)].play()
                 else:
                     self.playing_busy = True
                     target.die(particles_list)

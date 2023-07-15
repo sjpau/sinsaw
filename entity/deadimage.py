@@ -3,7 +3,7 @@ from math import atan2, degrees
 import helper.misc as misc
 
 class DeadImage():
-    def __init__(self, image, position, direction, size_x, size_y, group):
+    def __init__(self, image, position, direction, size_x, size_y):
         self.position = position
         self.direction = direction
         self.angle = degrees(atan2(self.direction[1], self.direction[0])) % 360

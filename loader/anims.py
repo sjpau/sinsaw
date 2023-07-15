@@ -288,3 +288,23 @@ def load_animation_effects():
             anim_active_smoke.append(image)
 
     return anim_active_fire, anim_active_smoke
+
+human_corpses = None
+dog_coprses = None
+
+def load_corpses():
+    global human_corpses, dog_coprses
+
+    if human_corpses is None:
+        human_corpses = []
+    if dog_coprses is None:
+        dog_coprses = []
+
+        for path in asset.images_human_corpses:
+            image = pygame.image.load(path).convert_alpha()
+            human_corpses.append(image)
+        for path in asset.images_dog_corpses:
+            image = pygame.image.load(path).convert_alpha()
+            dog_coprses.append(image)
+
+    return human_corpses, dog_coprses

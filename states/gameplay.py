@@ -19,6 +19,7 @@ import loader.mapper as mapper
 import loader.save as save
 import defs.finals as finals
 import helper.misc as misc
+import loader.anims as anims
 from entity.deadimage import DeadImage
 from entity.effect import Effect
 
@@ -31,6 +32,7 @@ class Gameplay(State):
         self.codes_walkable = [0, 2, 6, 8, 3, 7]
         self.camera_group = camera.Camera()
         self.tile_group = camera.Camera()
+        self.corpses_group = camera.Camera()
         self.actions = {
             'left': False,
             'right': False,
@@ -48,6 +50,7 @@ class Gameplay(State):
         self.lvl_save = save.game_save[self.lvl.name]
         self.achievement_min_turns = self.lvl_save['AchMinTurns']
         self.achievement_max_kills = self.lvl_save['AchMaxKills']
+        self.images_human_corpses, self.images_dog_corpses = anims.load_corpses()
         # INIT LVL VARS
         self.completed_with_min_turns = True
         self.completed_with_max_kills = True
@@ -57,6 +60,7 @@ class Gameplay(State):
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
         self.dead_images = []
+        self.dead_images_corpses = []
         self.effects = []
        
         self.player_spawn = self.lvl.player_spawn.copy()
@@ -75,10 +79,13 @@ class Gameplay(State):
             sprite.kill()
         for sprite in self.tile_group:
             sprite.kill()
+        for sprite in self.corpses_group:
+            sprite.kill()
         self.tiles = None
         self.layout_walkable = None
         self.particles_list = None
         self.dead_images = None
+        self.dead_images_corpses = None
         self.effects = None
         self.player_object = None
         self.items = None
@@ -91,6 +98,7 @@ class Gameplay(State):
         self.layout_walkable = self.lvl.layout_to_binary(self.codes_walkable)
         self.particles_list = []
         self.dead_images = []
+        self.dead_images_corpses = []
         self.effects = []
        
         self.player_spawn = self.lvl.player_spawn.copy()
@@ -204,6 +212,11 @@ class Gameplay(State):
                 if e.pos == self.player_object.pos:
                     e.combat_target(self.lvl.layout, self.tiles, self.player_object, self.particles_list)
                 if not e.alive:
+                    if e.category == 3:
+                        corpse = self.images_dog_corpses[random.randint(0, 0)] # TODO add more corpses
+                    else:
+                        corpse = self.images_human_corpses[random.randint(0, 2)]
+                    self.dead_images_corpses.append(DeadImage(corpse, e.rect.center, self.player_object.direction, finals.tile_size, finals.tile_size))
                     self.camera_group.remove(e)
                     self.enemies.remove(e)
                     self.game_objects.remove(e)
@@ -269,7 +282,7 @@ class Gameplay(State):
                     radius = random.randint(10, 50)
                     circle = misc.circle_surface(radius, finals.COLOR_RED)
                     circle.set_alpha(200) #Unset
-                    blood_splatter = DeadImage(circle, i.position, pygame.math.Vector2(1, 0), radius, radius, self.camera_group)
+                    blood_splatter = DeadImage(circle, i.position, pygame.math.Vector2(1, 0), radius, radius)
                     self.dead_images.append(blood_splatter)
                     finals.sfx_blood_drip_1.play()
                 self.particles_list.remove(i)
@@ -305,6 +318,8 @@ class Gameplay(State):
 
         self.tile_group.custom_draw(self.surface)
         for i in self.dead_images:
+            i.draw(self.surface, self.camera_group)
+        for i in self.dead_images_corpses:
             i.draw(self.surface, self.camera_group)
         self.camera_group.custom_draw(self.surface)
         for e in self.effects:

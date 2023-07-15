@@ -299,3 +299,13 @@ anim_active_smoke = [
     sprite_path + 'smoke_4.png',
     sprite_path + 'smoke_5.png',
 ]
+sprite_path = 'asset/sprites/deadimages/corpses/'
+images_human_corpses = [
+    sprite_path + 'corpses_1.png',
+    sprite_path + 'corpses_2.png',
+    sprite_path + 'corpses_3.png',
+]
+sprite_path = 'asset/sprites/deadimages/corpses/'
+images_dog_corpses = [
+    sprite_path + 'corpses_4.png',
+]
