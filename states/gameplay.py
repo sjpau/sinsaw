@@ -175,11 +175,10 @@ class Gameplay(State):
                 self.game_objects.remove(self.player_object)
             self.reinit()
         if self.player_object.pos == self.lvl.exit_spawn:
-            if self.turn > self.achievement_map[self.lvl.num]:
+            if self.turn > self.achievement_map[self.lvl.num] and not self.achievement_min_turns:
                 self.completed_with_min_turns = False
-            if len(self.enemies) > 0:
+            if len(self.enemies) > 0 and not self.achievement_max_kills:
                 self.completed_with_max_kills = False
-                self.completed_with_min_turns = False
             if self.on_lvl != self.lvl_final - 1:
                 self.on_lvl += 1
                 self.reinit() 
@@ -189,7 +188,7 @@ class Gameplay(State):
                 if self.completed_with_max_kills:
                     self.achievement_max_kills = True
                 self.on_lvl = -1
-                save.chapter_save['Completed'] = self.completed 
+                save.chapter_save['Completed'] = True
                 save.chapter_save['AchMinTurns'] = self.achievement_min_turns 
                 save.chapter_save['AchMaxKills'] = self.achievement_max_kills 
                 save.game_save[self.lvl.name] = save.chapter_save

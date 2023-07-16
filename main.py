@@ -9,9 +9,11 @@ from states.splash import Splash
 from states.gameplay import Gameplay
 from game import Game
 import defs.finals as finals
+import loader.save as save
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.mixer.music.set_volume(0.4)
+save.load_game_data()
 states = {
     "MENU": Menu(theme='contemplating.ogg'),
     "SPLASH": Splash(),

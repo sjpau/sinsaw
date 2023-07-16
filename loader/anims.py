@@ -308,3 +308,18 @@ def load_corpses():
             dog_coprses.append(image)
 
     return human_corpses, dog_coprses
+
+images_skulls = None
+
+def load_skulls():
+    global images_skulls
+    
+    if images_skulls is None:
+        images_skulls = []
+    
+    
+        for path in asset.images_skulls:
+            image = pygame.image.load(path).convert_alpha()
+            images_skulls.append(image)
+    
+    return images_skulls

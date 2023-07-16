@@ -25,6 +25,7 @@ class Game(object):
         persistent = self.state.persist
         self.state = self.states[self.state_name]
         self.state.startup(persistent)
+        self.state.on_enter()
 
     def update(self, dt):
         self.desired_next_state = self.state.desired_next_state

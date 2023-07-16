@@ -301,11 +301,16 @@ anim_active_smoke = [
 ]
 sprite_path = 'asset/sprites/deadimages/corpses/'
 images_human_corpses = [
-    sprite_path + 'corpses_1.png',
-    sprite_path + 'corpses_2.png',
-    sprite_path + 'corpses_3.png',
+    sprite_path + 'corpse_1.png',
+    sprite_path + 'corpse_2.png',
+    sprite_path + 'corpse_3.png',
 ]
 sprite_path = 'asset/sprites/deadimages/corpses/'
 images_dog_corpses = [
-    sprite_path + 'corpses_4.png',
+    sprite_path + 'corpse_4.png',
+]
+sprite_path = 'asset/sprites/deadimages/misc/'
+images_skulls = [
+    sprite_path + 'skull_1.png',
+    sprite_path + 'skull_2.png',
 ]

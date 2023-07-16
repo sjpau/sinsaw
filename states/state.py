@@ -28,6 +28,9 @@ class State(object):
             pygame.mixer.music.play(-1)
             self.start_playing_music = False
 
+    def on_enter(self):
+        pass
+
     def update(self, dt):
         pass
 
