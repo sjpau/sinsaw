@@ -1,11 +1,8 @@
 # Sinsaw
-Sinsaw is a small turn-based shooter with puzzle elements.
+Ultra-violent turn-based puzzle game.
 
-![](misc/example.gif)
-
-# Development Status
-The game is currently in active development, and we (the team of two devs) are working to release v1.0 as soon as possible.
-For now, you can checkout the latest beta-test build.
+# Controls
+WASD or arrow keys to move in game, SPACE to shoot current weapon.
 
 # Running from source
 Main branch *most likely* contains latest stable version.
