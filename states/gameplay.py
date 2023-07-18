@@ -118,16 +118,16 @@ class Gameplay(State):
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_q:
                 self.reinit()
-            if event.key == pygame.K_w:
+            if event.key == pygame.K_w or event.key == pygame.K_UP:
                 self.turn += 1
                 self.actions['up'] = True
-            if event.key == pygame.K_s:
+            if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 self.turn += 1
                 self.actions['down'] = True
-            if event.key == pygame.K_a:
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 self.turn += 1
                 self.actions['left'] = True
-            if event.key == pygame.K_d:
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 self.turn += 1
                 self.actions['right'] = True
             if event.key == pygame.K_SPACE:
