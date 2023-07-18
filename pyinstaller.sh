@@ -35,5 +35,9 @@ pyinstaller --noconfirm --log-level=WARN \
 		--add-data="asset/sprites/player/molotow/attack/*.png:asset/sprites/player/molotow/attack/" \
 		--add-data="asset/sprites/player/molotow/walk/*.png:asset/sprites/player/molotow/walk/" \
 		--add-data="asset/sprites/player/molotow/idle/*.png:asset/sprites/player/molotow/idle/" \
+		--add-data="asset/sprites/deadimages/corpses/*.png:asset/sprites/deadimages/corpses/" \
+		--add-data="asset/sprites/deadimages/misc/*.png:asset/sprites/deadimages/misc/" \
+		--add-data="asset/sprites/active/fire/*.png:asset/sprites/active/fire/" \
+		--add-data="asset/sprites/active/smoke/*.png:asset/sprites/active/smoke/" \
 		main.py
 
